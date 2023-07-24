@@ -21,8 +21,7 @@ function Welcome(props) {
     }
 
     greeting += props.userName
-
-    return <div class="alert alert-dark" role="alert">
+    return <div className={props.style + " alert alert-dark"} role="alert">
         {greeting}
     </div>
 }
