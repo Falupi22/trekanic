@@ -1,81 +1,155 @@
-import { BrakeLogo, EllipsisLogo, FlatTireLogo, FrameLogo, PencilLogo, BinLogo } from "../assets/icons";
+import { BrakeLogo, EllipsisLogo, FlatTireLogo, FrameLogo, PencilLogo, BinLogo, PlusLogo, CloseLogo, CheckLogo } from "../assets/icons";
 import "../styles/style.css"
+import Appointment from "./Appointment";
 import Welcome from "./general/Welcome";
-
-const colors = {
-    "Pending": "black",
-    "Done": "green", 
-    "Canceled": "var(--red)"
-}
+import { useState } from "react";
 
 function UserMain() {
-    const appointments = [{
+    const [appointments, setAppointments] = useState([{
+        id: generateRandomString(),
         title: "Broken frame",
         mechanicName: "Israel Israeli",
-        time: new Date(Date.now()).toDateString(),
+        time: new Date(),
         iconPath: <FrameLogo />,
         status: "Pending"
     }, {
+        id: generateRandomString(),
         title: "Puncture",
         mechanicName: "Israela Israeli",
-        time: new Date(Date.now()).toDateString(),
+        time: new Date(),
         iconPath: <FlatTireLogo />,
         status: "Pending"
     }, {
+        id: generateRandomString(),
         title: "Malfunctioned front brake",
         mechanicName: "Palestinia Palestine",
-        time: new Date(Date.now()).toDateString(),
+        time: new Date(),
         iconPath: <BrakeLogo />,
         status: "Pending"
     }, {
+        id: generateRandomString(),
         title: "Malfunctioned front brake",
         mechanicName: "Palestinia Palestine",
-        time: new Date(Date.now()).toDateString(),
+        time: new Date(),
         iconPath: <BrakeLogo />,
         status: "Done"
     }, {
+        id: generateRandomString(),
         title: "Malfunctioned front brake",
         mechanicName: "Palestinia Palestine",
-        time: new Date(Date.now()).toDateString(),
+        time: new Date(),
         iconPath: <BrakeLogo />,
         status: "Canceled"
-    }]
+    }]);
+
+    const [showNewAppointmentForm, setShowNewAppointmentForm] = useState(false);
+    const [newAppointmentTitle, setNewAppointmentTitle] = useState('');
+    const [newAppointmentMechanicName, setNewAppointmentMechanicName] = useState('');
+
+    function newAppointmentForm() {
+        setNewAppointmentTitle('');
+        setNewAppointmentMechanicName('');
+        setShowNewAppointmentForm(true);
+    }
+
+    function cancelAppointmentForm() {
+        setShowNewAppointmentForm(false);
+        setNewAppointmentTitle('');
+        setNewAppointmentMechanicName('');
+    }
+
+    function createNewAppointment() {
+        const appointment = {
+            id: generateRandomString(),
+            title: newAppointmentTitle,
+            mechanicName: newAppointmentMechanicName,
+            time: new Date(),
+            iconPath: <BrakeLogo />,
+            status: "Pending"
+        }
+
+        appointments.unshift(appointment);
+        setAppointments(appointments);
+        cancelAppointmentForm();
+    }
+
+    function appointmentForm() {
+        return <div className="mb-3" style={{width: "50%"}}>
+            <div className="mb-3">
+                <label htmlFor="appointment-title">Appointment Title</label>
+                <input type="text" value={newAppointmentTitle} onChange={event => setNewAppointmentTitle(event.target.value)} id="appointment-title" className="form-control" placeholder="Appointment title here..."/>
+            </div>
+
+            <div className="mb-3">
+                <label htmlFor="appointment-mechanic-name">Mechanic Name</label>
+                <input type="text" value={newAppointmentMechanicName} onChange={event => setNewAppointmentMechanicName(event.target.value)} id="appointment-mechanic-name" className="form-control" placeholder="Mechanic name here..."/>
+            </div>
+
+            <button type="submit" className="btn btn-primary" onClick={createNewAppointment}>Submit</button>
+        </div>
+    }
 
     return <div className="flex_component">
         <Welcome userName="Tal" style="header"/>
-        <h1 className="mt-5 mb-5">Your appointments</h1>
+        <div className="d-flex flex-column" style={{width: "60%"}}>
+            <div className="d-flex flex-row" style={{justifyContent: "space-between", alignItems: "center"}}>
+                <h2 className="mt-5 mb-5">Your appointments</h2>
+                {showNewAppointmentForm ?
+                    <button className="tiny_button transparent" onClick={cancelAppointmentForm}>
+                        <CloseLogo/>
+                    </button>
+                :
+                    <button className="tiny_button transparent" onClick={newAppointmentForm}>
+                        <PlusLogo/>
+                    </button>
+                }
+            </div>
+
+            {showNewAppointmentForm ? appointmentForm() : <></>}
+        </div>
+
         <div className="flex_card_list">
-            {appointments.map((appointment) => <div class="card flex_card">
-                <div className="card-header flex_card_row">
-                    <strong>{appointment.title}</strong>
-                    <div>
-                    <div className="flex_card_row_reversed">
-                    <button className="tiny_button transparent ellipsis-button">
-                        <EllipsisLogo/>
-                    </button>
-                    <div className="hover_toggleable">
-                    <button className="tiny_button transparent">
-                        <BinLogo/>
-                    </button>
-                    <button className="tiny_button transparent">
-                        <PencilLogo/>
-                    </button>
-                    </div>
-                    </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <p class="card-title flex_card_row">
-                        <em>{appointment.mechanicName}</em>
-                        <div className="small_icon">
-                            {appointment.iconPath}
-                        </div>
-                    </p>
-                    <p class="card-text flex_card_row">{appointment.time}<strong style={{color: colors[appointment.status]}}>{appointment.status}</strong></p>
-                </div>
-            </div>)}
+            {
+                appointments.map(appointment => <Appointment
+                        key={appointment.id}
+                        title={appointment.title}
+                        mechanicName={appointment.mechanicName}
+                        time={appointment.time}
+                        iconPath={appointment.iconPath}
+                        status={appointment.status}
+                        edit={(title, mechanicName) => {
+                            const newApts = appointments.map(apt => {
+                                if (apt === appointment) return { ...apt, title: title, mechanicName: mechanicName };
+                                return apt;
+                            })
+
+                            setAppointments(newApts);
+                        }}
+                        setStatus={status => {
+                            const newApts = appointments.map(apt => {
+                                if (apt === appointment) return { ...apt, status: status };
+                                return apt;
+                            })
+
+                            setAppointments(newApts);
+                        }}
+                    />
+                )
+            }
         </div>
     </div>
 }
 
 export default UserMain;
+
+function generateRandomString(length = 16) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+  
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      result += characters.charAt(randomIndex);
+    }
+  
+    return result;
+  }

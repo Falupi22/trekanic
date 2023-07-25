@@ -5,6 +5,9 @@ import { ReactComponent as _BrakeLogo } from "./brake.svg";
 import { ReactComponent as _EllipsisLogo } from "./ellipsis.svg";
 import { ReactComponent as _BinLogo } from "./bin.svg";
 import { ReactComponent as _PencilLogo } from "./pencil.svg";
+import { ReactComponent as _PlusLogo } from "./plus.svg";
+import { ReactComponent as _CloseLogo } from "./close.svg";
+import { ReactComponent as _CheckLogo } from "./check.svg";
 
 export const FrameLogo = function() {
     return <_FrameLogo/>
@@ -28,4 +31,16 @@ export const BinLogo = function() {
 
 export const PencilLogo = function() {
     return <_PencilLogo/>
+}
+
+export const PlusLogo = function() {
+    return <_PlusLogo/>
+}
+
+export const CloseLogo = function() {
+    return <_CloseLogo/>
+}
+
+export const CheckLogo = function() {
+    return <_CheckLogo/>
 }
