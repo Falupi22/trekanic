@@ -65,8 +65,8 @@ function Appointment(props) {
                 </div>
             </div>
         </div>
-        <div class="card-body">
-            <p class="card-title flex_card_row">
+        <div className="card-body">
+            <p className="card-title flex_card_row">
                 {isEditing ?
                     <input type="text" value={editedMechanicName} onChange={event => setEditedMechanicName(event.target.value)} className="form-control" style={{width: "50%"}}></input>
                 :
@@ -74,7 +74,7 @@ function Appointment(props) {
                 }
                 <div className="small_icon">{props.iconPath}</div>
             </p>
-            <p class="card-text flex_card_row">{props.time.toDateString()}<strong style={{color: colors[props.status]}}>{props.status}</strong></p>
+            <p className="card-text flex_card_row">{props.time.toDateString()}<strong style={{color: colors[props.status]}}>{props.status}</strong></p>
         </div>
     </div>
 }
