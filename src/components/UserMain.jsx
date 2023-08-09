@@ -4,6 +4,13 @@ import Appointment from "./Appointment";
 import Welcome from "./general/Welcome";
 import { useState } from "react";
 
+const colors = {
+    "Confirmed": "black",
+    "Done": "green",
+    "Canceled": "var(--red)"
+}
+
+
 function UserMain() {
     const [appointments, setAppointments] = useState([{
         id: generateRandomString(),
@@ -11,21 +18,21 @@ function UserMain() {
         mechanicName: "Israel Israeli",
         time: new Date(),
         iconPath: <FrameLogo />,
-        status: "Pending"
+        status: "Confirmed"
     }, {
         id: generateRandomString(),
         title: "Puncture",
         mechanicName: "Israela Israeli",
         time: new Date(),
         iconPath: <FlatTireLogo />,
-        status: "Pending"
+        status: "Confirmed"
     }, {
         id: generateRandomString(),
         title: "Malfunctioned front brake",
         mechanicName: "Palestinia Palestine",
         time: new Date(),
         iconPath: <BrakeLogo />,
-        status: "Pending"
+        status: "Confirmed"
     }, {
         id: generateRandomString(),
         title: "Malfunctioned front brake",
@@ -65,7 +72,7 @@ function UserMain() {
             mechanicName: newAppointmentMechanicName,
             time: new Date(),
             iconPath: <BrakeLogo />,
-            status: "Pending"
+            status: "Confirmed"
         }
 
         appointments.unshift(appointment);
@@ -74,15 +81,15 @@ function UserMain() {
     }
 
     function appointmentForm() {
-        return <div className="mb-3" style={{width: "50%"}}>
+        return <div className="mb-3" style={{ width: "50%" }}>
             <div className="mb-3">
                 <label htmlFor="appointment-title">Appointment Title</label>
-                <input type="text" value={newAppointmentTitle} onChange={event => setNewAppointmentTitle(event.target.value)} id="appointment-title" className="form-control" placeholder="Appointment title here..."/>
+                <input type="text" value={newAppointmentTitle} onChange={event => setNewAppointmentTitle(event.target.value)} id="appointment-title" className="form-control" placeholder="Appointment title here..." />
             </div>
 
             <div className="mb-3">
                 <label htmlFor="appointment-mechanic-name">Mechanic Name</label>
-                <input type="text" value={newAppointmentMechanicName} onChange={event => setNewAppointmentMechanicName(event.target.value)} id="appointment-mechanic-name" className="form-control" placeholder="Mechanic name here..."/>
+                <input type="text" value={newAppointmentMechanicName} onChange={event => setNewAppointmentMechanicName(event.target.value)} id="appointment-mechanic-name" className="form-control" placeholder="Mechanic name here..." />
             </div>
 
             <button type="submit" className="btn btn-primary" onClick={createNewAppointment}>Submit</button>
@@ -90,50 +97,72 @@ function UserMain() {
     }
 
     return <div className="flex_component">
-        <Welcome userName="Tal" style="header"/>
-        <div className="d-flex flex-column" style={{width: "60%"}}>
-            <div className="d-flex flex-row" style={{justifyContent: "space-between", alignItems: "center"}}>
+        <Welcome userName="Tal" style="header" />
+        <div className="d-flex flex-column" style={{ width: "60%" }}>
+            <div className="d-flex flex-row" style={{ justifyContent: "space-between", alignItems: "center" }}>
                 <h2 className="mt-5 mb-5">Your appointments</h2>
-                {showNewAppointmentForm ?
-                    <button className="tiny_button transparent" onClick={cancelAppointmentForm}>
-                        <CloseLogo/>
+                    <button className="tiny_button transparent" onClick={newAppointmentForm}
+                        type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <PlusLogo />
                     </button>
-                :
-                    <button className="tiny_button transparent" onClick={newAppointmentForm}>
-                        <PlusLogo/>
-                    </button>
-                }
             </div>
+        </div>
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" className="close btn" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div className="mb-3" style={{ width: "50%" }}>
+                            <div className="mb-3">
+                                <label htmlFor="appointment-title">Appointment Title</label>
+                                <input type="text" value={newAppointmentTitle} onChange={event => setNewAppointmentTitle(event.target.value)} id="appointment-title" className="form-control" placeholder="Appointment title here..." />
+                            </div>
 
-            {showNewAppointmentForm ? appointmentForm() : <></>}
+                            <div className="mb-3">
+                                <label htmlFor="appointment-mechanic-name">Mechanic Name</label>
+                                <input type="text" value={newAppointmentMechanicName} onChange={event => setNewAppointmentMechanicName(event.target.value)} id="appointment-mechanic-name" className="form-control" placeholder="Mechanic name here..." />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" className="btn btn-primary" onClick={createNewAppointment}>Save</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div className="flex_card_list">
             {
                 appointments.map(appointment => <Appointment
-                        key={appointment.id}
-                        title={appointment.title}
-                        mechanicName={appointment.mechanicName}
-                        time={appointment.time}
-                        iconPath={appointment.iconPath}
-                        status={appointment.status}
-                        edit={(title, mechanicName) => {
-                            const newApts = appointments.map(apt => {
-                                if (apt === appointment) return { ...apt, title: title, mechanicName: mechanicName };
-                                return apt;
-                            })
+                    key={appointment.id}
+                    title={appointment.title}
+                    mechanicName={appointment.mechanicName}
+                    time={appointment.time}
+                    iconPath={appointment.iconPath}
+                    status={appointment.status}
+                    edit={(title, mechanicName) => {
+                        const newApts = appointments.map(apt => {
+                            if (apt === appointment) return { ...apt, title: title, mechanicName: mechanicName };
+                            return apt;
+                        })
 
-                            setAppointments(newApts);
-                        }}
-                        setStatus={status => {
-                            const newApts = appointments.map(apt => {
-                                if (apt === appointment) return { ...apt, status: status };
-                                return apt;
-                            })
+                        setAppointments(newApts);
+                    }}
+                    setStatus={status => {
+                        const newApts = appointments.map(apt => {
+                            if (apt === appointment) return { ...apt, status: status };
+                            return apt;
+                        })
 
-                            setAppointments(newApts);
-                        }}
-                    />
+                        setAppointments(newApts);
+                    }}
+                />
                 )
             }
         </div>
@@ -145,11 +174,11 @@ export default UserMain;
 function generateRandomString(length = 16) {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let result = '';
-  
+
     for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length);
-      result += characters.charAt(randomIndex);
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        result += characters.charAt(randomIndex);
     }
-  
+
     return result;
-  }
+}
