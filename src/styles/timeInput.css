@@ -1,0 +1,11 @@
+.custom-time-input {
+    display: inline-block;
+    position: relative;
+    width: 100px;
+  }
+
+  .custom-time-input select {
+    width: 100%;
+    padding: 5px;
+    font-size: 14px;
+  }
