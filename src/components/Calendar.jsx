@@ -1,12 +1,8 @@
 import { useState } from 'react'
 import '../styles/calendar.css'
 
-function Calendar(props) {
-    const [selectedDate, setSelectedDate] = useState(new Date())
-    
+function Calendar(props) {    
     const [anchorDate, setAnchorDate] = useState(new Date())
-
-    console.log(props.appointments)
 
     function daysInMonth(year, month) {
         return new Date(year, month + 1, 0).getDate()
@@ -17,9 +13,10 @@ function Calendar(props) {
     }
 
     function handleDateClick(date) {
-        if (date < new Date().getDate()) return
+        const now = new Date()
+        if (date < now && !areSameDay(date, now)) return
 
-        setSelectedDate(new Date(date.getFullYear(), date.getMonth(), date.getDate()))
+        props.setSelectedDate(date)
     }
 
     function render() {
@@ -73,7 +70,7 @@ function Calendar(props) {
         const now = new Date()
 
         if (date < now && !areSameDay(date, now)) return 'calendar-day-disabled'
-        if (areSameDay(date, selectedDate)) return 'calendar-day-selected'
+        if (areSameDay(date, props.selectedDate)) return 'calendar-day-selected'
         return 'calendar-day'
     }
 

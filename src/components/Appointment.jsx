@@ -1,36 +1,41 @@
 import { BinLogo, CheckLogo, CloseLogo, EllipsisLogo, PencilLogo } from "../assets/icons";
 import { useState } from "react"
+import { categories, mechanicNames } from "./UserMain";
 
 function Appointment(props) {
     const [isEditing, setIsEditing] = useState(false);
     const [editedTitle, setEditedTitle] = useState('');
-    const [editedMechanicName, setEditedMechanicName] = useState('');
+    const [editedMechanicId, setEditedMechanicId] = useState(null);
+    const [editedCategoryId, setEditedCategoryId] = useState(null)
     const [editedDescription, setEditedDescription] = useState('')
 
     function editAppointment() {
         setEditedTitle(props.title);
-        setEditedMechanicName(props.mechanicName);
+        setEditedMechanicId(props.mechanicId);
+        setEditedCategoryId(props.categoryId)
         setEditedDescription(props.description)
-        setIsEditing(true);
+        setIsEditing(true)
     }
 
     function cancelEditAppointment() {
-        setIsEditing(false);
-        setEditedTitle('');
-        setEditedMechanicName('');
+        setIsEditing(false)
+        setEditedTitle('')
+        setEditedMechanicId(null)
+        setEditedCategoryId(null)
         setEditedDescription('')
     }
 
     function saveAppointment() {
-        setIsEditing(false);
-        props.edit(editedTitle, editedMechanicName);
-        setEditedTitle('');
-        setEditedMechanicName('');
+        setIsEditing(false)
+        props.edit(editedTitle, editedCategoryId)
+        setEditedTitle('')
+        setEditedMechanicId(0)
+        setEditedCategoryId(0)
         setEditedDescription('')
     }
 
     function deleteAppointment() {
-        props.setStatus('Canceled');
+        props.setStatus('Canceled')
     }
 
     return <div className="card flex_card">
@@ -74,19 +79,21 @@ function Appointment(props) {
                 <div className="d-flex flex-column">
                     {isEditing ?
                     <>
-                        <input type="text" value={editedMechanicName} onChange={event => setEditedMechanicName(event.target.value)} className="form-control" style={{width: "50%"}}></input>
+                        <input type="text" value={editedMechanicId} onChange={event => setEditedMechanicId(event.target.value)} className="form-control" style={{width: "50%"}}></input>
+                        <input type="text" value={editedCategoryId} onChange={event => setEditedCategoryId(event.target.value)} className="form-control" style={{width: "50%"}}></input>
                         <hr class="border-2"/>
                         <textarea value={editedDescription} onChange={event => setEditedDescription(event.target.value)} className="form-control" style={{width: "50%"}}></textarea>
                     </>
                     :  
                     <>
-                        <em>{props.mechanicName}</em>
+                        <em>{mechanicNames[props.mechanicId]}</em>
+                        <em>{categories[props.categoryId].category}</em>
                         <hr class="border-2"/>
                         <pre>{props.description}</pre>
                     </>
                     }
                 </div>
-                <div className="small_icon">{props.iconPath}</div>
+                <div className="small_icon">{categories[props.categoryId].icon}</div>
             </p>
             <p className="card-text flex_card_row">{formatDateTime(props.time)}<strong style={{color: colors[props.status]}}>{props.status}</strong></p>
         </div>

@@ -130,3 +130,8 @@ a:link, a:visited {
     flex-direction: row-reverse;
     justify-content: space-between;
 }
+
+.item-selector {
+    margin-bottom: 10px;
+    padding: 5px;
+  }

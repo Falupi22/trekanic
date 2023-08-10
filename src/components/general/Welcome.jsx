@@ -2,7 +2,7 @@ function Welcome(props) {
     const hour = new Date().getHours()
 
     let greeting;
-    console.log(hour <= 2)
+    //console.log(hour <= 2)
 
     if (hour > 21 || hour <= 2) {
         greeting = "Good night, "

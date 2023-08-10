@@ -12,14 +12,45 @@ const colors = {
     "Canceled": "var(--red)"
 }
 
-const categories = [
-    'Chain Cleaning',
-    'Tire Pressure Check',
-    'Grip Replacement',
-    'Wheel Turing',
-    'Pedal Installation',
-    'Tire Rotation',
-    'Brake Alignment'
+export const mechanicNames = [
+    'LeBron James',
+    'Kevin Durant',
+    'Stephen Curry',
+    'Kawhi Leonard',
+    'James Harden',
+    'Russell Westbrook',
+    'Kyrie Irving'
+]
+
+export const categories = [
+    {
+        category: 'Chain Cleaning',
+        icon: <BrakeLogo/>
+    },
+    {
+        category: 'Tire Pressure Check',
+        icon: <FlatTireLogo/>
+    },
+    {
+        category: 'Grip Replacement',
+        icon: <FrameLogo/>
+    },
+    {
+        category: 'Wheel Turing',
+        icon: <BrakeLogo/>
+    },
+    {
+        category: 'Pedal Installation',
+        icon: <FlatTireLogo/>
+    },
+    {
+        category: 'Tire Rotation',
+        icon: <FrameLogo/>
+    },
+    {
+        category: 'Brake Alignment',
+        icon: <BrakeLogo/>
+    }
 ]
 
 
@@ -28,65 +59,49 @@ function UserMain() {
         return {
             id: generateRandomString(),
             title: 'Some title',
-            mechanicName: 'Some mechanic name',
+            mechanicId: randomInt(0, mechanicNames.length - 1), 
+            categoryId: randomInt(0, categories.length - 1),
             description: '',
             time: generateRandomAppointmentDate(),
-            iconPath: <FrameLogo/>,
             status: 'Confirmed'
         }
     }))
 
-    const [showNewAppointmentForm, setShowNewAppointmentForm] = useState(false);
     const [newAppointmentTitle, setNewAppointmentTitle] = useState('');
-    const [newAppointmentMechanicName, setNewAppointmentMechanicName] = useState('');
+    const [newAppointmentMechanicId, setNewAppointmentMechanicId] = useState(null);
+    const [newAppointmentCategoryId, setNewAppointmentCategoryId] = useState(null)
     const [newAppointmentDescription, setNewAppointmentDescription] = useState('')
-    const [newAppointmentDateTime, setNewAppointmentDateTime] = useState(new Date())
+    const [selectedNewAppointmentDate, setSelectedNewAppointmentDate] = useState(new Date())
+    const [selectedNewAppointmentTimeSlot, setSelectedNewAppointmentTimeSlot] = useState(null)
 
     function newAppointmentForm() {
-        setNewAppointmentTitle('');
-        setNewAppointmentMechanicName('');
+        setNewAppointmentTitle('')
+        setNewAppointmentMechanicId(0)
+        setNewAppointmentCategoryId(0)
         setNewAppointmentDescription('')
-        setShowNewAppointmentForm(true);
     }
 
     function cancelAppointmentForm() {
-        setShowNewAppointmentForm(false);
         setNewAppointmentTitle('');
-        setNewAppointmentMechanicName('');
+        setNewAppointmentMechanicId()
+        setNewAppointmentCategoryId(0)
         setNewAppointmentDescription('')
     }
 
     function createNewAppointment() {
-
         const appointment = {
             id: generateRandomString(),
             title: newAppointmentTitle,
-            mechanicName: newAppointmentMechanicName,
+            mechanicId: newAppointmentMechanicId,
+            categoryId: newAppointmentCategoryId,
             description: newAppointmentDescription,
-            time: new Date(),
-            iconPath: <BrakeLogo />,
-            status: "Confirmed"
+            time: new Date(selectedNewAppointmentTimeSlot.start),
+            status: 'Confirmed'
         }
 
         appointments.unshift(appointment);
         setAppointments(appointments);
         cancelAppointmentForm();
-    }
-
-    function appointmentForm() {
-        return <div className="mb-3" style={{ width: "50%" }}>
-            <div className="mb-3">
-                <label htmlFor="appointment-title">Appointment Title</label>
-                <input type="text" value={newAppointmentTitle} onChange={event => setNewAppointmentTitle(event.target.value)} id="appointment-title" className="form-control" placeholder="Appointment title here..." />
-            </div>
-
-            <div className="mb-3">
-                <label htmlFor="appointment-mechanic-name">Mechanic Name</label>
-                <input type="text" value={newAppointmentMechanicName} onChange={event => setNewAppointmentMechanicName(event.target.value)} id="appointment-mechanic-name" className="form-control" placeholder="Mechanic name here..." />
-            </div>
-
-            <button type="submit" className="btn btn-primary" onClick={createNewAppointment}>Submit</button>
-        </div>
     }
 
     return <div className="flex_component">
@@ -117,9 +132,24 @@ function UserMain() {
                                 <input type="text" value={newAppointmentTitle} onChange={event => setNewAppointmentTitle(event.target.value)} id="appointment-title" className="form-control" placeholder="Appointment title here..." />
                             </div>
 
-                            <div className="mb-3">
-                                <label htmlFor="appointment-mechanic-name">Mechanic Name</label>
-                                <input type="text" value={newAppointmentMechanicName} onChange={event => setNewAppointmentMechanicName(event.target.value)} id="appointment-mechanic-name" className="form-control" placeholder="Mechanic name here..." />
+                            <div className="mb-3 d-flex flex-column">
+                                <label htmlFor="appointment-mechanic-id">Mechanic</label>
+                                <select id="appointment-mechanic-id" className="item-selector" value={newAppointmentMechanicId} onChange={event => setNewAppointmentMechanicId(event.target.value)}>
+                                    <option key="-1" value={null}>Select mechanic</option>
+                                    {mechanicNames.map((name, index) => {
+                                        return <option key={index} value={index}>{name}</option>
+                                    })}
+                                </select>
+                            </div>
+
+                            <div className="mb-3 d-flex flex-column">
+                                <label htmlFor="appointment-category-id">Mechanic</label>
+                                <select id="appointment-category-id" className="item-selector" value={newAppointmentCategoryId} onChange={event => setNewAppointmentCategoryId(event.target.value)}>
+                                    <option key="-1" value={null}>Select category</option>
+                                    {categories.map((category, index) => {
+                                        return <option key={index} value={index}>{category.category}</option>
+                                    })}
+                                </select>
                             </div>
 
                             <div className="mb-3">
@@ -129,12 +159,12 @@ function UserMain() {
 
                             <div className="mb-3">
                                 <label htmlFor="appointment-date">Date</label>
-                                <Calendar id="appointment-date" appointments={order(appointments)}/>
+                                <Calendar id="appointment-date" selectedDate={selectedNewAppointmentDate} setSelectedDate={setSelectedNewAppointmentDate}/>
                             </div>
 
                             <div className="mb-3">
                                 <label htmlFor="appointment-time">Time</label>
-                                <TimeInput id="appointment-time" appointments={order(appointments)}/>
+                                <TimeInput id="appointment-time" appointments={filterByDate(appointments, selectedNewAppointmentDate)} selectedDate={selectedNewAppointmentDate} selectedSlot={selectedNewAppointmentTimeSlot} setSelectedSlot={setSelectedNewAppointmentTimeSlot}/>
                             </div>
                         </div>
                     </div>
@@ -151,14 +181,14 @@ function UserMain() {
                 appointments.map(appointment => <Appointment
                     key={appointment.id}
                     title={appointment.title}
-                    mechanicName={appointment.mechanicName}
+                    mechanicId={appointment.mechanicId}
+                    categoryId={appointment.categoryId}
                     description={appointment.description}
                     time={appointment.time}
-                    iconPath={appointment.iconPath}
                     status={appointment.status}
-                    edit={(title, mechanicName) => {
+                    edit={(title, mechanicId) => {
                         const newApts = appointments.map(apt => {
-                            if (apt === appointment) return { ...apt, title: title, mechanicName: mechanicName };
+                            if (apt === appointment) return { ...apt, title: title, mechanicId: mechanicId };
                             return apt;
                         })
 
@@ -181,15 +211,30 @@ function UserMain() {
 
 export default UserMain;
 
+function filterByDate(appointments, date) {
+    const target = new Date(date)
+    target.setHours(0, 0, 0, 0)
+    const result = []
+
+    for (let index = 0; index < appointments.length; index += 1) {
+        const appointment = appointments[index]
+        const appointmentDate = new Date(appointment.time)
+        appointmentDate.setHours(0, 0, 0, 0)
+        if (appointmentDate.getTime() === target.getTime()) {
+            result.push(appointment)
+        }
+    }
+
+    return result
+}
+
 function order(appointments) {
     const map = new Map()
     
     for (let index = 0; index < appointments.length; index += 1) {
         const appointment = appointments[index]
         const date = new Date(appointment.time)
-        date.setHours(0)
-        date.setMinutes(0)
-        date.setSeconds(0)
+        date.setHours(0, 0, 0, 0)
         const key = date.getTime()
         if (key in map) {
             map[key].push(appointment)
@@ -216,8 +261,9 @@ function generateRandomString(length = 16) {
 function generateRandomAppointmentDate() {
     const date = new Date()
     date.setHours(randomInt(0, 23))
-    date.setMinutes(randomInt(0, 1) === 0 ? 0 : 30)
+    date.setMinutes(0)
     date.setSeconds(0)
+    date.setMilliseconds(0)
     date.setDate(date.getDate() + randomInt(0, 2))
     return date
 }
