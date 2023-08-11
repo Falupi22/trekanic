@@ -2,9 +2,14 @@ import { BrakeLogo, EllipsisLogo, FlatTireLogo, FrameLogo, PencilLogo, BinLogo, 
 import "../styles/style.css"
 import Appointment from "./Appointment";
 import Welcome from "./general/Welcome";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Calendar from "./Calendar";
 import TimeInput from "./TimeInput";
+import Modal from 'react-bootstrap/Modal'
+import ModalBody from 'react-bootstrap/ModalBody'
+import ModalHeader from 'react-bootstrap/ModalHeader'
+import ModalFooter from 'react-bootstrap/ModalFooter'
+import ModalTitle from 'react-bootstrap/ModalTitle'
 
 const colors = {
     "Confirmed": "black",
@@ -67,25 +72,55 @@ function UserMain() {
         }
     }))
 
-    const [newAppointmentTitle, setNewAppointmentTitle] = useState('');
-    const [newAppointmentMechanicId, setNewAppointmentMechanicId] = useState(null);
-    const [newAppointmentCategoryId, setNewAppointmentCategoryId] = useState(null)
+    async function submitNewAppointment() {
+        createNewAppointment()
+
+        resetAppointmentForm()
+
+        setShowNewAppointmentModal(false)
+    }
+
+    async function cancelNewAppointment() {
+        resetAppointmentForm()
+
+        setShowNewAppointmentModal(false)
+    }
+
+    const [showNewAppointmentModal, setShowNewAppointmentModal] = useState(false)
+
+    const [newAppointmentTitle, setNewAppointmentTitle] = useState('')
+    const [newAppointmentMechanicId, setNewAppointmentMechanicId] = useState(-1)
+    const [newAppointmentCategoryId, setNewAppointmentCategoryId] = useState(-1)
     const [newAppointmentDescription, setNewAppointmentDescription] = useState('')
     const [selectedNewAppointmentDate, setSelectedNewAppointmentDate] = useState(new Date())
     const [selectedNewAppointmentTimeSlot, setSelectedNewAppointmentTimeSlot] = useState(null)
 
-    function newAppointmentForm() {
-        setNewAppointmentTitle('')
-        setNewAppointmentMechanicId(0)
-        setNewAppointmentCategoryId(0)
-        setNewAppointmentDescription('')
+    function newAppointmentTitleInputField() {
+        const isValid = newAppointmentTitle.length > 0
+        const label = isValid ? 'Appointment title' : 'Invalid appointment title'
+
+        return (
+        <form className="form-floating">
+            <input type="text" value={newAppointmentTitle} onChange={event => setNewAppointmentTitle(event.target.value)} id="appointment-title" className={`form-control ${isValid ? '' : 'is-invalid'} input-lg`} placeholder="Appointment title here..." />
+            <label htmlFor="appointment-title">{label}</label>
+        </form>
+        )
     }
 
-    function cancelAppointmentForm() {
-        setNewAppointmentTitle('');
-        setNewAppointmentMechanicId()
-        setNewAppointmentCategoryId(0)
+    function isValidNewAppointment() {
+        return newAppointmentTitle.length > 0 &&
+               newAppointmentMechanicId !== -1 &&
+               newAppointmentCategoryId !== -1 &&
+               selectedNewAppointmentTimeSlot !== null
+    }
+
+    function resetAppointmentForm() {
+        setNewAppointmentTitle('')
+        setNewAppointmentMechanicId(-1)
+        setNewAppointmentCategoryId(-1)
         setNewAppointmentDescription('')
+        setSelectedNewAppointmentDate(new Date())
+        setSelectedNewAppointmentTimeSlot(null)
     }
 
     function createNewAppointment() {
@@ -101,7 +136,7 @@ function UserMain() {
 
         appointments.unshift(appointment);
         setAppointments(appointments);
-        cancelAppointmentForm();
+        resetAppointmentForm();
     }
 
     return <div className="flex_component">
@@ -109,54 +144,55 @@ function UserMain() {
         <div className="d-flex flex-column" style={{ width: "60%" }}>
             <div className="d-flex flex-row" style={{ justifyContent: "space-between", alignItems: "center" }}>
                 <h2 className="mt-5 mb-5">Your appointments</h2>
-                    <button className="tiny_button transparent" onClick={newAppointmentForm}
-                        type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <button className="tiny_button transparent" onClick={() => setShowNewAppointmentModal(true)} type="button">
                         <PlusLogo />
                     </button>
             </div>
         </div>
 
-        <div className="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
-                <div className="modal-content">
-                    <div className="modal-header">
-                        <h5 className="modal-title" id="exampleModalLabel">Modal title</h5>
-                        <button type="button" className="close btn" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+        <Modal show={showNewAppointmentModal} onHide={resetAppointmentForm} centered>
+            <Modal.Header>
+                <Modal.Title>New Appointment</Modal.Title>
+                <button type="button" className="close btn" onClick={() => setShowNewAppointmentModal(false)}>
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </Modal.Header>
+            <Modal.Body>
+                <div className="mb-3" style={{ width: "100%" }}>
+                    {newAppointmentTitleInputField()}
+
+                    <div className="d-flex flex-row" style={{gap: 20}}>
+                        <div className="mb-3 d-flex flex-column">
+                            <label htmlFor="appointment-mechanic-id">Mechanic</label>
+                            <select id="appointment-mechanic-id" className={`item-selector ${newAppointmentMechanicId === -1 ? 'is-invalid' : ''}`} value={newAppointmentMechanicId} onChange={event => setNewAppointmentMechanicId(event.target.value)}>
+                                <option key="-1" selected disabled value={-1}>Select mechanic</option>
+                                {mechanicNames.map((name, index) => {
+                                    return <option key={index} value={index}>{name}</option>
+                                })}
+                            </select>
+                            <div className="invalid-feedback">Please select a valid mechanic name</div>
+                        </div>
+
+                        <div className="mb-3 d-flex flex-column">
+                            <label htmlFor="appointment-category-id">Mechanic</label>
+                            <select id="appointment-category-id" className={`item-selector ${newAppointmentCategoryId === -1 ? 'is-invalid' : ''}`} value={newAppointmentCategoryId} onChange={event => setNewAppointmentCategoryId(event.target.value)}>
+                                <option key="-1" selected disabled value={-1}>Select category</option>
+                                {categories.map((category, index) => {
+                                    return <option key={index} value={index}>{category.category}</option>
+                                })}
+                            </select>
+                            <div className="invalid-feedback">Please select a valid category</div>
+                        </div>
                     </div>
-                    <div className="modal-body">
-                        <div className="mb-3" style={{ width: "100%" }}>
-                            <div className="mb-3">
-                                <label htmlFor="appointment-title">Appointment Title</label>
-                                <input type="text" value={newAppointmentTitle} onChange={event => setNewAppointmentTitle(event.target.value)} id="appointment-title" className="form-control" placeholder="Appointment title here..." />
-                            </div>
 
-                            <div className="mb-3 d-flex flex-column">
-                                <label htmlFor="appointment-mechanic-id">Mechanic</label>
-                                <select id="appointment-mechanic-id" className="item-selector" value={newAppointmentMechanicId} onChange={event => setNewAppointmentMechanicId(event.target.value)}>
-                                    <option key="-1" value={null}>Select mechanic</option>
-                                    {mechanicNames.map((name, index) => {
-                                        return <option key={index} value={index}>{name}</option>
-                                    })}
-                                </select>
-                            </div>
+                    <div className="mb-3">
+                        <label htmlFor="appointment-description">Description</label>
+                        <textarea value={newAppointmentDescription} onChange={event => setNewAppointmentDescription(event.target.value)} id="appointment-description" className="form-control" style={{height: 200}} placeholder="Description here..." />
+                    </div>
 
-                            <div className="mb-3 d-flex flex-column">
-                                <label htmlFor="appointment-category-id">Mechanic</label>
-                                <select id="appointment-category-id" className="item-selector" value={newAppointmentCategoryId} onChange={event => setNewAppointmentCategoryId(event.target.value)}>
-                                    <option key="-1" value={null}>Select category</option>
-                                    {categories.map((category, index) => {
-                                        return <option key={index} value={index}>{category.category}</option>
-                                    })}
-                                </select>
-                            </div>
-
-                            <div className="mb-3">
-                                <label htmlFor="appointment-description">Description</label>
-                                <textarea value={newAppointmentDescription} onChange={event => setNewAppointmentDescription(event.target.value)} id="appointment-description" className="form-control" style={{height: 200}} placeholder="Description here..." />
-                            </div>
-
+                    {
+                        newAppointmentTitle.length > 0 && newAppointmentMechanicId !== -1 && newAppointmentCategoryId !== -1 ?
+                        <>
                             <div className="mb-3">
                                 <label htmlFor="appointment-date">Date</label>
                                 <Calendar id="appointment-date" selectedDate={selectedNewAppointmentDate} setSelectedDate={setSelectedNewAppointmentDate}/>
@@ -165,16 +201,17 @@ function UserMain() {
                             <div className="mb-3">
                                 <label htmlFor="appointment-time">Time</label>
                                 <TimeInput id="appointment-time" appointments={filterByDate(appointments, selectedNewAppointmentDate)} selectedDate={selectedNewAppointmentDate} selectedSlot={selectedNewAppointmentTimeSlot} setSelectedSlot={setSelectedNewAppointmentTimeSlot}/>
+                                {selectedNewAppointmentTimeSlot === null ? <h5 style={{color: 'red'}}>Please select a time slot</h5> : <></>}
                             </div>
-                        </div>
-                    </div>
-                    <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" className="btn btn-primary" onClick={createNewAppointment}>Save</button>
-                    </div>
+                        </> : <></>
+                    }
                 </div>
-            </div>
-        </div>
+            </Modal.Body>
+            <Modal.Footer>
+                <button type="button" className="btn btn-secondary" onClick={cancelNewAppointment}>Cancel</button>
+                <button type="submit" className="btn btn-primary" onClick={submitNewAppointment} disabled={!isValidNewAppointment()}>Save</button>
+            </Modal.Footer>
+        </Modal>
 
         <div className="flex_card_list">
             {

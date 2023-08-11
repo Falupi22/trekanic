@@ -75,26 +75,26 @@ function Appointment(props) {
             </div>
         </div>
         <div className="card-body">
-            <p className="card-title flex_card_row">
+            <div className="card-title flex_card_row">
                 <div className="d-flex flex-column">
                     {isEditing ?
                     <>
                         <input type="text" value={editedMechanicId} onChange={event => setEditedMechanicId(event.target.value)} className="form-control" style={{width: "50%"}}></input>
                         <input type="text" value={editedCategoryId} onChange={event => setEditedCategoryId(event.target.value)} className="form-control" style={{width: "50%"}}></input>
-                        <hr class="border-2"/>
+                        <hr className="border-2"/>
                         <textarea value={editedDescription} onChange={event => setEditedDescription(event.target.value)} className="form-control" style={{width: "50%"}}></textarea>
                     </>
                     :  
                     <>
                         <em>{mechanicNames[props.mechanicId]}</em>
                         <em>{categories[props.categoryId].category}</em>
-                        <hr class="border-2"/>
+                        <hr className="border-2"/>
                         <pre>{props.description}</pre>
                     </>
                     }
                 </div>
                 <div className="small_icon">{categories[props.categoryId].icon}</div>
-            </p>
+            </div>
             <p className="card-text flex_card_row">{formatDateTime(props.time)}<strong style={{color: colors[props.status]}}>{props.status}</strong></p>
         </div>
     </div>
