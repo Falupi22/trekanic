@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import '../styles/timeInput.css'
 
 function TimeInput(props) {
@@ -34,7 +34,7 @@ function TimeInput(props) {
         })
     }
 
-    const slots = generateTimeSlots()
+    let slots = generateTimeSlots()
 
     function renderSlots() {
         if (slots.length === 0) return <span style={{fontSize: 32}}>All slots are taken for this day</span>
@@ -52,7 +52,7 @@ function TimeInput(props) {
     }
 
     function slotStyle(slot) {
-        if (!props.selectedSlot) return 'time-slot'
+        if (props.selectedSlot === null) return 'time-slot'
         if (props.selectedSlot.start.getTime() === slot.start.getTime() && props.selectedSlot.finish.getTime() === slot.finish.getTime()) return 'time-slot selected'
         return 'time-slot'
     }

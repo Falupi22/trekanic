@@ -1,63 +1,24 @@
-import { BinLogo, CheckLogo, CloseLogo, EllipsisLogo, PencilLogo } from "../assets/icons";
-import { useState } from "react"
-import { categories, mechanicNames } from "./UserMain";
+import { BinLogo, EllipsisLogo, PencilLogo } from '../assets/icons'
+import { useState } from 'react'
+import { categories, mechanicNames } from './UserMain'
 
 function Appointment(props) {
-    const [isEditing, setIsEditing] = useState(false);
-    const [editedTitle, setEditedTitle] = useState('');
-    const [editedMechanicId, setEditedMechanicId] = useState(null);
-    const [editedCategoryId, setEditedCategoryId] = useState(null)
-    const [editedDescription, setEditedDescription] = useState('')
-
-    function editAppointment() {
-        setEditedTitle(props.title);
-        setEditedMechanicId(props.mechanicId);
-        setEditedCategoryId(props.categoryId)
-        setEditedDescription(props.description)
-        setIsEditing(true)
-    }
-
-    function cancelEditAppointment() {
-        setIsEditing(false)
-        setEditedTitle('')
-        setEditedMechanicId(null)
-        setEditedCategoryId(null)
-        setEditedDescription('')
-    }
-
-    function saveAppointment() {
-        setIsEditing(false)
-        props.edit(editedTitle, editedCategoryId)
-        setEditedTitle('')
-        setEditedMechanicId(0)
-        setEditedCategoryId(0)
-        setEditedDescription('')
-    }
-
     function deleteAppointment() {
         props.setStatus('Canceled')
     }
 
-    return <div className="card flex_card">
-        <div className="card-header flex_card_row">
-            {isEditing ?
-                <input type="text" value={editedTitle} onChange={event => setEditedTitle(event.target.value)} className="form-control" style={{width: "50%"}}></input>
-            :
+    function editAppointment() {
+        props.setId(props.id)
+        props.setCreateMode(false)
+        props.setShowAppointmentModal(true)
+    }
+
+    return (
+        <div className="card flex_card">
+            <div className="card-header flex_card_row">
                 <strong>{props.title}</strong>
-            }
-            <div>
-                <div className="flex_card_row_reversed">
-                    {isEditing ?
-                        <div className="d-flex flex-row" style={{gap: "10px"}}>
-                            <button className="tiny_button transparent" onClick={saveAppointment}>
-                                <CheckLogo/>
-                            </button>
-                            <button className="tiny_button transparent" onClick={cancelEditAppointment}>
-                                <CloseLogo/>
-                            </button>
-                        </div>
-                    :
-                    <>
+                <div>
+                    <div className="flex_card_row_reversed">
                         <button className="tiny_button transparent ellipsis-button">
                             <EllipsisLogo/>
                         </button>
@@ -69,35 +30,23 @@ function Appointment(props) {
                                 <PencilLogo/>
                             </button>
                         </div>
-                    </>
-                    }
+                    </div>
                 </div>
             </div>
-        </div>
-        <div className="card-body">
-            <div className="card-title flex_card_row">
-                <div className="d-flex flex-column">
-                    {isEditing ?
-                    <>
-                        <input type="text" value={editedMechanicId} onChange={event => setEditedMechanicId(event.target.value)} className="form-control" style={{width: "50%"}}></input>
-                        <input type="text" value={editedCategoryId} onChange={event => setEditedCategoryId(event.target.value)} className="form-control" style={{width: "50%"}}></input>
-                        <hr className="border-2"/>
-                        <textarea value={editedDescription} onChange={event => setEditedDescription(event.target.value)} className="form-control" style={{width: "50%"}}></textarea>
-                    </>
-                    :  
-                    <>
+            <div className="card-body">
+                <div className="card-title flex_card_row">
+                    <div className="d-flex flex-column">
                         <em>{mechanicNames[props.mechanicId]}</em>
                         <em>{categories[props.categoryId].category}</em>
                         <hr className="border-2"/>
                         <pre>{props.description}</pre>
-                    </>
-                    }
+                    </div>
+                    <div className="small_icon">{categories[props.categoryId].icon}</div>
                 </div>
-                <div className="small_icon">{categories[props.categoryId].icon}</div>
+                <p className="card-text flex_card_row">{formatDateTime(props.time)}<strong style={{color: colors[props.status]}}>{props.status}</strong></p>
             </div>
-            <p className="card-text flex_card_row">{formatDateTime(props.time)}<strong style={{color: colors[props.status]}}>{props.status}</strong></p>
         </div>
-    </div>
+    )
 }
 
 export default Appointment;
