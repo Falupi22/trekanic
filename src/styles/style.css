@@ -14,6 +14,7 @@ body, #root {
 
 .menu {
     background-color: black;  
+    width: 100%;
  }
 
 .flex_wrapper {

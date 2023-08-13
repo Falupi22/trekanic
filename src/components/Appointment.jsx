@@ -1,6 +1,5 @@
 import { BinLogo, EllipsisLogo, PencilLogo } from '../assets/icons'
-import { useState } from 'react'
-import { categories, mechanicNames } from './UserMain'
+import { categories, mechanicNames } from './Account'
 import axios from 'axios'
 
 function Appointment(props) {

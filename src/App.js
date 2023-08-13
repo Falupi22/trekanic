@@ -1,22 +1,22 @@
-import logo from './logo.svg';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import LogIn from './components/login';
+import logo from './logo.svg'
+import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import Login from './components/Login'
 import "../src/styles/style.css"
-import UserMain from './components/UserMain';
-import Test from './components/Test';
+import Account from './components/Account'
+import Test from './components/Test'
 
 function App() {
   const router = createBrowserRouter([{
       path: '/',
-      element: <LogIn/>
+      element: <Login/>
     },
     {
       path: '/home',
       element: <h1>Hi</h1>
     }, 
     {
-      path: '/user',
-      element: <UserMain/>
+      path: '/account',
+      element: <Account/>
     },
     {
       path: '/test',

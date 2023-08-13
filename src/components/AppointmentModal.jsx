@@ -1,10 +1,6 @@
 import { useState, useEffect } from 'react'
 import Modal from 'react-bootstrap/Modal'
-import ModalBody from 'react-bootstrap/ModalBody'
-import ModalHeader from 'react-bootstrap/ModalHeader'
-import ModalFooter from 'react-bootstrap/ModalFooter'
-import ModalTitle from 'react-bootstrap/ModalTitle'
-import { mechanicNames, categories, getAppointmentById } from './UserMain'
+import { mechanicNames, categories, getAppointmentById } from './Account'
 import Calendar from './Calendar'
 import TimeInput from './TimeInput'
 

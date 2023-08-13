@@ -1,15 +1,10 @@
-import { BrakeLogo, EllipsisLogo, FlatTireLogo, FrameLogo, PencilLogo, BinLogo, PlusLogo, CloseLogo, CheckLogo } from "../assets/icons";
-import "../styles/style.css"
-import Appointment from "./Appointment";
-import Welcome from "./general/Welcome";
-import { useState } from "react";
+import { BrakeLogo, EllipsisLogo, FlatTireLogo, FrameLogo, PencilLogo, BinLogo, PlusLogo, CloseLogo, CheckLogo } from '../assets/icons'
+import '../styles/style.css'
+import Appointment from './Appointment'
+import Welcome from './general/Welcome'
+import { useState } from 'react'
 import AppointmentModal from './AppointmentModal'
-
-const colors = {
-    "Confirmed": "black",
-    "Done": "green",
-    "Canceled": "var(--red)"
-}
+import Menu from './Menu'
 
 export const mechanicNames = [
     'LeBron James',
@@ -53,7 +48,7 @@ export const categories = [
 ]
 
 
-function UserMain() {
+function Account() {
     const [appointments, setAppointments] = useState(Array(5).fill({}).map(_ => {
         return {
             id: generateRandomString(),
@@ -86,6 +81,8 @@ function UserMain() {
 
     return (
         <div className="flex_component">
+            <Menu/>
+
             <Welcome userName="Tal" style="header" />
             <div className="d-flex flex-column" style={{ width: "60%" }}>
                 <div className="d-flex flex-row" style={{ justifyContent: "space-between", alignItems: "center" }}>
@@ -134,7 +131,7 @@ function UserMain() {
     )
 }
 
-export default UserMain;
+export default Account
 
 function order(appointments) {
     const map = new Map()
