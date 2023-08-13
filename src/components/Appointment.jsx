@@ -1,10 +1,20 @@
 import { BinLogo, EllipsisLogo, PencilLogo } from '../assets/icons'
 import { useState } from 'react'
 import { categories, mechanicNames } from './UserMain'
+import axios from 'axios'
 
 function Appointment(props) {
     function deleteAppointment() {
-        props.setStatus('Canceled')
+        axios.get(`appointments/delete/${props.id}`).then(response => {
+            if (response.ok) {
+                props.deleteAppointment()
+            }
+        }).catch(() => {
+            
+        })
+
+        // do it anyway for the sake of debugging because the fetching is yet to be implemented
+        props.deleteAppointment()
     }
 
     function editAppointment() {

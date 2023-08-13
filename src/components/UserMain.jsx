@@ -121,6 +121,11 @@ function UserMain() {
                             description={appointment.description}
                             time={appointment.time}
                             status={appointment.status}
+                            deleteAppointment={() => {
+                                setAppointments(appointments.filter(apt => {
+                                    return apt.id !== appointment.id
+                                }))
+                            }}
                         />
                     ))
                 }
