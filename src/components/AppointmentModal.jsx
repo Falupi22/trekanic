@@ -75,10 +75,10 @@ function AppointmentModal(props) {
         const label = isValidTitle ? 'Appointment title' : 'Invalid appointment title'
 
         return (
-        <form className="form-floating">
-            <input type="text" value={title} onChange={event => setTitle(event.target.value)} id="appointment-title" className={`form-control ${isValidTitle ? '' : 'is-invalid'} input-lg`} placeholder="Appointment title here..." />
-            <label htmlFor="appointment-title">{label}</label>
-        </form>
+            <form className="form-floating">
+                <input type="text" value={title} onChange={event => setTitle(event.target.value)} id="appointment-title" className={`form-control ${isValidTitle ? '' : 'is-invalid'} input-lg`} placeholder="Appointment title here..." />
+                <label htmlFor="appointment-title">{label}</label>
+            </form>
         )
     }
 
