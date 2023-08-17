@@ -15,7 +15,6 @@ function Login() {
 
     function login() {
         if (!isInputValid()) return
-
         navigate('/account')
     }
 
