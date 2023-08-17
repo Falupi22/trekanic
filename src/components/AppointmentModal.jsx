@@ -91,7 +91,7 @@ function AppointmentModal(props) {
                 </button>
             </Modal.Header>
             <Modal.Body>
-                <div className="mb-3" style={{ width: "100%" }}>
+                <div className="mb-3" style={{ width: '100%' }}>
                     {titleInputField()}
 
                     <div className="d-flex flex-row" style={{gap: 20}}>
