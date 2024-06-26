@@ -32,8 +32,7 @@
       "prettier --write",
       "eslint --max-warnings 0 ."
     ],
-    "*.{js,css,md}": "prettier --write",
-    "!build/**/*": "echo Skipped linting in the build folder"
+    "*.{js,css,md}": "prettier --write"
   },
   "main": "index.js",
   "keywords": [],
