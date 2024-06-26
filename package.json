@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "build": "tsc --build --verbose",
-    "lint": "eslint \"**.ts\" --fix",
+    "lint": "eslint \"packages/**/*.ts\" --fix",
     "start": "ts-node --project tsconfig.json src/index.ts",
     "prepare": "husky-init"
   },
