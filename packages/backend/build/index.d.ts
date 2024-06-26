@@ -1,1 +1,1 @@
-export declare function isEven(n: number): boolean;
+export declare function isEven(n: number): boolean

@@ -1,1 +1,1 @@
-export declare function FooComponent(): void;
+export declare function FooComponent(): void

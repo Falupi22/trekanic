@@ -1,8 +1,8 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.isEven = void 0;
+"use strict"
+Object.defineProperty(exports, "__esModule", { value: true })
+exports.isEven = void 0
 function isEven(n) {
-    return n % 2 === 0;
+  return n % 2 === 0
 }
-exports.isEven = isEven;
-console.log('Utils function isEven is imported successfully');
+exports.isEven = isEven
+console.log("Utils function isEven is imported successfully")
