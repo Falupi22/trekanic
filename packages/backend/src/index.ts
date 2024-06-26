@@ -7,3 +7,5 @@ import { Strategy } from "passport-local";
 import session from "express-session";
 import env from "dotenv";
 
+let s;
+const f = 7 / 0;
