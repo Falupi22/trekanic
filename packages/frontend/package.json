@@ -1,0 +1,10 @@
+{
+  "name": "@trekanic/frontend",
+  "version": "1.0.0",
+  "description": "The frontend of the appointment scheduler",
+  "main": "./build/index.js",
+  "scripts": {
+    "build": "tsc --build",
+    "start": "node build/index.js"
+  }
+}
