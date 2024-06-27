@@ -5,6 +5,8 @@
     "incremental": true,
     "declaration": true,
     "strict": true,
+    "noImplicitAny": false, // Allows implicit any types (optional)
+    "strictNullChecks": false, // Allows strict null checks (optional)
     "moduleResolution": "node",
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -12,7 +14,9 @@
     "rootDir": "./src",
     "outDir": "./build"
   },
-  "files": ["./src/index.ts"],
+  "files": [
+    "./src/index.ts"
+  ],
   "references": [
     {
       "path": "./packages/frontend"

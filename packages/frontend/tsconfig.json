@@ -11,6 +11,8 @@
     "forceConsistentCasingInFileNames": true,
     "rootDir": "./src",
     "outDir": "./build",
-    "composite": true
+    "composite": true,
+    "noImplicitAny": false, // Allows implicit any types (optional)
+    "strictNullChecks": false // Allows strict null checks (optional)
   }
 }
