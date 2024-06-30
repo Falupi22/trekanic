@@ -1,3 +1,4 @@
 import { login, logout } from "./sessionController"
+import { createAppointment } from "./appointmentController"
 
-export { login, logout }
+export { login, logout, createAppointment }

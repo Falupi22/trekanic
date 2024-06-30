@@ -1,3 +1,4 @@
-import { sessionRouter } from "./sessionRouter"
+import sessionRouter from "./sessionRouter"
+import appointmentRouter from "./appointmentRouter"
 
-export { sessionRouter }
+export { sessionRouter, appointmentRouter }

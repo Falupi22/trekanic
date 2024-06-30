@@ -1,3 +1,4 @@
-import { User, setUserModel, setUserPlugin } from "./User.model"
+import { User, setUserModel, setUserPlugin, UserDocument } from "./User.model"
+import Appointment, { AppointmentModel } from "./Appointment.model"
 
-export { User, setUserModel, setUserPlugin }
+export { User, setUserModel, setUserPlugin, Appointment, AppointmentModel, UserDocument }

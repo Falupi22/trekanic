@@ -1,9 +1,9 @@
 import { Router } from "express"
 import { login, logout } from "../controllers"
 
-const router = Router()
+const sessionRouter = Router()
 
-router.post("/login", login)
-router.post("/logout", logout)
+sessionRouter.post("/login", login)
+sessionRouter.post("/logout", logout)
 
-export const sessionRouter = router
+export default sessionRouter

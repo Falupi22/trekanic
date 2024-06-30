@@ -7,7 +7,7 @@ import session from "express-session"
 import passportLocalMongoose from "passport-local-mongoose"
 import { User, setUserPlugin, setUserModel } from "./models"
 import { Config } from "./config"
-import { sessionRouter } from "./routers"
+import { appointmentRouter, sessionRouter } from "./routers"
 
 const app = express()
 
@@ -19,10 +19,6 @@ function setMiddlewares() {
   // Using all the files from the public folder
   app.use(express.static("public"))
   app.use(bodyParser.json())
-  app.use(function (req, res, next) {
-    console.log(req) // populated!
-    next()
-  })
   app.use(
     session({
       secret: Config.session_secret,
@@ -34,8 +30,6 @@ function setMiddlewares() {
   app.use(passport.session())
   // Allows access to the trekanic site only!
   app.use(cors())
-  // Adds all the session routes
-  app.use(sessionRouter)
 }
 
 function setSchemaPlugins() {
@@ -55,10 +49,16 @@ function setPassport() {
   })
 }
 
+function setRoutes() {
+  app.use(sessionRouter)
+  app.use(appointmentRouter)
+}
+
 connectToDB()
 setMiddlewares()
 setSchemaPlugins()
 setPassport()
+setRoutes()
 
 app.listen(Config.port, () => {
   console.log(`Express is listening at http://localhost:${Config.port}!`)
