@@ -1,4 +1,5 @@
 import mongoose, { Document, Schema } from "mongoose"
+import { IssueModel } from "./Issue.model"
 
 interface AppointmentSchema {
   issue: mongoose.Types.ObjectId
@@ -12,7 +13,7 @@ interface AppointmentSchema {
 export interface Appointment extends AppointmentSchema, Document {}
 
 export const appointmentSchema = new mongoose.Schema<Appointment>({
-  issue: { type: Schema.Types.ObjectId, required: true },
+  issue: { type: Schema.Types.ObjectId, required: true, ref: IssueModel },
   datetime: { type: Date, required: true },
   description: { type: String, required: true },
   customer: { type: Schema.Types.ObjectId, required: true },

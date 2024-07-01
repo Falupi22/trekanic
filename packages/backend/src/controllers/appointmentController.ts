@@ -37,6 +37,40 @@ export const getIssues = asyncHandler(async (req, res) => {
   }
 })
 
+export const getAllMechanicsTakenTime = asyncHandler(async (req, res) => {
+  try {
+    if (!req.isAuthenticated()) {
+      res.status(HttpStatus.UNAUTHORIZED).send()
+      return
+    }
+    const mechanics: Mechanic[] = await MechanicModel.find()
+    const allAppointments: Appointment[] = await AppointmentModel.find().populate({
+      path: "issue",
+      populate: {
+        path: "category",
+      },
+    })
+    console.log(allAppointments)
+    const mechanicsTakenTime = await Promise.all(
+      mechanics.map(async (mechanic) => {
+        const mechanicAppointments = allAppointments.filter((appointment) => appointment.mechanic.equals(mechanic.id))
+        return {
+          mechanicId: mechanic._id,
+          appointments: mechanicAppointments.map((appointment) => {
+            const duration = ((appointment.issue as unknown as Issue).category as unknown as IssueCategory).duration
+            return new AppointmentTime(appointment.datetime, duration)
+          }),
+        }
+      }),
+    )
+
+    res.status(HttpStatus.OK).send(mechanicsTakenTime)
+  } catch (error) {
+    console.error("An error occurred:", error)
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).send("An error occurred")
+  }
+})
+
 export const getAppointments = asyncHandler(async (req, res) => {
   try {
     let statusCode: number = HttpStatus.BAD_REQUEST
@@ -57,6 +91,7 @@ export const getAppointments = asyncHandler(async (req, res) => {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).send("An error occurred")
   }
 })
+
 export const createAppointment = asyncHandler(async (req, res) => {
   try {
     if (!req.isAuthenticated()) {
