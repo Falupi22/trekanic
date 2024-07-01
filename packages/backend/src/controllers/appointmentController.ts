@@ -108,7 +108,9 @@ export const createAppointment = asyncHandler(async (req, res) => {
       return
     }
 
-    if (datetime.getHours() < openingTime || datetime.getHours() >= closingTime) {
+    const oneHourAfterNow = new Date(new Date().getTime() + 60 * 60 * 1000)
+    console.log(datetime >= oneHourAfterNow)
+    if (datetime < oneHourAfterNow || datetime.getHours() < openingTime || datetime.getHours() >= closingTime) {
       res.status(HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE).send()
       return
     }
@@ -189,15 +191,17 @@ export const editAppointment = asyncHandler(async (req, res) => {
     }
 
     const editedAppointment = jsonpatch.applyPatch(originalCopy, appointmentPatch).newDocument
-    const appointmentHour = new Date(editedAppointment.datetime).getHours()
+    const editedAppointmentDate = new Date(editedAppointment.datetime)
+    const appointmentHour = editedAppointmentDate.getHours()
 
     if (editedAppointment.description.length > 250) {
       res.status(HttpStatus.BAD_REQUEST).send()
       return
     }
 
+    const oneHourAfterNow = new Date(new Date().getTime() + 60 * 60 * 1000)
     if (
-      originalAppointment.datetime == editedAppointment.datetime ||
+      (editedAppointmentDate >= oneHourAfterNow && originalAppointment.datetime == editedAppointment.datetime) ||
       (appointmentHour > openingTime && appointmentHour < closingTime)
     ) {
       const appointmentIssue = await IssueModel.findById(editedAppointment.issue)
