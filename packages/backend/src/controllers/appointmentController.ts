@@ -5,6 +5,8 @@ import Mechanic, { MechanicModel } from "../models/Mechanic.model"
 import Issue, { IssueModel } from "../models/Issue.model"
 import { AppointmentTime } from "../utils"
 import IssueCategory, { IssueCategoryModel } from "../models/IssueCategory.model"
+import { ObjectId, Schema, Types } from "mongoose"
+import jsonpatch from "fast-json-patch"
 
 const openingTime = 8
 const closingTime = 22
@@ -72,6 +74,106 @@ export const createAppointment = asyncHandler(async (req, res) => {
 
     res.status(statusCode).send(appointment)
   } catch (error) {
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).send("An error occurred")
+  }
+})
+
+export const editAppointment = asyncHandler(async (req, res) => {
+  const appointmentId = req.body.appointmentId
+  const appointmentPatch = req.body.appointmentPatch
+
+  try {
+    if (!req.isAuthenticated()) {
+      res.status(HttpStatus.UNAUTHORIZED).send()
+      return
+    }
+
+    const originalAppointment: Appointment = await AppointmentModel.findById(appointmentId)
+    const originalCopy = {
+      id: originalAppointment._id,
+      datetime: originalAppointment.datetime,
+      issue: originalAppointment.issue,
+      description: originalAppointment.description,
+      customer: originalAppointment.customer,
+      mechanic: originalAppointment.mechanic,
+      product: originalAppointment.product,
+    }
+
+    if (!originalAppointment) {
+      res.status(HttpStatus.NOT_FOUND).send("Appointment not found")
+      return
+    }
+
+    const editedAppointment = jsonpatch.applyPatch(originalCopy, appointmentPatch).newDocument
+    const appointmentHour = new Date(editedAppointment.datetime).getHours()
+
+    if (editedAppointment.description.length > 250) {
+      res.status(HttpStatus.BAD_REQUEST).send()
+      return
+    }
+
+    if (
+      originalAppointment.datetime == editedAppointment.datetime ||
+      (appointmentHour > openingTime && appointmentHour < closingTime)
+    ) {
+      const appointmentIssue = await IssueModel.findById(editedAppointment.issue)
+
+      if (!appointmentIssue) {
+        res.status(HttpStatus.NOT_FOUND).send("Issue not found")
+        return
+      }
+
+      if (originalAppointment.datetime != editedAppointment.datetime) {
+        const currentAppointmentTime = new AppointmentTime(
+          new Date(editedAppointment.datetime),
+          appointmentIssue.duration,
+        )
+        const freeMechanics = await getFreeMechanicsByTime(currentAppointmentTime)
+
+        if (freeMechanics.length > 0) {
+          const newMechanicId = freeMechanics[0]?._id as Types.ObjectId
+          editedAppointment.mechanic = newMechanicId
+
+          await AppointmentModel.updateOne({ _id: editedAppointment.id }, editedAppointment)
+
+          // Exchanging mechanics.
+          if (originalAppointment.mechanic !== newMechanicId) {
+            await MechanicModel.findOneAndUpdate(
+              { _id: originalAppointment.mechanic },
+              {
+                $pull: {
+                  appointments: {
+                    _id: originalAppointment._id,
+                  },
+                },
+              },
+            )
+
+            await MechanicModel.findOneAndUpdate(
+              { _id: newMechanicId },
+              {
+                $push: {
+                  appointments: {
+                    _id: originalAppointment._id,
+                  },
+                },
+              },
+            )
+          }
+
+          res.status(HttpStatus.OK).send()
+        } else {
+          res.status(HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE).send("No available mechanics")
+        }
+      } else {
+        await AppointmentModel.updateOne({ _id: editedAppointment.id }, editedAppointment)
+        res.status(HttpStatus.OK).send()
+      }
+    } else {
+      res.status(HttpStatus.BAD_REQUEST).send("Invalid appointment time")
+    }
+  } catch (error) {
+    console.error("An error occurred:", error)
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).send("An error occurred")
   }
 })
