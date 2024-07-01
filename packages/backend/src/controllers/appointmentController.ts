@@ -5,8 +5,10 @@ import Mechanic, { MechanicModel } from "../models/Mechanic.model"
 import Issue, { IssueModel } from "../models/Issue.model"
 import { AppointmentTime } from "../utils"
 import IssueCategory, { IssueCategoryModel } from "../models/IssueCategory.model"
-import { ObjectId, Schema, Types } from "mongoose"
+import { Types } from "mongoose"
 import jsonpatch from "fast-json-patch"
+import { startSession } from "mongoose"
+import app from ".."
 
 const openingTime = 8
 const closingTime = 22
@@ -175,6 +177,54 @@ export const editAppointment = asyncHandler(async (req, res) => {
   } catch (error) {
     console.error("An error occurred:", error)
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).send("An error occurred")
+  }
+})
+
+export const deleteAppointment = asyncHandler(async (req, res) => {
+  const appointmentId = req.params.id
+
+  if (!req.isAuthenticated()) {
+    res.status(HttpStatus.UNAUTHORIZED).send()
+    return
+  }
+
+  let session
+
+  try {
+    session = await startSession()
+    session.startTransaction()
+    const originalAppointment = await AppointmentModel.findById(appointmentId).session(session)
+
+    if (!originalAppointment) {
+      res.status(HttpStatus.NOT_FOUND).send("Appointment not found")
+      return
+    }
+
+    await MechanicModel.findOneAndUpdate(
+      { _id: originalAppointment.mechanic },
+      {
+        $pull: {
+          appointments: {
+            _id: originalAppointment._id,
+          },
+        },
+      },
+      { session },
+    )
+
+    await AppointmentModel.deleteOne({ _id: appointmentId }, { session })
+
+    await session.commitTransaction()
+    session.endSession()
+
+    res.status(HttpStatus.OK).send()
+  } catch (error) {
+    if (session) {
+      await session.abortTransaction()
+      session.endSession()
+    }
+
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).send()
   }
 })
 
