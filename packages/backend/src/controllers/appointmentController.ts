@@ -8,11 +8,30 @@ import IssueCategory, { IssueCategoryModel } from "../models/IssueCategory.model
 import { Types } from "mongoose"
 import jsonpatch from "fast-json-patch"
 import { startSession } from "mongoose"
-import app from ".."
 
 const openingTime = 8
 const closingTime = 22
 
+export const getAppointments = asyncHandler(async (req, res) => {
+  try {
+    let statusCode: number = HttpStatus.BAD_REQUEST
+    let appointments: Appointment[] = []
+
+    if (req.isAuthenticated()) {
+      const userDoc = req.user as UserDocument
+      appointments = await AppointmentModel.find({ customer: userDoc.id })
+      statusCode = HttpStatus.OK
+    } else {
+      statusCode = HttpStatus.FORBIDDEN
+    }
+
+    res.status(statusCode)
+    res.send(appointments)
+  } catch (error) {
+    console.error("An error occurred: ", error)
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).send("An error occurred")
+  }
+})
 export const createAppointment = asyncHandler(async (req, res) => {
   try {
     if (!req.isAuthenticated()) {

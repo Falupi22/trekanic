@@ -12,8 +12,10 @@ export const login = asyncHandler(async (req, res, next) => {
   }
 
   if (!req.isAuthenticated()) {
-    if (await User.findOne({ email: user.email, password: user.password })) {
-      await new Promise((resolve) =>
+    const existingUser = await User.findOne({ email: user.email, password: user.password })
+    if (existingUser) {
+      await new Promise((resolve) => {
+        user["id"] = existingUser.id
         req.login(user, async function (error) {
           if (error) {
             console.log(error)
@@ -33,8 +35,8 @@ export const login = asyncHandler(async (req, res, next) => {
 
             resolve(null)
           }
-        }),
-      )
+        })
+      })
     } else {
       statusCode = HttpStatus.NOT_FOUND
     }
