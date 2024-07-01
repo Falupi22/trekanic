@@ -2,11 +2,11 @@ import { messageSchema } from "../helpers/schemas"
 import { createEvent } from "../helpers/socket"
 import { freeAppointment, storeAppointment } from "../managers/localAppointmentManager"
 
-const ROUTE_APPOINTMENTS = "appointments"
-const EVENT_APPOINTMENTS_STORE = "store"
-const EVENT_APPOINTMENTS_STORED = "stored"
-const EVENT_APPOINTMENTS_FREE = "free"
-const EVENT_APPOINTMENTS_FREED = "freed"
+export const ROUTE_APPOINTMENTS = "appointments"
+export const EVENT_APPOINTMENTS_STORE = "store"
+export const EVENT_APPOINTMENTS_STORED = "stored"
+export const EVENT_APPOINTMENTS_FREE = "free"
+export const EVENT_APPOINTMENTS_FREED = "freed"
 
 export const storeAppointmentEvent = createEvent(
   `${ROUTE_APPOINTMENTS}:${EVENT_APPOINTMENTS_STORE}`,

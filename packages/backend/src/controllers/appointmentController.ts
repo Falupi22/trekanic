@@ -8,6 +8,8 @@ import IssueCategory, { IssueCategoryModel } from "../models/IssueCategory.model
 import { Types } from "mongoose"
 import jsonpatch from "fast-json-patch"
 import { startSession } from "mongoose"
+import ws from "../ws/"
+import { EVENT_APPOINTMENTS_FREE, EVENT_APPOINTMENTS_STORE } from "../ws/events/message"
 
 const openingTime = 8
 const closingTime = 22
@@ -121,8 +123,6 @@ export const createAppointment = asyncHandler(async (req, res) => {
 
     const freeMechanics: Mechanic[] = await getFreeMechanicsByTime(currentAppointmentTime)
     const availableMechanics = freeMechanics.filter((mechanic) => mechanic !== null)
-    console.log("free mechanics: ", freeMechanics)
-    console.log("Available mechanics: ", availableMechanics)
     let appointment
 
     const userDoc = req.user as UserDocument
@@ -149,12 +149,15 @@ export const createAppointment = asyncHandler(async (req, res) => {
           },
         },
       )
+
+      ws.emitEvent(EVENT_APPOINTMENTS_STORE, appointment)
     }
 
     const statusCode = availableMechanics.length > 0 ? HttpStatus.OK : HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE
 
     res.status(statusCode).send(appointment)
   } catch (error) {
+    console.error(error)
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).send("An error occurred")
   }
 })
@@ -241,6 +244,8 @@ export const editAppointment = asyncHandler(async (req, res) => {
               },
             )
           }
+          ws.emitEvent(EVENT_APPOINTMENTS_FREE, originalAppointment)
+          ws.emitEvent(EVENT_APPOINTMENTS_STORE, editedAppointment)
 
           res.status(HttpStatus.OK).send()
         } else {
@@ -295,6 +300,7 @@ export const deleteAppointment = asyncHandler(async (req, res) => {
 
     await session.commitTransaction()
     session.endSession()
+    ws.emitEvent(EVENT_APPOINTMENTS_FREE, originalAppointment)
 
     res.status(HttpStatus.OK).send()
   } catch (error) {
@@ -324,13 +330,18 @@ const getFreeMechanicsByTime = async (currentAppointmentTime: AppointmentTime) =
       let free = true
 
       for (let index = 0; index < appointmentTimes.length && free; index++) {
-        console.log(appointmentTimes[index])
-        free =
-          !currentAppointmentTime.isSameDay(appointmentTimes[index]) ||
-          !(
-            appointmentTimes[index].compareTo(currentAppointmentTime.getEndTime()) > -1 ||
-            currentAppointmentTime.compareTo(appointmentTimes[index].getEndTime()) > -1
-          )
+        if (currentAppointmentTime.isSameDay(appointmentTimes[index])) {
+          free =
+            appointmentTimes[index].compareTo(currentAppointmentTime.datetime) !== 0 &&
+            (appointmentTimes[index].compareTo(currentAppointmentTime.getEndTime()) > -1 ||
+              currentAppointmentTime.compareTo(appointmentTimes[index].getEndTime()) > -1)
+        }
+
+        console.log("iteration appointment " + appointmentTimes[index].datetime)
+        console.log("current appointment " + currentAppointmentTime.datetime)
+        console.log("Before: " + appointmentTimes[index].compareTo(currentAppointmentTime.getEndTime()))
+        console.log("After: " + currentAppointmentTime.compareTo(appointmentTimes[index].getEndTime()))
+        console.log("Free: " + free)
       }
 
       return free ? mechanic : null // Return mechanic if free, otherwise null

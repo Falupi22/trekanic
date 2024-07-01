@@ -10,13 +10,15 @@ const appointments = new Map()
  */
 export const storeAppointment = (appointment, socketId, notifyTakenCallback, notifyFreedCallback) => {
   if (isValidAppointment(appointment)) {
-    appointments.set(appointment.datetime, {
+    appointments.set(appointment._id, {
       datetime: appointment.datetime,
+      duration: appointment.duration,
+      mechanic: appointment.mechanic,
       clientId: socketId,
     })
 
     // Notify all connected clients that the appointment is taken
-    notifyTakenCallback(appointment)
+    notifyTakenCallback(appointments[appointment._id])
 
     // Schedule a timeout to free the appointment if not saved
     setTimeout(() => {
@@ -31,9 +33,9 @@ export const storeAppointment = (appointment, socketId, notifyTakenCallback, not
  * @param notifyFreedCallback The callback to notify the client that the appointment has been freed.
  */
 export const freeAppointment = (appointment, notifyFreedCallback) => {
-  if (appointments.has(appointment.datetime)) {
-    appointments.delete(appointment.datetime)
-    notifyFreedCallback(appointment)
+  if (appointments.has(appointment._id)) {
+    appointments.delete(appointment._id)
+    notifyFreedCallback(appointments[appointment._id])
   }
 }
 
@@ -44,7 +46,7 @@ export const freeAppointment = (appointment, notifyFreedCallback) => {
 export const freeClientAppointments = (socketId) => {
   for (const appointment of appointments.values()) {
     if (appointment.clientId === socketId) {
-      appointments.delete(appointment.datetime)
+      appointments.delete(appointment._id)
     }
   }
 }

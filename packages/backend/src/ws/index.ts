@@ -1,21 +1,36 @@
 import { Server } from "socket.io"
 import { bindEvent } from "./helpers/socket"
-import * as messageHandlers from "./events/message"
+import { storeAppointmentEvent, freeAppointmentEvent } from "./events/message"
 import { freeClientAppointments } from "./managers/localAppointmentManager"
 
-export default (listener) => {
-  const handlers = Object.values({
-    ...messageHandlers,
-  })
+let server
 
-  const sio = new Server(listener)
-  sio.on("connection", (socket) => {
-    handlers.forEach((handler) => {
-      bindEvent(socket, handler)
-    })
+class WS {
+  private listener
+  private server
+  constructor() {
+    this.listener = null
+  }
 
-    socket.on("disconnect", () => {
-      freeClientAppointments(socket.id)
+  init(listener) {
+    const handlers = [storeAppointmentEvent, freeAppointmentEvent]
+    const server = new Server(listener)
+    this.listener = listener
+    this.server = server
+    server.on("connection", (socket) => {
+      handlers.forEach((handler) => {
+        bindEvent(socket, handler)
+      })
+
+      socket.on("disconnect", () => {
+        freeClientAppointments(socket.id)
+      })
     })
-  })
+  }
+
+  emitEvent = async (event, message) => {
+    this.server.sockets.emit(event, message)
+  }
 }
+
+export default new WS()
