@@ -12,6 +12,31 @@ import { startSession } from "mongoose"
 const openingTime = 8
 const closingTime = 22
 
+export const getIssues = asyncHandler(async (req, res) => {
+  try {
+    if (!req.isAuthenticated()) {
+      res.status(HttpStatus.UNAUTHORIZED).send()
+      return
+    }
+
+    const issues: Issue[] = await IssueModel.find({}).populate("category")
+
+    const groupedIssues = issues.reduce((acc, issue) => {
+      const key = (issue.category as unknown as IssueCategory).name
+      if (!acc[key]) {
+        acc[key] = []
+      }
+      acc[key].push(issue)
+      return acc
+    }, {})
+
+    res.status(HttpStatus.OK).send(groupedIssues)
+  } catch (error) {
+    console.error("An error occurred:", error)
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).send("An error occurred")
+  }
+})
+
 export const getAppointments = asyncHandler(async (req, res) => {
   try {
     let statusCode: number = HttpStatus.BAD_REQUEST
