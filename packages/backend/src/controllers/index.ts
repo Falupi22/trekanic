@@ -1,4 +1,4 @@
-import { login, logout } from "./sessionController"
+import { login, logout, authenticate } from "./sessionController"
 import {
   getIssues,
   getAllMechanicsTakenTime,
@@ -11,6 +11,7 @@ import {
 export {
   login,
   logout,
+  authenticate,
   getIssues,
   getAllMechanicsTakenTime,
   getAppointments,

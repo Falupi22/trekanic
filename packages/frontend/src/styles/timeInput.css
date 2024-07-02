@@ -1,0 +1,30 @@
+.time-slot-picker {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(calc(33.33% - 10px), 1fr));
+  gap: 10px;
+  justify-items: center;
+  align-items: flex-start;
+  margin: 20px;
+}
+
+.time-slot {
+  padding: 10px;
+  border: 1px solid #ccc;
+  background-color: #f2f2f2;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+}
+
+.time-slot:hover {
+  background-color: #d1d1d1;
+}
+
+.selected {
+  background-color: #80d8ff;
+}
+
+.selected:hover {
+  background-color: #80d8ff;
+}

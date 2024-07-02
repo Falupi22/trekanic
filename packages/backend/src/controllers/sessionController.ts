@@ -64,3 +64,14 @@ export const logout = asyncHandler(async (req, res, _next) => {
   res.status(statusCode)
   res.send()
 })
+
+export const authenticate = asyncHandler(async (req, res) => {
+  let statusCode: number = HttpStatus.FORBIDDEN
+
+  if (req.isAuthenticated()) {
+    statusCode = HttpStatus.OK
+  }
+
+  res.status(statusCode)
+  res.send()
+})
