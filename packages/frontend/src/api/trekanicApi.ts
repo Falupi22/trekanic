@@ -23,6 +23,9 @@ const api = {
   authenticate: function () {
     return axiosApi.get("authenticate")
   },
+  logout: function () {
+    return axiosApi.post("logout")
+  },
 }
 
 export default api

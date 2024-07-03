@@ -1,5 +1,6 @@
 import { extendTheme } from "@chakra-ui/react"
 import { FormLabel, Button, Heading, Link } from "./variants"
+import * as icons from "../assets/icons"
 
 const theme = extendTheme({
   components: {
@@ -7,6 +8,9 @@ const theme = extendTheme({
     FormLabel,
     Heading,
     Link,
+  },
+  icons: {
+    ...icons,
   },
 })
 

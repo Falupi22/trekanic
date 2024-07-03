@@ -22,7 +22,7 @@ import { AxiosError } from "axios"
 import { api } from "../api"
 import { useNavigate } from "react-router-dom"
 import { useToast } from "@chakra-ui/react"
-import { LockIcon, UnlockIcon } from "@chakra-ui/icons"
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons"
 import { requestFailedToast, wrongCredentialsToast } from "./alerts"
 
 const schema = yup.object().shape({
@@ -106,7 +106,7 @@ const Login = () => {
                   />
                   <InputRightElement>
                     <Button size="sm" onClick={handleShowClick}>
-                      {showPassword ? <UnlockIcon /> : <LockIcon />}
+                      {showPassword ? <ViewOffIcon /> : <ViewIcon />}
                     </Button>
                   </InputRightElement>
                 </InputGroup>

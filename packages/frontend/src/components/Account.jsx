@@ -1,10 +1,13 @@
-import { BrakeLogo, EllipsisLogo, FlatTireLogo, FrameLogo, PencilLogo, BinLogo, PlusLogo, CloseLogo, CheckLogo } from '../assets/icons'
+import { BrakeLogo, EllipsisLogo, FlatTireLogo, FrameLogo, PencilLogo, BinLogo, PlusLogo, CloseLogo, CheckLogo, LogOutIcon } from '../assets/icons'
 import '../styles/style.css'
 import Appointment from './Appointment'
 import Welcome from './general/Welcome'
 import { useState } from 'react'
 import AppointmentModal from './AppointmentModal'
 import Menu from './Menu'
+import { Button, Icon } from "@chakra-ui/react"
+import { useNavigate } from "react-router-dom"
+import { api } from "../api"
 
 export const mechanicNames = [
     'LeBron James',
@@ -64,6 +67,7 @@ function Account() {
     const [showNewAppointmentModal, setShowNewAppointmentModal] = useState(false)
     const [createMode, setCreateMode] = useState(true)
 
+    const navigate = useNavigate()
     const [title, setTitle] = useState('')
     const [mechanicId, setMechanicId] = useState(-1)
     const [categoryId, setCategoryId] = useState(-1)
@@ -81,14 +85,24 @@ function Account() {
 
     return (
         <div className="flex_component">
-            <Welcome userName="Tal" style="header" />
+            <Welcome userName="Tal" />
             <div className="d-flex flex-column" style={{ width: "60%" }}>
                 <div className="d-flex flex-row" style={{ justifyContent: "space-between", alignItems: "center" }}>
                     <h2 className="mt-5 mb-5">Your appointments</h2>
                     <button className="tiny_button transparent" onClick={createAppointment}>
                         <PlusLogo />
                     </button>
+                    <Button onClick={
+                        () => {
+                            api.logout().then(() => {
+                                navigate("/")
+                            }).catch(err => { });
+                        }
+                    }>
+                        <LogOutIcon />
+                    </Button>
                 </div>
+
             </div>
 
             <AppointmentModal

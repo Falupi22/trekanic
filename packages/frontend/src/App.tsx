@@ -1,4 +1,4 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom"
+import { Navigate, RouterProvider, createBrowserRouter } from "react-router-dom"
 import Login from "./components/Login"
 import "../src/styles/style.css"
 import Account from "./components/Account"
@@ -7,12 +7,19 @@ import { ChakraProvider } from "@chakra-ui/react"
 import Menu from "./components/Menu"
 import { theme } from "./theme/theme"
 import React from "react"
+import ErrorBoundary from "./components/ErrorRoute"
 
 function App() {
   const router = createBrowserRouter([
     {
       path: "/",
       element: <Login />,
+      errorElement: <ErrorBoundary />,
+    },
+    {
+      path: "/login",
+      element: <Navigate to="/" />,
+      errorElement: <ErrorBoundary />,
     },
     {
       path: "/home",
