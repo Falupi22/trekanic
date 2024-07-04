@@ -80,7 +80,20 @@ export const getAppointments = asyncHandler(async (req, res) => {
 
     if (req.isAuthenticated()) {
       const userDoc = req.user as UserDocument
-      appointments = await AppointmentModel.find({ customer: userDoc.id })
+      appointments = await AppointmentModel.find({ customer: userDoc.id }).populate([
+        {
+          path: "issue",
+          populate: {
+            path: "category",
+          },
+        },
+        {
+          path: "mechanic",
+        },
+        {
+          path: "product",
+        },
+      ])
       statusCode = HttpStatus.OK
     } else {
       statusCode = HttpStatus.FORBIDDEN

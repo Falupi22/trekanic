@@ -1,2 +1,4 @@
 import { theme } from "./theme"
-export { theme }
+import { getFormattedDate } from "./formats"
+
+export { theme, getFormattedDate }

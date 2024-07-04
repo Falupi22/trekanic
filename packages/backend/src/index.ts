@@ -6,7 +6,7 @@ import passport from "passport"
 import mongoose from "mongoose"
 import session from "express-session"
 import passportLocalMongoose from "passport-local-mongoose"
-import { User, setUserPlugin, setUserModel } from "./models"
+import { User } from "./models"
 import { Config } from "./config"
 import { appointmentRouter, sessionRouter } from "./routers"
 import ws from "./ws"
@@ -44,13 +44,6 @@ function setMiddlewares() {
   )
 }
 
-function setSchemaPlugins() {
-  setUserPlugin(passportLocalMongoose)
-
-  // The model itself is created ONLY after the plugin was set.
-  setUserModel()
-}
-
 function setPassport() {
   passport.use(User.createStrategy())
   passport.serializeUser((user, cb) => {
@@ -68,7 +61,6 @@ function setRoutes() {
 
 connectToDB()
 setMiddlewares()
-setSchemaPlugins()
 setPassport()
 setRoutes()
 startWS()

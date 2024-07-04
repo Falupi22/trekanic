@@ -3,7 +3,7 @@ import Login from "./components/Login"
 import "../src/styles/style.css"
 import Account from "./components/Account"
 import Test from "./components/Test"
-import { ChakraProvider } from "@chakra-ui/react"
+import { Box, ChakraProvider } from "@chakra-ui/react"
 import Menu from "./components/Menu"
 import { theme } from "./theme/theme"
 import React from "react"
@@ -38,8 +38,10 @@ function App() {
   return (
     <>
       <ChakraProvider theme={theme}>
-        <Menu />
-        <RouterProvider router={router} />
+        <Box bg="normal.100">
+          <Menu />
+          <RouterProvider router={router} />
+        </Box>
       </ChakraProvider>
     </>
   )

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FrameLogo } from "../assets/icons";
+import { FrameIcon } from "../assets/icons";
 
 function Test() {
     const [appointments, setAppointments] = useState([]);
@@ -16,7 +16,7 @@ function Test() {
 
     function showAddAppointment() {
         return <>
-            <p class="card-title" style={{ display: "flex", width: "100%", flexDirection: "row", justifyContent: "space-between"}}>
+            <p class="card-title" style={{ display: "flex", width: "100%", flexDirection: "row", justifyContent: "space-between" }}>
                 <h3>New Appointment</h3>
             </p>
             <div class="form-group">
@@ -29,7 +29,7 @@ function Test() {
                 <input type="text" value={appointmentDetail} onChange={event => setAppointmentDetail(event.target.value)} id="appointment-detail" class="form-control" placeholder="Your title here..."></input>
             </div>
 
-            <div class="d-flex flex-row" style={{gap: "10px"}}>
+            <div class="d-flex flex-row" style={{ gap: "10px" }}>
                 <button type="submit" class="btn btn-primary" onClick={addNewAppointment}>Submit</button>
                 <button class="btn btn-primary" onClick={cancelNewAppointment}>Cancel</button>
             </div>
@@ -42,7 +42,7 @@ function Test() {
             title: appointmentTitle,
             mechanicName: appointmentDetail,
             time: new Date(Date.now()).toDateString(),
-            iconPath: <FrameLogo/>
+            iconPath: <FrameIcon />
         }
 
         setAppointments([
@@ -88,7 +88,7 @@ function Test() {
 
 
     return <div class="card-body" style={{
-        display: "flex", 
+        display: "flex",
         justifyContent: "center",
         alignContent: "center",
         flexDirection: "column",
@@ -112,41 +112,41 @@ function Test() {
 
 
 
-        {appointments.map(appointment => <div class="card" style={{ width: "100%", alignSelf: "center"}}> 
-    <div class="card-header">
-        <div class="d-flex flex-row" style={{gap: "10px", justifyContent: "space-between"}}>
-            {selectedAppointmentId === appointment.id ?
-                <input type="text" value={editedAppointmentTitle} onChange={event => setEditedAppointmentTitle(event.target.value)} id="appointment-detail" class="form-control" placeholder="New title..."></input>
-                :
-                <strong>{appointment.title}</strong>
-            }
-            <div class="d-flex flex-row" style={{gap: "10px"}}>
-                {selectedAppointmentId === appointment.id ?
-                <>
-                    <button type="button" onClick={cancelEdit} class="btn btn-primary">Cancel</button>
-                    <button type="button" onClick={() => saveAppointment(appointment)} class="btn btn-success">Save</button>
-                </>
-                :
-                    <button type="button" onClick={() => editAppointment(appointment)} class="btn btn-secondary">Edit</button>
-                }
-                <button type="button" onClick={() => removeAppointment(appointment.id)} class="btn btn-danger">Remove</button>
+        {appointments.map(appointment => <div class="card" style={{ width: "100%", alignSelf: "center" }}>
+            <div class="card-header">
+                <div class="d-flex flex-row" style={{ gap: "10px", justifyContent: "space-between" }}>
+                    {selectedAppointmentId === appointment.id ?
+                        <input type="text" value={editedAppointmentTitle} onChange={event => setEditedAppointmentTitle(event.target.value)} id="appointment-detail" class="form-control" placeholder="New title..."></input>
+                        :
+                        <strong>{appointment.title}</strong>
+                    }
+                    <div class="d-flex flex-row" style={{ gap: "10px" }}>
+                        {selectedAppointmentId === appointment.id ?
+                            <>
+                                <button type="button" onClick={cancelEdit} class="btn btn-primary">Cancel</button>
+                                <button type="button" onClick={() => saveAppointment(appointment)} class="btn btn-success">Save</button>
+                            </>
+                            :
+                            <button type="button" onClick={() => editAppointment(appointment)} class="btn btn-secondary">Edit</button>
+                        }
+                        <button type="button" onClick={() => removeAppointment(appointment.id)} class="btn btn-danger">Remove</button>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-    <div class="card-body">
-      <p class="card-title" style={{ display: "flex", width: "100%", flexDirection: "row", justifyContent: "space-between"}}>
-          {selectedAppointmentId === appointment.id ?
-            <input type="text" value={editedAppointmentDetail} onChange={event => setEditedAppointmentDetail(event.target.value)} id="appointment-detail" class="form-control" placeholder="New detail..."></input>
-            :
-            <em>{appointment.mechanicName}</em>
-          }
-        <div style={{width: "3em", height: "3em"}}>
-            {appointment.iconPath}
-        </div>
-        </p>
-      <p class="card-text">{appointment.time}</p>
-      </div>
-    </div>)}
+            <div class="card-body">
+                <p class="card-title" style={{ display: "flex", width: "100%", flexDirection: "row", justifyContent: "space-between" }}>
+                    {selectedAppointmentId === appointment.id ?
+                        <input type="text" value={editedAppointmentDetail} onChange={event => setEditedAppointmentDetail(event.target.value)} id="appointment-detail" class="form-control" placeholder="New detail..."></input>
+                        :
+                        <em>{appointment.mechanicName}</em>
+                    }
+                    <div style={{ width: "3em", height: "3em" }}>
+                        {appointment.iconPath}
+                    </div>
+                </p>
+                <p class="card-text">{appointment.time}</p>
+            </div>
+        </div>)}
     </div>
 }
 
@@ -156,10 +156,10 @@ function generateRandomString(length = 16) {
     let result = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const charactersLength = characters.length;
-  
+
     for (let i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
-  
+
     return result;
-  };
+};

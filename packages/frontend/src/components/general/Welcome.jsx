@@ -1,3 +1,5 @@
+import { Heading } from "@chakra-ui/react"
+
 function Welcome(props) {
     const hour = new Date().getHours()
 
@@ -21,9 +23,9 @@ function Welcome(props) {
     }
 
     greeting += props.userName
-    return <div className={props.style + " alert alert-dark"} role="alert">
+    return <Heading fontSize="3xl">
         {greeting}
-    </div>
+    </Heading>
 }
 
 export default Welcome;

@@ -74,19 +74,12 @@ const Login = () => {
   const handleShowClick = () => setShowPassword(!showPassword)
 
   return (
-    <Flex
-      flexDirection="column"
-      width="100wh"
-      height="100vh"
-      backgroundColor="gray.200"
-      justifyContent="center"
-      alignItems="center"
-    >
+    <Flex flexDirection="column" width="100wh" height="100vh" justifyContent="center" alignItems="center">
       <Stack flexDir="column" mb="6" justifyContent="center" alignItems="center">
         <Heading fontSize="4xl">Welcome to our mechanic services!</Heading>
         <Box minW={{ base: "90%", md: "468px" }}>
           <Form onSubmit={handleSubmit(onSubmit)}>
-            <Stack spacing={4} p="1rem" backgroundColor="whiteAlpha.900" boxShadow="md">
+            <Stack spacing={4} p="1rem" backgroundColor="whiteAlpha.900" borderRadius="3px" boxShadow="md">
               <FormControl isInvalid={!!errors?.email?.message}>
                 <InputGroup>
                   <FormLabel>Email</FormLabel>

@@ -26,6 +26,12 @@ const api = {
   logout: function () {
     return axiosApi.post("logout")
   },
+  getAppointments: function () {
+    return axiosApi.get("appointment")
+  },
+  cancelAppointment: function (id: string) {
+    return axiosApi.delete(`appointment/delete/${id}`)
+  },
 }
 
 export default api

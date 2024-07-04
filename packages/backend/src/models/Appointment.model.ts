@@ -1,5 +1,8 @@
 import mongoose, { Document, Schema } from "mongoose"
 import { IssueModel } from "./Issue.model"
+import { User } from "./User.model"
+import { MechanicModel } from "./Mechanic.model"
+import ProductModel from "./Product.model"
 
 interface AppointmentSchema {
   issue: mongoose.Types.ObjectId
@@ -16,9 +19,9 @@ export const appointmentSchema = new mongoose.Schema<Appointment>({
   issue: { type: Schema.Types.ObjectId, required: true, ref: IssueModel },
   datetime: { type: Date, required: true },
   description: { type: String, required: true },
-  customer: { type: Schema.Types.ObjectId, required: true },
-  mechanic: { type: Schema.Types.ObjectId, required: true },
-  product: { type: Schema.Types.ObjectId, required: true },
+  customer: { type: Schema.Types.ObjectId, required: true, ref: User },
+  mechanic: { type: Schema.Types.ObjectId, required: true, ref: MechanicModel },
+  product: { type: Schema.Types.ObjectId, required: true, ref: ProductModel },
 })
 
 export const AppointmentModel = mongoose.model("Appointment", appointmentSchema, "appointments")

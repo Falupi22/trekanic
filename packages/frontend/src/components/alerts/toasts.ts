@@ -15,10 +15,17 @@ const wrongCredentialsToast: Toast = {
 }
 
 const requestFailedToast: Toast = {
-  title: "Request failed. Check your internet connection",
+  title: "Request failed.",
   status: "error",
   duration: 5000,
   isClosable: true,
 }
 
-export { wrongCredentialsToast, requestFailedToast }
+const requestSucceeded: Toast = {
+  title: "Request succeeded!",
+  status: "success",
+  duration: 5000,
+  isClosable: true,
+}
+
+export { wrongCredentialsToast, requestFailedToast, requestSucceeded }
