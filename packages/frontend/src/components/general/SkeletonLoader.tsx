@@ -4,9 +4,9 @@ import React from "react"
 const SkeletonLoader = () => {
   return (
     <>
-      <Skeleton h="23vh" w="40em" mb={2} />
-      <Skeleton h="23vh" w="40em" mb={2} />
-      <Skeleton h="23vh" w="40em" mb={2} />
+      <Skeleton startColor="dark.200" endColor="dark.100" h="18vh" w="50em" mb={2} borderRadius="10px" />
+      <Skeleton startColor="dark.200" endColor="dark.100" h="18vh" w="50em" mb={2} borderRadius="10px" />
+      <Skeleton startColor="dark.200" endColor="dark.100" h="18vh" w="50em" mb={2} borderRadius="10px" />
     </>
   )
 }

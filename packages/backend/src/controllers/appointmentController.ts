@@ -60,7 +60,12 @@ export const getAllMechanicsTakenTime = asyncHandler(async (req, res) => {
           mechanicId: mechanic._id,
           appointments: mechanicAppointments.map((appointment) => {
             const duration = ((appointment.issue as unknown as Issue).category as unknown as IssueCategory).duration
-            return new AppointmentTime(appointment.datetime, duration)
+            const data = {
+              datetime: appointment.datetime,
+              duration: duration,
+              customer: appointment.customer
+            }
+            return data
           }),
         }
       }),

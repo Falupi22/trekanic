@@ -32,6 +32,21 @@ const api = {
   cancelAppointment: function (id: string) {
     return axiosApi.delete(`appointment/delete/${id}`)
   },
+  getIssues: function () {
+    return axiosApi.get("appointment/issue")
+  },
+  createAppointment: function (appointment) {
+    return axiosApi.post("appointment/create", appointment);
+  },
+  editAppointment: function (appointmentId, appointmentPatch) {
+    return axiosApi.patch("appointment/edit", {
+      appointmentId,
+      appointmentPatch
+    });
+  },
+  getTakenDates: function () {
+    return axiosApi.get("appointment/taken-time");
+  }
 }
 
 export default api

@@ -1,5 +1,5 @@
 const APPOINTMENT_TIMEOUT = 300000 // 5 minutes in milliseconds
-const appointments = new Map()
+export const appointments = new Map()
 
 /*
  * Stores an appointment in the appointments Map.
@@ -9,22 +9,24 @@ const appointments = new Map()
  * @param notifyFreedCallback The callback to notify the client that the appointment has been freed.
  */
 export const storeAppointment = (appointment, socketId, notifyTakenCallback, notifyFreedCallback) => {
-  if (isValidAppointment(appointment)) {
-    appointments.set(appointment._id, {
-      datetime: appointment.datetime,
-      duration: appointment.duration,
-      mechanic: appointment.mechanic,
-      clientId: socketId,
-    })
+  console.log("storeAppointment")
+  console.log("Appointment stored: ", appointment.data);
+  const appointmentData = appointment.data
+  appointments.set(socketId, {
+    datetime: appointmentData.datetime,
+    duration: appointmentData?.duration ?? 1,
+    customer: appointmentData?.customer,
+    mechanic: "default",
+    clientId: socketId,
+  })
 
-    // Notify all connected clients that the appointment is taken
-    notifyTakenCallback(appointments[appointment._id])
+  // Notify all connected clients that the appointment is taken
+  notifyTakenCallback(appointments.get(socketId))
 
-    // Schedule a timeout to free the appointment if not saved
-    setTimeout(() => {
-      freeAppointment(appointment, notifyFreedCallback)
-    }, APPOINTMENT_TIMEOUT)
-  }
+  // Schedule a timeout to free the appointment if not saved
+  setTimeout(() => {
+    freeAppointment(appointmentData, socketId, notifyFreedCallback)
+  }, APPOINTMENT_TIMEOUT)
 }
 
 /*
@@ -32,10 +34,14 @@ export const storeAppointment = (appointment, socketId, notifyTakenCallback, not
  * @param appointment The appointment to free.
  * @param notifyFreedCallback The callback to notify the client that the appointment has been freed.
  */
-export const freeAppointment = (appointment, notifyFreedCallback) => {
-  if (appointments.has(appointment._id)) {
-    appointments.delete(appointment._id)
-    notifyFreedCallback(appointments[appointment._id])
+export const freeAppointment = (appointment, socketId, notifyFreedCallback) => {
+  let appointmentToDelete;
+  if (appointments.has(socketId)) {
+    appointmentToDelete = appointments.get(socketId)
+    appointments.delete(socketId)
+    console.log("Appointment deleted: ", appointment.data);
+
+    notifyFreedCallback(appointmentToDelete)
   }
 }
 
@@ -44,13 +50,7 @@ export const freeAppointment = (appointment, notifyFreedCallback) => {
  * @param socketId The socket id of the client.
  */
 export const freeClientAppointments = (socketId) => {
-  for (const appointment of appointments.values()) {
-    if (appointment.clientId === socketId) {
-      appointments.delete(appointment._id)
-    }
+  if (appointments.has(socketId)) {
+    appointments.delete(socketId)
   }
-}
-
-function isValidAppointment(appointment) {
-  return appointment && appointment.datetime && appointment.issue && appointment.Issue.duration && appointment.clientId
 }

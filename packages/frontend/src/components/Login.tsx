@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import {
   Flex,
   Heading,
@@ -7,11 +7,13 @@ import {
   InputGroup,
   Stack,
   Box,
+  Text,
   Link,
   FormControl,
   InputRightElement,
   FormLabel,
   FormErrorMessage,
+  HStack,
 } from "@chakra-ui/react"
 import { useForm, Controller } from "react-hook-form"
 import React from "react"
@@ -20,10 +22,11 @@ import * as yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { AxiosError } from "axios"
 import { api } from "../api"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useLocation } from "react-router-dom"
 import { useToast } from "@chakra-ui/react"
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons"
 import { requestFailedToast, wrongCredentialsToast } from "./alerts"
+import { AppointmentOptionsContext } from "../storage"
 
 const schema = yup.object().shape({
   email: yup.string().required().email(),
@@ -32,6 +35,8 @@ const schema = yup.object().shape({
 
 const Login = () => {
   const navigate = useNavigate()
+  const location = useLocation()
+  const { setEmail, setUserId } = useContext(AppointmentOptionsContext)
 
   useEffect(() => {
     async function fetch() {
@@ -40,10 +45,10 @@ const Login = () => {
         .then((value) => {
           if (value.status === 200) navigate("/account")
         })
-        .catch((error) => {})
+        .catch((error) => { })
     }
     fetch()
-  }, [navigate])
+  }, [])
   const {
     control,
     handleSubmit,
@@ -57,6 +62,8 @@ const Login = () => {
       api
         .login(data.email, data.password)
         .then((value) => {
+          setEmail(data.email)
+          setUserId(data.userId)
           navigate("/account")
         })
         .catch((error) => {
@@ -74,18 +81,18 @@ const Login = () => {
   const handleShowClick = () => setShowPassword(!showPassword)
 
   return (
-    <Flex flexDirection="column" width="100wh" height="100vh" justifyContent="center" alignItems="center">
+    <Flex flexDirection="column" width="100wh" height="100%" justifyContent="center" alignItems="center">
       <Stack flexDir="column" mb="6" justifyContent="center" alignItems="center">
         <Heading fontSize="4xl">Welcome to our mechanic services!</Heading>
         <Box minW={{ base: "90%", md: "468px" }}>
           <Form onSubmit={handleSubmit(onSubmit)}>
-            <Stack spacing={4} p="1rem" backgroundColor="whiteAlpha.900" borderRadius="3px" boxShadow="md">
+            <Stack spacing={4} p="1rem" backgroundColor="dark.200" borderRadius="5px" boxShadow="md">
               <FormControl isInvalid={!!errors?.email?.message}>
                 <InputGroup>
                   <FormLabel>Email</FormLabel>
-                  <Controller name="email" control={control} render={({ field }) => <Input {...field} />} />
+                  <Controller name="email" control={control} render={({ field }) => <Input bg="white" {...field} placeholder="Email" />} />
                 </InputGroup>
-                <FormErrorMessage>{errors?.email?.message}</FormErrorMessage>
+                <FormErrorMessage><Text variant="errorDark">{errors?.email?.message}</Text></FormErrorMessage>
               </FormControl>
               <FormControl isInvalid={!!errors.password}>
                 <InputGroup>
@@ -94,7 +101,7 @@ const Login = () => {
                     name="password"
                     control={control}
                     render={({ field }) => (
-                      <Input type={showPassword ? "text" : "password"} placeholder="Password" {...field} />
+                      <Input type={showPassword ? "text" : "password"} placeholder="Password" bg="white"  {...field} />
                     )}
                   />
                   <InputRightElement>
@@ -103,7 +110,7 @@ const Login = () => {
                     </Button>
                   </InputRightElement>
                 </InputGroup>
-                <FormErrorMessage>{errors?.password?.message}</FormErrorMessage>
+                <FormErrorMessage><Text variant="errorDark">{errors?.password?.message}</Text></FormErrorMessage>
               </FormControl>
               <Button type="submit" variant="solid" width="full">
                 Login
@@ -112,12 +119,14 @@ const Login = () => {
           </Form>
         </Box>
       </Stack>
-      <Box>
-        Forgot password? <Link>Change password</Link>
-      </Box>
-      <Box>
-        New to us? <Link>Sign Up</Link>
-      </Box>
+      <HStack>
+        <Text>
+          Forgot password? </Text><Link>Change password</Link>
+      </HStack>
+      <HStack>
+        <Text>
+          New to us?  </Text><Link href="https://www.ctc.co.il/">Sign Up</Link>
+      </HStack>
     </Flex>
   )
 }

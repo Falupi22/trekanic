@@ -45,7 +45,11 @@ export const login = asyncHandler(async (req, res, next) => {
   }
 
   res.status(statusCode)
-  res.send()
+  let result = {}
+  if (statusCode === HttpStatus.OK) {
+    result = { id: user["id"], email: user.email }
+  }
+  res.send(result)
 })
 
 export const logout = asyncHandler(async (req, res, _next) => {

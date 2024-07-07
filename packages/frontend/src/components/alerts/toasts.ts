@@ -28,4 +28,11 @@ const requestSucceeded: Toast = {
   isClosable: true,
 }
 
-export { wrongCredentialsToast, requestFailedToast, requestSucceeded }
+const NoChangedHaveBeenMade: Toast = {
+  title: "No changed have been made.",
+  status: "info",
+  duration: 5000,
+  isClosable: true,
+}
+
+export { wrongCredentialsToast, requestFailedToast, requestSucceeded, NoChangedHaveBeenMade }

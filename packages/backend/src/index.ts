@@ -65,7 +65,7 @@ setPassport()
 setRoutes()
 startWS()
 
-app.listen(Config.port, () => {
+httpServer.listen(Config.port, () => {
   console.log(`Express is listening at http://localhost:${Config.port}!`)
 })
 

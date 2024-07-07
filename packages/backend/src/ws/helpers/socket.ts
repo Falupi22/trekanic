@@ -21,13 +21,8 @@ export const createEvent = (name, validationSchema, fn) => {
  */
 export const bindEvent = (socket, { name, validationSchema, fn }) => {
   socket.on(name, (payload = {}) => {
-    if (validationSchema) {
-      const { error } = validationSchema.validate(payload)
+    console.log("Cvalidation " + JSON.stringify(payload))
 
-      if (error) {
-        return socket.emit(name, { error })
-      }
-    }
     return fn(socket, payload)
   })
 }

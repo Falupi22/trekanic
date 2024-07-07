@@ -4,7 +4,6 @@ import colors from "./colors"
 const Button = defineStyleConfig({
   // The styles all button have in common
   baseStyle: {
-    fontWeight: "bold",
     textTransform: "uppercase",
     borderRadius: "base", // <-- border radius is same for all variants and sizes
   },
@@ -36,19 +35,20 @@ const Button = defineStyleConfig({
       width: "1em",
     },
     solid: {
-      bg: "red.500",
-      color: "whiteAlpha.900",
-      _hover: { bg: "red.600" },
+      size: "xs",
+      bg: colors.dark[100],
+      color: "black",
+      _hover: { bg: colors.dark[75] },
     },
     square: {
-      size: "sm",
-      color: "black",
+      size: "xs",
+      color: colors.dark[100],
       p: "0",
-      bg: colors.normal[100],
-      _hover: { bg: colors.normal[200] },
+      bg: colors.dark[400],
+      _hover: { bg: colors.dark[200] },
     },
     alert: {
-      _hover: { bg: colors.normal[100] },
+      _hover: { bg: colors.dark[200] },
     },
   },
   // The default size and variant values
@@ -62,6 +62,7 @@ const IconButton = Button
 
 const FormLabel = defineStyleConfig({
   baseStyle: {
+    color: colors.dark['50'],
     alignContent: "center",
   },
 })
@@ -69,8 +70,66 @@ const FormLabel = defineStyleConfig({
 const Heading = defineStyleConfig({
   baseStyle: {
     margin: "1em 1em 1em 1em",
-  },
+    color: colors.dark[100],
+    fontFamily: "Arial"
+  }
 })
+
+const Text = defineStyleConfig({
+  baseStyle: {
+    color: colors.dark[50],
+    fontFamily: "Arial",
+    foreText:
+      { color: colors.dark[50], }
+  }, variants: {
+    error: {
+      color: "red.300",
+    }, errorDark: {
+      color: "red.700",
+    }
+  }
+})
+
+const Input = defineStyleConfig({
+  baseStyle: {
+    color: colors.dark[500],
+    bg: "white",
+  }, variants: {
+    normal:
+      { bg: "white" }
+  }
+})
+
+const Select = defineStyleConfig({
+  baseStyle: {
+    bg: "white",
+  }, variants: {
+    normal:
+      { bg: "white" }
+  }
+})
+
+const TextBox = defineStyleConfig({
+  baseStyle: {
+    bg: "white",
+    color: colors.dark[500],
+    _placeholder: { color: colors.dark[200] }
+  }, variants: {
+    normal:
+      { bg: "white" }
+  }
+})
+
+const Textarea = defineStyleConfig({
+  baseStyle: {
+    bg: "white",
+    _placeholder: { color: colors.dark[200] }
+  }, variants: {
+    normal:
+      { bg: "white", _placeholder: { color: colors.dark[200] } }
+  }
+})
+
 
 const Link = defineStyleConfig({
   baseStyle: {
@@ -102,4 +161,4 @@ const Flex = defineStyleConfig({
   },
 })
 
-export { Button, IconButton, FormLabel, Heading, Link, Flex }
+export { Button, IconButton, FormLabel, Heading, Link, Flex, Text, Input, Textarea, TextBox, Select }

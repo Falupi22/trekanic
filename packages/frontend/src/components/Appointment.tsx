@@ -1,7 +1,6 @@
-import { DeleteIcon, EditIcon, HamburgerIcon, TimeIcon } from "@chakra-ui/icons" // Import icons as needed
+import { DeleteIcon, EditIcon, HamburgerIcon } from "@chakra-ui/icons"; // Import icons as needed
 import {
   Badge,
-  Box,
   Card,
   Flex,
   HStack,
@@ -11,20 +10,74 @@ import {
   Text,
   useDisclosure,
   useToast,
-  VStack,
+  VStack
 } from "@chakra-ui/react"
-import React, { useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { api } from "../api"
+import { AppointmentOptionsContext } from "../storage"
 import { getFormattedDate } from "../theme"
+import getTakenDays from "../utils/appointmentDateUtils"
 import { EnsureDialog } from "./alerts"
 import { requestFailedToast, requestSucceeded } from "./alerts/toasts"
+import AppointmentDetailsPanel from "./modals/AppointmentDetailsPanel"
 
 const Appointment = ({ appointment, deleteCallback }) => {
   const { _id, issue, datetime, description, mechanic, product } = appointment
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [descriptionOfProblem, setDescriptionOfProblem] = useState(description)
+  const [issueOfInterest, setIssueOfInterest] = useState(issue)
+  const [productToFix, setProductToFix] = useState(product)
+  const [dateAndTime, setDateAndTime] = useState(datetime)
+  const [mechanicInCharge, setMechanicInCharge] = useState(mechanic)
   const [displayEllipsis, setDisplayEllipsis] = useState(false)
   const cancelRef = React.useRef()
   const toast = useToast()
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen: isOpenEdit, onOpen: onOpenEdit, onClose: onCloseEdit } = useDisclosure()
+  const initialRefEdit = React.useRef(null)
+  const finalRefEdit = React.useRef(null)
+  const { takenDates, setTakenDates } = useContext(AppointmentOptionsContext)
+
+  useEffect(() => {
+    setDescriptionOfProblem(description)
+    setIssueOfInterest(issue)
+    setProductToFix(product)
+    setDateAndTime(datetime)
+    setMechanicInCharge(mechanic)
+  }, [])
+
+  const onOpenEditCallback = () => {
+    api
+      .getTakenDates()
+      .then((res) => {
+        console.log(res.data)
+        const takenSavedDates: Array<any> = getTakenDays(res.data);
+        const allTakenDates = []
+        allTakenDates.push(...takenSavedDates, ...takenDates)
+        setTakenDates([...allTakenDates])
+        onOpenEdit()
+      }).catch((err) => {
+        toast(requestFailedToast)
+      })
+  }
+
+  const onEditCompleted = (appointment) => {
+    api
+      .getAppointments()
+      .then((res) => {
+        const currentAppointment = res.data?.map(existingAppointment => existingAppointment._id === _id)
+        console.log(currentAppointment)
+        if (currentAppointment) {
+          setDescriptionOfProblem(currentAppointment.description)
+          setIssueOfInterest(currentAppointment.issue)
+          setProductToFix(currentAppointment.product)
+          setDateAndTime(currentAppointment.datetime)
+          setMechanicInCharge(currentAppointment.mechanic)
+        }
+      })
+      .catch((err) => {
+        toast(requestFailedToast)
+      })
+  }
 
   const handleMouseEnter = () => {
     setDisplayEllipsis(true)
@@ -49,57 +102,54 @@ const Appointment = ({ appointment, deleteCallback }) => {
   }
 
   return (
-    <Card maxH="10em" bg="normal.200" pb="0.5" pl="3" pt="0.5" mr="0.5" ml="0.5" mt="0.8" w="40em" shadow="xs">
-      <Flex align="center" m="1">
-        <Image w="1.5em" mr="2" mb="1" src={`data:image/svg+xml;utf8,${encodeURIComponent(issue.category.iconPath)}`} />
-        <Text fontWeight="bold"> {issue.description}</Text>
+    <Card maxH="10em" bg="dark.300" m={1} w="98%" shadow="xs">
+      <Flex align="center" w="100%" bg="dark.400" p={2}>
+        <Image w="1.5em" mr={3} src={`data:image/svg+xml;utf8,${encodeURIComponent(issueOfInterest?.category?.iconPath)}`} />
+        <Text fontWeight="bold"> {issueOfInterest?.description}</Text>
         <Spacer />
-        <Badge>{product.name}</Badge>
-        <HStack onMouseEnter={handleMouseEnter} bg="normal.200" onMouseLeave={handleMouseLeave}>
+        <Badge bg="dark.200">{productToFix.name}</Badge>
+        <HStack onMouseEnter={handleMouseEnter} bg="dark.400" onMouseLeave={handleMouseLeave} ml={2} mr="3">
           {displayEllipsis ? (
             <HStack>
               {" "}
               <IconButton
                 aria-label="Ellipsis"
                 variant="square"
-                bg="normal.200"
                 size="sm"
-                _hover={{ border: "1px solid gray" }}
+                _hover={{ border: "1px solid white" }}
                 icon={<EditIcon />}
                 ml="4"
+                onClick={onOpenEditCallback}
               />
               <IconButton
                 aria-label="Ellipsis"
                 variant="square"
-                bg="normal.200"
                 size="sm"
-                _hover={{ border: "1px solid gray" }}
+                _hover={{ border: "1px solid white" }}
                 icon={<DeleteIcon />}
                 onClick={onOpen}
               />
+
             </HStack>
           ) : null}
 
+          <AppointmentDetailsPanel appointmentToEdit={appointment} operationCallback={onEditCompleted} isOpen={isOpenEdit} onClose={onCloseEdit} initialRef={initialRefEdit} finalRef={finalRefEdit} />
           <IconButton
             aria-label="Ellipsis"
             variant="square"
-            bg="normal.200"
             size="sm"
-            _hover={{ border: "1px solid gray" }}
+            _hover={{ border: "1px solid dark.50" }}
             icon={<HamburgerIcon />}
           />
         </HStack>
         <EnsureDialog isOpen={isOpen} onCommit={cancelAppointment} onCancel={onClose} cancelRef={cancelRef} />
       </Flex>
-      <VStack align="start" spacing="0.8">
-        <Text fontSize="sm">{description}</Text>
-        <Text fontSize="sm">{mechanic.fullName}</Text>
-        <Text fontSize="sm">{getFormattedDate(datetime)}</Text>
-        <Text fontSize="sm"> ₪{issue.price}</Text>
+      <VStack align="start" spacing="0.8" p={2}>
+        <Text fontSize="sm">{descriptionOfProblem}</Text>
+        <Text fontSize="sm">{mechanicInCharge?.fullName}</Text>
+        <Text fontSize="sm">{getFormattedDate(dateAndTime)}</Text>
+        <Text fontSize="sm"> ₪{issueOfInterest?.price}</Text>
       </VStack>
-      <Box textAlign="right" mb="0.1" mr="2">
-        <TimeIcon color="green" />
-      </Box>
     </Card>
   )
 }
