@@ -13,7 +13,7 @@ export class AppointmentTime {
 
   isSameDay(appointmentTime: AppointmentTime): boolean {
     return (
-      this.datetime.getDay() == appointmentTime.datetime.getDay() &&
+      this.datetime.getDate() == appointmentTime.datetime.getDate() &&
       this.datetime.getMonth() == appointmentTime.datetime.getMonth() &&
       this.datetime.getFullYear() == appointmentTime.datetime.getFullYear()
     )

@@ -1,4 +1,5 @@
-import ResponsiveDayPicker from "./ResponsiveDayPicker";
-import Sidebar from "./Sidebar";
+import ResponsiveDayPicker from "./ResponsiveDayPicker"
+import Sidebar from "./Sidebar"
+import SkeletonLoader from "./SkeletonLoader"
 
-export { ResponsiveDayPicker, Sidebar }
+export { ResponsiveDayPicker, Sidebar, SkeletonLoader }

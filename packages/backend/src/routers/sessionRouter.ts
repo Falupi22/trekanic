@@ -1,5 +1,6 @@
 import { Router } from "express"
 import { login, logout, authenticate } from "../controllers"
+import passport from "passport"
 
 const sessionRouter = Router()
 

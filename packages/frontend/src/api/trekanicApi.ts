@@ -29,6 +29,9 @@ const api = {
   getAppointments: function () {
     return axiosApi.get("appointment")
   },
+  getAppointmentsOfAllUsers: function (month: number, year: number) {
+    return axiosApi.get(`appointment/${month}/${year}`)
+  },
   cancelAppointment: function (id: string) {
     return axiosApi.delete(`appointment/delete/${id}`)
   },
@@ -36,17 +39,20 @@ const api = {
     return axiosApi.get("appointment/issue")
   },
   createAppointment: function (appointment) {
-    return axiosApi.post("appointment/create", appointment);
+    return axiosApi.post("appointment/create", appointment)
   },
   editAppointment: function (appointmentId, appointmentPatch) {
     return axiosApi.patch("appointment/edit", {
       appointmentId,
-      appointmentPatch
-    });
+      appointmentPatch,
+    })
   },
   getTakenDates: function () {
-    return axiosApi.get("appointment/taken-time");
-  }
+    return axiosApi.get("appointment/taken-time")
+  },
+  getMechanics: function () {
+    return axiosApi.get("appointment/mechanic")
+  },
 }
 
 export default api

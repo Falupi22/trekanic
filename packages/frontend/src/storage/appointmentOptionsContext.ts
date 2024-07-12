@@ -1,25 +1,17 @@
-import { createContext } from 'react';
+import { createContext } from "react"
 
 export interface AppointmentOptionsContextProps {
-    issues: any[],
-    setIssues: (issues: any[]) => void,
-    takenDates: any[],
-    setTakenDates: (takenDates: any[]) => void,
-    userId: string,
-    setUserId: (userId: string) => void
-    email: string,
-    setEmail: (email: string) => void
+  issues: any[]
+  setIssues: (issues: any[]) => void
+  takenDates: any[]
+  setTakenDates: (takenDates: any[]) => void
 }
 
 const AppointmentOptionsContext = createContext<AppointmentOptionsContextProps>({
-    issues: [],
-    setIssues: (issues: any[]) => { },
-    takenDates: [],
-    setTakenDates: (takenDates: any[]) => { },
-    userId: '',
-    setUserId: (userId: string) => { },
-    email: '',
-    setEmail: (email: string) => { }
-});
+  issues: [],
+  setIssues: (issues: any[]) => {},
+  takenDates: [],
+  setTakenDates: (takenDates: any[]) => {},
+})
 
-export default AppointmentOptionsContext;
+export default AppointmentOptionsContext

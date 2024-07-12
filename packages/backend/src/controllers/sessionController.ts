@@ -27,6 +27,8 @@ export const login = asyncHandler(async (req, res, next) => {
                   statusCode = HttpStatus.UNAUTHORIZED
                 } else {
                   statusCode = HttpStatus.OK
+                  delete existingUser["password"]
+                  res.json(existingUser)
                 }
 
                 resolve(null)
@@ -45,11 +47,6 @@ export const login = asyncHandler(async (req, res, next) => {
   }
 
   res.status(statusCode)
-  let result = {}
-  if (statusCode === HttpStatus.OK) {
-    result = { id: user["id"], email: user.email }
-  }
-  res.send(result)
 })
 
 export const logout = asyncHandler(async (req, res, _next) => {

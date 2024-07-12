@@ -1,3 +1,4 @@
 import { AppointmentTime } from "./appointmentTime"
+import sendEmail from "./smtpManager"
 
-export { AppointmentTime }
+export { AppointmentTime, sendEmail }

@@ -1,25 +1,17 @@
 import express from "express"
-import Server from "http"
 import cors from "cors"
 import bodyParser from "body-parser"
 import passport from "passport"
 import mongoose from "mongoose"
 import session from "express-session"
-import passportLocalMongoose from "passport-local-mongoose"
 import { User } from "./models"
 import { Config } from "./config"
 import { appointmentRouter, sessionRouter } from "./routers"
-import ws from "./ws"
 
 const app = express()
-const httpServer = Server.createServer(app)
 
 function connectToDB() {
   mongoose.connect(Config.db_connection_string)
-}
-
-function startWS() {
-  ws.init(httpServer)
 }
 
 function setMiddlewares() {
@@ -63,9 +55,8 @@ connectToDB()
 setMiddlewares()
 setPassport()
 setRoutes()
-startWS()
 
-httpServer.listen(Config.port, () => {
+app.listen(Config.port, () => {
   console.log(`Express is listening at http://localhost:${Config.port}!`)
 })
 

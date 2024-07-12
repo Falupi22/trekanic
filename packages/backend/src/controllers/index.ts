@@ -6,6 +6,8 @@ import {
   createAppointment,
   editAppointment,
   deleteAppointment,
+  getAppointmentsOfAllUsers,
+  getMechanics,
 } from "./appointmentController"
 
 export {
@@ -18,4 +20,6 @@ export {
   createAppointment,
   editAppointment,
   deleteAppointment,
+  getAppointmentsOfAllUsers,
+  getMechanics,
 }

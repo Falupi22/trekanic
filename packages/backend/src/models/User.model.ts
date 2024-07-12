@@ -1,10 +1,13 @@
-import mongoose, { PassportLocalModel } from "mongoose"
+import mongoose from "mongoose"
 import passportLocalMongoose from "passport-local-mongoose"
 
-export interface UserDocument extends mongoose.Document {
-  email: mongoose.Schema.Types.String
-  password: mongoose.Schema.Types.String
+export interface UserInterface {
+  email: string
+  password: string
+  isAdmin: boolean
 }
+
+export interface UserDocument extends mongoose.Document, UserInterface {}
 
 export const userSchema = new mongoose.Schema<UserDocument>()
 userSchema.plugin(passportLocalMongoose)

@@ -1,54 +1,66 @@
-import { useContext, useEffect, useState } from "react"
-import {
-  Flex,
-  Heading,
-  Input,
-  Button,
-  InputGroup,
-  Stack,
-  Box,
-  Text,
-  Link,
-  FormControl,
-  InputRightElement,
-  FormLabel,
-  FormErrorMessage,
-  HStack,
-} from "@chakra-ui/react"
-import { useForm, Controller } from "react-hook-form"
-import React from "react"
-import { Form } from "react-router-dom"
-import * as yup from "yup"
-import { yupResolver } from "@hookform/resolvers/yup"
-import { AxiosError } from "axios"
-import { api } from "../api"
-import { useNavigate, useLocation } from "react-router-dom"
-import { useToast } from "@chakra-ui/react"
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons"
+import {
+  Box,
+  Button,
+  Flex,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Heading,
+  HStack,
+  Input,
+  InputGroup,
+  InputRightElement,
+  Link,
+  Stack,
+  Text,
+  useToast,
+} from "@chakra-ui/react"
+import { yupResolver } from "@hookform/resolvers/yup"
+import { AxiosError, AxiosResponse, HttpStatusCode } from "axios"
+import React, { useEffect, useState } from "react"
+import { Controller, useForm } from "react-hook-form"
+import { Form, useNavigate } from "react-router-dom"
+import * as yup from "yup"
+import { api } from "../api"
+import { useUserInfoStore } from "../storage"
+import { ROUTE_ACCOUNT, ROUTE_ADMIN } from "../utils/routes"
 import { requestFailedToast, wrongCredentialsToast } from "./alerts"
-import { AppointmentOptionsContext } from "../storage"
 
 const schema = yup.object().shape({
   email: yup.string().required().email(),
   password: yup.string().required().min(6),
 })
 
-const Login = () => {
+interface UserResponse {
+  _id: string
+  email: string
+  isAdmin: boolean
+}
+
+const Home = () => {
   const navigate = useNavigate()
-  const location = useLocation()
-  const { setEmail, setUserId } = useContext(AppointmentOptionsContext)
+  const setEmail = useUserInfoStore((state) => state.setEmail)
+  const setIsAdmin = useUserInfoStore((state) => state.setIsAdmin)
+  const isAdmin = useUserInfoStore((state) => state.email)
 
   useEffect(() => {
     async function fetch() {
       await api
         .authenticate()
         .then((value) => {
-          if (value.status === 200) navigate("/account")
+          if (value.status === HttpStatusCode.Ok) {
+            if (isAdmin) {
+              navigate(ROUTE_ADMIN)
+            } else {
+              navigate(ROUTE_ACCOUNT)
+            }
+          }
         })
-        .catch((error) => { })
+        .catch((error) => {})
     }
     fetch()
-  }, [])
+  }, [isAdmin, navigate])
   const {
     control,
     handleSubmit,
@@ -61,18 +73,23 @@ const Login = () => {
     try {
       api
         .login(data.email, data.password)
-        .then((value) => {
-          setEmail(data.email)
-          setUserId(data.userId)
-          navigate("/account")
+        .then((response: AxiosResponse<UserResponse>) => {
+          setEmail(response.data.email)
+          setIsAdmin(response.data.isAdmin)
+          console.log(isAdmin)
+          if (response.data.isAdmin) {
+            navigate(ROUTE_ADMIN)
+          } else {
+            navigate(ROUTE_ACCOUNT)
+          }
         })
         .catch((error) => {
-          if (error instanceof AxiosError && error?.response?.status === 404) {
+          if (error instanceof AxiosError && error?.response?.status === HttpStatusCode.NotFound) {
             toast(wrongCredentialsToast)
           }
         })
     } catch (error) {
-      if (error instanceof AxiosError && error?.response?.status === 404) {
+      if (error instanceof AxiosError && error?.response?.status === HttpStatusCode.NotFound) {
         toast(requestFailedToast)
       }
     }
@@ -90,9 +107,15 @@ const Login = () => {
               <FormControl isInvalid={!!errors?.email?.message}>
                 <InputGroup>
                   <FormLabel>Email</FormLabel>
-                  <Controller name="email" control={control} render={({ field }) => <Input bg="white" {...field} placeholder="Email" />} />
+                  <Controller
+                    name="email"
+                    control={control}
+                    render={({ field }) => <Input bg="white" {...field} placeholder="Email" />}
+                  />
                 </InputGroup>
-                <FormErrorMessage><Text variant="errorDark">{errors?.email?.message}</Text></FormErrorMessage>
+                <FormErrorMessage>
+                  <Text variant="errorDark">{errors?.email?.message}</Text>
+                </FormErrorMessage>
               </FormControl>
               <FormControl isInvalid={!!errors.password}>
                 <InputGroup>
@@ -101,7 +124,7 @@ const Login = () => {
                     name="password"
                     control={control}
                     render={({ field }) => (
-                      <Input type={showPassword ? "text" : "password"} placeholder="Password" bg="white"  {...field} />
+                      <Input type={showPassword ? "text" : "password"} placeholder="Password" bg="white" {...field} />
                     )}
                   />
                   <InputRightElement>
@@ -110,7 +133,9 @@ const Login = () => {
                     </Button>
                   </InputRightElement>
                 </InputGroup>
-                <FormErrorMessage><Text variant="errorDark">{errors?.password?.message}</Text></FormErrorMessage>
+                <FormErrorMessage>
+                  <Text variant="errorDark">{errors?.password?.message}</Text>
+                </FormErrorMessage>
               </FormControl>
               <Button type="submit" variant="solid" width="full">
                 Login
@@ -120,15 +145,15 @@ const Login = () => {
         </Box>
       </Stack>
       <HStack>
-        <Text>
-          Forgot password? </Text><Link>Change password</Link>
+        <Text>Forgot password? </Text>
+        <Link>Change password</Link>
       </HStack>
       <HStack>
-        <Text>
-          New to us?  </Text><Link href="https://www.ctc.co.il/">Sign Up</Link>
+        <Text>New to us? </Text>
+        <Link href="https://www.ctc.co.il/">Sign Up</Link>
       </HStack>
     </Flex>
   )
 }
 
-export default Login
+export default Home
