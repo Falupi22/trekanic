@@ -11,6 +11,7 @@ import { requestFailedToast } from "../alerts"
 interface LinkItemProps {
   name: string
   icon: ReactElement
+  link?: string
 }
 
 const LinkItems: Array<LinkItemProps> = [

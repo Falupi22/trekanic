@@ -14,7 +14,7 @@ const Account = () => {
   const [appointments, setAppointments] = useState(null)
   const [loading, setLoading] = useState(true)
   const isAdmin = useUserInfoStore((state) => state.isAdmin)
-  const email = useUserInfoStore((state) => state.isAdmin)
+  const email = useUserInfoStore((state) => state.email)
 
   const setTakenDates = useAppointmentOptionsStore((state) => state.setTakenDates)
   const setIssues = useAppointmentOptionsStore((state) => state.setIssues)

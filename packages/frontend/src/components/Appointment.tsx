@@ -146,13 +146,15 @@ const Appointment = ({ appointment, deleteCallback }) => {
             initialRef={initialRefEdit}
             finalRef={finalRefEdit}
           />
-          <IconButton
-            aria-label="Ellipsis"
-            variant="square"
-            size="sm"
-            _hover={{ border: "1px solid dark.50" }}
-            icon={<HamburgerIcon />}
-          />
+          {Date.parse(appointment.datetime) > Date.now() ? (
+            <IconButton
+              aria-label="Ellipsis"
+              variant="square"
+              size="sm"
+              _hover={{ border: "1px solid dark.50" }}
+              icon={<HamburgerIcon />}
+            />
+          ) : null}
         </HStack>
         <EnsureDialog isOpen={isOpen} onCommit={cancelAppointment} onCancel={onClose} cancelRef={cancelRef} />
       </Flex>
