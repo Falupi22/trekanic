@@ -42,7 +42,7 @@ const Home = () => {
   const navigate = useNavigate()
   const setEmail = useUserInfoStore((state) => state.setEmail)
   const setIsAdmin = useUserInfoStore((state) => state.setIsAdmin)
-  const isAdmin = useUserInfoStore((state) => state.email)
+  const isAdmin = useUserInfoStore((state) => state.isAdmin)
 
   useEffect(() => {
     async function fetch() {
@@ -50,6 +50,7 @@ const Home = () => {
         .authenticate()
         .then((value) => {
           if (value.status === HttpStatusCode.Ok) {
+            console.log(isAdmin)
             if (isAdmin) {
               navigate(ROUTE_ADMIN)
             } else {
@@ -76,7 +77,7 @@ const Home = () => {
         .then((response: AxiosResponse<UserResponse>) => {
           setEmail(response.data.email)
           setIsAdmin(response.data.isAdmin)
-          console.log(isAdmin)
+          console.log(response.data.isAdmin)
           if (response.data.isAdmin) {
             navigate(ROUTE_ADMIN)
           } else {

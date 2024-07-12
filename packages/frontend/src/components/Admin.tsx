@@ -5,6 +5,8 @@ import { useAppointmentOptionsStore, useUserInfoStore } from "../storage"
 import { requestFailedToast } from "./alerts"
 import AppointmentScheduler from "./AppointmentScheduler"
 import { Sidebar } from "./general"
+import { ROUTE_ACCOUNT } from "../utils/routes"
+import { useNavigate } from "react-router-dom"
 
 const Admin = () => {
   const isAdmin = useUserInfoStore((state) => state.isAdmin)
@@ -14,6 +16,7 @@ const Admin = () => {
   const issues = useAppointmentOptionsStore((state) => state.issues)
   const takenDates = useAppointmentOptionsStore((state) => state.takenDates)
 
+  const navigate = useNavigate()
   const [appointments, setAppointments] = useState(null)
 
   const toast = useToast()
@@ -21,6 +24,9 @@ const Admin = () => {
   useEffect(() => {
     async function fetch() {
       try {
+        if (!isAdmin) {
+          navigate(ROUTE_ACCOUNT)
+        }
         setAppointments((await api.getAppointments()).data)
         if (!issues || issues.length === 0) {
           setIssues((await api.getIssues()).data)
@@ -46,7 +52,7 @@ const Admin = () => {
     }
 
     return () => clearInterval(interval)
-  }, [appointments, issues, setAppointments, setIssues, setTakenDates, takenDates, toast])
+  }, [appointments, isAdmin, issues, navigate, setAppointments, setIssues, setTakenDates, takenDates, toast])
 
   return (
     <HStack h="100%">

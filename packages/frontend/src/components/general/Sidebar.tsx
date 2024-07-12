@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom"
 import { api } from "../../api"
 import { LogOutIcon } from "../../assets/icons"
 import { requestFailedToast } from "../alerts"
+import { useUserInfoStore } from "../../storage"
 
 interface LinkItemProps {
   name: string
@@ -23,12 +24,14 @@ const LinkItems: Array<LinkItemProps> = [
 export default function Sidebar({ username, isAdmin }) {
   const toast = useToast()
   const navigate = useNavigate()
+  const reset = useUserInfoStore((state) => state.reset)
 
   const logout = () => {
     api
       .logout()
       .then((res) => {
         console.log("sidebar" + window.location.href)
+        reset()
         navigate("/login", { state: { prevURL: window.location.href } })
       })
       .catch((error) => {
