@@ -13,7 +13,7 @@ Welcome to Trekanic! This README provides all the necessary information about ou
 - [Introduction](#introduction)
 - [Features](#features)
 - [Getting Started](#getting-started)
-- [User Guide (Customer)](#user-guide)
+- [User Guide](#user-guide)
 - [License](#license)
 
 ## Introduction
