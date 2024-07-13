@@ -5,7 +5,7 @@ import Mechanic, { MechanicModel } from "../models/Mechanic.model"
 import Issue, { IssueModel } from "../models/Issue.model"
 import { AppointmentTime, sendEmail } from "../utils"
 import IssueCategory, { IssueCategoryModel } from "../models/IssueCategory.model"
-import { Types } from "mongoose"
+import { ObjectId, Types } from "mongoose"
 import jsonpatch from "fast-json-patch"
 import { startSession } from "mongoose"
 import ProductModel from "../models/Product.model"
@@ -67,6 +67,24 @@ export const getMechanics = asyncHandler(async (req, res) => {
         },
       ],
     })
+
+    res.status(HttpStatus.OK).send(mechanics)
+  } catch (error) {
+    console.error("An error occurred:", error)
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).send("An error occurred")
+  }
+})
+
+export const getMechanicsByTime = asyncHandler(async (req, res) => {
+  const selectedTime = req.params.time
+  console.log(selectedTime)
+  try {
+    if (!req.isAuthenticated()) {
+      res.status(HttpStatus.UNAUTHORIZED).send()
+      return
+    }
+
+    const mechanics: Mechanic[] = await MechanicModel.find({ "appointments.datetime": { $ne: selectedTime } }).lean()
 
     res.status(HttpStatus.OK).send(mechanics)
   } catch (error) {
@@ -293,6 +311,9 @@ export const editAppointment = asyncHandler(async (req, res) => {
     const editedAppointmentDate = new Date(editedAppointment.datetime)
     const appointmentHour = editedAppointmentDate.getHours()
 
+    console.log("before" + originalAppointment.mechanic)
+    console.log(editedAppointment.mechanic)
+
     if (editedAppointment.description.length > 250) {
       res.status(HttpStatus.BAD_REQUEST).send()
       return
@@ -303,14 +324,17 @@ export const editAppointment = asyncHandler(async (req, res) => {
       (editedAppointmentDate >= oneHourAfterNow && originalAppointment.datetime == editedAppointment.datetime) ||
       (appointmentHour > openingTime && appointmentHour < closingTime)
     ) {
-      const appointmentIssue = await IssueModel.findById(editedAppointment.issue)
+      const appointmentIssue = await IssueModel.findById(editedAppointment.issue).lean()
 
       if (!appointmentIssue) {
         res.status(HttpStatus.NOT_FOUND).send("Issue not found")
         return
       }
 
-      if (originalAppointment.datetime !== editedAppointment.datetime) {
+      // Changes mechanics if datetime or mechanics were exchanged
+      const dateWasChanged = originalAppointment.datetime !== editedAppointment.datetime
+      const mechanicWasChanged = !originalAppointment.mechanic.equals(editedAppointment.mechanic)
+      if (dateWasChanged || mechanicWasChanged) {
         const currentAppointmentTime = new AppointmentTime(
           new Date(editedAppointment.datetime),
           appointmentIssue.duration,
@@ -318,12 +342,15 @@ export const editAppointment = asyncHandler(async (req, res) => {
         const freeMechanics = await getFreeMechanicsByTime(currentAppointmentTime)
 
         if (freeMechanics.length > 0) {
-          let newMechanicId = originalAppointment.mechanic._id
+          let newMechanicId = editedAppointment.mechanic
 
-          // Checks if the current mechanic is still available although the date time was changed
-          if (!freeMechanics.find((mechanic) => mechanic._id === originalAppointment.mechanic._id)) {
+          // Checks if the chosen mechanic regsarding that the date time was changed
+          if (
+            dateWasChanged &&
+            !freeMechanics.find((mechanic) => (mechanic._id as Types.ObjectId).equals(originalAppointment.mechanic))
+          ) {
             const randomMechanicIndex = Math.floor(Math.random() * freeMechanics.length)
-
+            console.log(freeMechanics)
             newMechanicId = freeMechanics[randomMechanicIndex]?._id as Types.ObjectId
           }
 
@@ -334,20 +361,18 @@ export const editAppointment = asyncHandler(async (req, res) => {
           // Exchanging mechanics.
           console.log(originalAppointment.mechanic)
           console.log(newMechanicId)
-          console.log(originalAppointment.mechanic !== newMechanicId)
+          console.log(originalAppointment.mechanic.equals(newMechanicId))
           console.log(originalAppointment._id)
 
-          if (originalAppointment.mechanic !== newMechanicId) {
+          if (!originalAppointment.mechanic.equals(newMechanicId)) {
             await MechanicModel.findOneAndUpdate(
               { _id: originalAppointment.mechanic },
               {
                 $pull: {
-                  appointments: {
-                    _id: originalAppointment._id,
-                  },
+                  appointments: new Types.ObjectId(originalAppointment._id.toString()),
                 },
               },
-            )
+            ).exec()
 
             await MechanicModel.findOneAndUpdate(
               { _id: newMechanicId },
@@ -358,7 +383,7 @@ export const editAppointment = asyncHandler(async (req, res) => {
                   },
                 },
               },
-            )
+            ).exec()
           }
 
           if (adminEdited) {
@@ -422,17 +447,17 @@ export const deleteAppointment = asyncHandler(async (req, res) => {
       return
     }
 
+    console.log(originalAppointment.mechanic)
+    console.log(originalAppointment._id)
     await MechanicModel.findOneAndUpdate(
-      { _id: originalAppointment.mechanic },
+      { _id: originalAppointment.mechanic._id },
       {
         $pull: {
-          appointments: {
-            _id: originalAppointment._id,
-          },
+          appointments: new Types.ObjectId(originalAppointment._id.toString()),
         },
       },
       { session },
-    )
+    ).exec()
 
     await AppointmentModel.deleteOne({ _id: appointmentId }, { session })
 
@@ -457,13 +482,13 @@ export const deleteAppointment = asyncHandler(async (req, res) => {
 })
 
 const getFreeMechanicsByTime = async (currentAppointmentTime: AppointmentTime) => {
-  const mechanics: Mechanic[] = await MechanicModel.find()
+  const mechanics: Mechanic[] = await MechanicModel.find().lean()
   const freeMechanics = await Promise.all(
     mechanics.map(async (mechanic) => {
       const appointmentTimes: AppointmentTime[] = await Promise.all(
         mechanic.appointments.map(async (appointmentId) => {
-          const appointment: Appointment = await AppointmentModel.findById(appointmentId)
-          const issue: Issue = await IssueModel.findById(appointment.issue).populate("category")
+          const appointment: Appointment = await AppointmentModel.findById(appointmentId).lean()
+          const issue: Issue = await IssueModel.findById(appointment.issue).populate("category").lean()
           const issueCategory = issue.category as unknown as IssueCategory
           const duration = issueCategory.duration
           return new AppointmentTime(appointment.datetime, duration)

@@ -76,6 +76,7 @@ const AppointmentScheduler = () => {
     api
       .getMechanics()
       .then((response) => {
+        console.log("onOperationCompleted", generateData(response.data))
         setAppointments(generateData(response.data))
       })
       .catch((err) => {
@@ -87,7 +88,7 @@ const AppointmentScheduler = () => {
   }
 
   return (
-    <Box maxH="60vh" w="80%" overflowY="auto">
+    <Box maxH="70vh" w="90%" overflowY="auto">
       <Scheduler
         dataSource={appointments}
         textExpr="title"
@@ -99,7 +100,7 @@ const AppointmentScheduler = () => {
         <Editing allowDragging={false} />
       </Scheduler>
       <AppointmentDetailsPanel
-        deleteOption={true}
+        administrate={true}
         onDeletedCallback={onOperationCompleted}
         appointmentToEdit={selectedAppointment}
         operationCallback={onOperationCompleted}

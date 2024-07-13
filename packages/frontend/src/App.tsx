@@ -47,7 +47,7 @@ function App() {
   return (
     <>
       <ChakraProvider theme={theme}>
-        <Box bg="dark.400" height="100%">
+        <Box height="100%">
           <RouterProvider router={router} />
         </Box>
       </ChakraProvider>

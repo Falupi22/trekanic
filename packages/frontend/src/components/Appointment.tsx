@@ -18,7 +18,7 @@ import { useAppointmentOptionsStore } from "../storage"
 import { getFormattedDate } from "../theme"
 import getTakenDays from "../utils/appointmentDateUtils"
 import { EnsureDialog } from "./alerts"
-import { requestFailedToast, requestSucceeded } from "./alerts/toasts"
+import { requestFailedToast, requestSucceededToast } from "./alerts/toasts"
 import AppointmentDetailsPanel from "./modals/AppointmentDetailsPanel"
 
 const Appointment = ({ appointment, deleteCallback }) => {
@@ -66,7 +66,7 @@ const Appointment = ({ appointment, deleteCallback }) => {
     api
       .getAppointments()
       .then((res) => {
-        const currentAppointment = res.data?.map((existingAppointment) => existingAppointment._id === _id)
+        const currentAppointment = res.data?.find((existingAppointment) => existingAppointment._id === _id)
         console.log(currentAppointment)
         if (currentAppointment) {
           setDescriptionOfProblem(currentAppointment.description)
@@ -95,7 +95,7 @@ const Appointment = ({ appointment, deleteCallback }) => {
     api
       .cancelAppointment(_id)
       .then((data) => {
-        toast(requestSucceeded)
+        toast(requestSucceededToast)
         deleteCallback(_id)
       })
       .catch((error) => {
@@ -113,7 +113,7 @@ const Appointment = ({ appointment, deleteCallback }) => {
         />
         <Text fontWeight="bold"> {issueOfInterest?.description}</Text>
         <Spacer />
-        <Badge bg="dark.200">{productToFix.name}</Badge>
+        <Badge bg="dark.200">{productToFix?.name}</Badge>
         <HStack onMouseEnter={handleMouseEnter} bg="dark.400" onMouseLeave={handleMouseLeave} ml={2} mr="3">
           {displayEllipsis ? (
             <HStack>

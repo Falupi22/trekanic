@@ -53,6 +53,12 @@ const api = {
   getMechanics: function () {
     return axiosApi.get("appointment/mechanic")
   },
+  getAlerts: function () {
+    return axiosApi.get("alert")
+  },
+  getMechanicsByTime: function (date: Date) {
+    return axiosApi.get(`/appointment/mechanic/by-date/${date.toISOString()}`)
+  },
 }
 
 export default api

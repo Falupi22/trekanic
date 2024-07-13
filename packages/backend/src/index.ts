@@ -6,7 +6,7 @@ import mongoose from "mongoose"
 import session from "express-session"
 import { User } from "./models"
 import { Config } from "./config"
-import { appointmentRouter, sessionRouter } from "./routers"
+import { appointmentRouter, sessionRouter, alertRouter } from "./routers"
 
 const app = express()
 
@@ -49,6 +49,7 @@ function setPassport() {
 function setRoutes() {
   app.use(sessionRouter)
   app.use(appointmentRouter)
+  app.use(alertRouter)
 }
 
 connectToDB()

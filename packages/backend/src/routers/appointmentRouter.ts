@@ -8,6 +8,7 @@ import {
   deleteAppointment,
   getAppointmentsOfAllUsers,
   getMechanics,
+  getMechanicsByTime,
 } from "../controllers"
 
 const appointmentRouter = Router()
@@ -20,5 +21,6 @@ appointmentRouter.patch("/appointment/edit", editAppointment)
 appointmentRouter.delete("/appointment/delete/:id", deleteAppointment)
 appointmentRouter.get("/appointment/issue", getIssues)
 appointmentRouter.get("/appointment/mechanic", getMechanics)
+appointmentRouter.get("/appointment/mechanic/by-date/:time", getMechanicsByTime)
 
 export default appointmentRouter

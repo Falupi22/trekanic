@@ -9,10 +9,12 @@ import { requestFailedToast } from "./alerts"
 import Appointment from "./Appointment"
 import AppointmentsControlPanel from "./AppointmentsControlPanel"
 import { Sidebar, SkeletonLoader } from "./general/"
+import AlertPanel from "./AlertPanel"
 
 const Account = () => {
   const [appointments, setAppointments] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [alerts, setAlerts] = useState([])
   const isAdmin = useUserInfoStore((state) => state.isAdmin)
   const email = useUserInfoStore((state) => state.email)
 
@@ -39,8 +41,10 @@ const Account = () => {
           console.log(storedDates)
           const updatedTakenDates = takenDates ? takenDates : []
           updatedTakenDates.push(...storedDates)
-
           setTakenDates(updatedTakenDates)
+
+          const alerts = (await api.getAlerts()).data
+          setAlerts(alerts)
         } catch (error) {
           console.log(error)
           toast(requestFailedToast)
@@ -85,10 +89,10 @@ const Account = () => {
     ?.find((appointment) => new Date(appointment.datetime).getTime() > Date.now())
   const nextAppointmentDatetime = nextAppointment?.datetime
   return (
-    <Flex flexFlow="row" w="100%">
+    <Flex flexFlow="row" w="100%" h="100%" justifyContent="center">
       <Sidebar username={email} isAdmin={isAdmin} />
-      <Flex flexFlow="column" alignItems="center" pr={25} pt={25} pl={25} w={{ base: "90%", md: "60%" }}>
-        <VStack maxH="80vh" gap={0.25} mt={20} minW="30wh" w="100%" boxShadow="0 4px 8px rgba(0,0,0,0.7)" zIndex={1}>
+      <Flex flexFlow="column" alignItems="center" pr={25} pt={5} pl={25} w={{ base: "90%", md: "60%" }}>
+        <VStack maxH="80vh" gap={0.25} minW="30wh" w="100%" boxShadow="0 4px 8px rgba(0,0,0,0.7)" zIndex={1}>
           <AppointmentsControlPanel
             creationCallback={onAppointmentCreated}
             nextAppointmentDatetime={nextAppointmentDatetime}
@@ -113,6 +117,7 @@ const Account = () => {
           )}
         </VStack>
       </Flex>
+      <AlertPanel alerts={alerts} />
     </Flex>
   )
 }

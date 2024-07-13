@@ -6,6 +6,7 @@ import Admin from "./Admin"
 import { AppointmentDetailsPanel } from "./modals"
 import Layout from "./Layout"
 import { SkeletonLoader, Sidebar } from "./general"
+import AlertPanel from "./AlertPanel"
 
 export {
   SkeletonLoader,
@@ -17,4 +18,5 @@ export {
   Home,
   Admin,
   Layout,
+  AlertPanel,
 }

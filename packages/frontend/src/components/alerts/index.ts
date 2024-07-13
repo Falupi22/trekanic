@@ -1,4 +1,4 @@
-import { wrongCredentialsToast, requestFailedToast, NoChangedHaveBeenMade } from "./toasts"
+import { wrongCredentialsToast, requestFailedToast, NoChangesHaveBeenMadeToast } from "./toasts"
 import EnsureDialog from "./EnsureDialog"
 
-export { wrongCredentialsToast, requestFailedToast, NoChangedHaveBeenMade, EnsureDialog }
+export { wrongCredentialsToast, requestFailedToast, NoChangesHaveBeenMadeToast, EnsureDialog }

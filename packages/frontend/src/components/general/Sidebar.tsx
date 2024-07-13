@@ -8,6 +8,7 @@ import { api } from "../../api"
 import { LogOutIcon } from "../../assets/icons"
 import { requestFailedToast } from "../alerts"
 import { useUserInfoStore } from "../../storage"
+import { ROUTE_LOGIN } from "../../utils/routes"
 
 interface LinkItemProps {
   name: string
@@ -32,7 +33,7 @@ export default function Sidebar({ username, isAdmin }) {
       .then((res) => {
         console.log("sidebar" + window.location.href)
         reset()
-        navigate("/login", { state: { prevURL: window.location.href } })
+        navigate(ROUTE_LOGIN, { state: { prevURL: window.location.href } })
       })
       .catch((error) => {
         toast(requestFailedToast)
@@ -41,7 +42,7 @@ export default function Sidebar({ username, isAdmin }) {
 
   const { onClose } = useDisclosure()
   return (
-    <Box minH="100vh" bg={"dark.500"} display="flex">
+    <Box minH="100%" bg={"dark.500"} display="flex">
       <SidebarContent
         username={username}
         isAdmin={isAdmin}
@@ -68,7 +69,6 @@ interface SidebarProps extends BoxProps {
 const SidebarContent = ({ onClose, logOutCallback, username, isAdmin, ...rest }: SidebarProps) => {
   return (
     <Box
-      mt={20}
       bg={"dark.500"}
       borderRight="1px"
       borderRightColor={"dark.500"}
@@ -77,7 +77,7 @@ const SidebarContent = ({ onClose, logOutCallback, username, isAdmin, ...rest }:
       h="full"
       {...rest}
     >
-      <HStack ml={15} mb="5">
+      <HStack mb="5">
         <Avatar size={"sm"} />
         <VStack display={{ base: "none", md: "flex" }} alignItems="flex-start" spacing="1px" ml="2">
           <Text fontSize="sm">{username}</Text>

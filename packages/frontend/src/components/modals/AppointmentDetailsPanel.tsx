@@ -24,7 +24,7 @@ import { api } from "../../api"
 import { useAppointmentOptionsStore } from "../../storage"
 import getTakenDays, { getTakenHoursByDay } from "../../utils/appointmentDateUtils"
 import { REGEX_ONLY_NUMBERS } from "../../utils/regex"
-import { NoChangedHaveBeenMade, requestFailedToast, requestSucceeded } from "../alerts/toasts"
+import { NoChangesHaveBeenMadeToast, requestFailedToast, requestSucceededToast } from "../alerts/toasts"
 import { ResponsiveDayPicker } from "../general"
 
 // Validation schema using yup
@@ -43,7 +43,7 @@ interface AppointmentDetailsPanelProps {
   finalRef
   operationCallback: (appointment) => void
   appointmentToEdit?
-  deleteOption?: boolean
+  administrate?: boolean
   onDeletedCallback?
 }
 
@@ -54,7 +54,7 @@ function AppointmentDetailsPanel({
   finalRef,
   operationCallback,
   appointmentToEdit = null,
-  deleteOption = false,
+  administrate: administate = false,
   onDeletedCallback = () => {},
 }: AppointmentDetailsPanelProps) {
   const issues = useAppointmentOptionsStore((state) => state.issues)
@@ -62,11 +62,13 @@ function AppointmentDetailsPanel({
   const [description, setDescription] = useState("")
   const [selectedIssueId, setSelectedIssueId] = useState(null)
   const [catalogNumber, setCatalogNumber] = useState("")
+  const [selectedMechanicId, setSelectedMechanicId] = useState(null)
+  const [freeMechanics, setFreeMechanics] = useState([])
   const [selectedDay, setSelectedDay] = useState(null)
   const [selectedHour, setSelectedHour] = useState(null)
   const [isFormValid, setIsFormValid] = useState(false) // State to track overall form validity
   const [errors, setErrors] = useState(null) // State to store validation errors
-  const toast = useToast(requestSucceeded)
+  const toast = useToast(requestSucceededToast)
 
   // Effect to update form validity whenever any required field changes
   useEffect(() => {
@@ -88,8 +90,25 @@ function AppointmentDetailsPanel({
       setCatalogNumber(appointmentToEdit.product.catalogNumber)
       setSelectedDay(new Date(appointmentToEdit.datetime))
       setSelectedHour(new Date(appointmentToEdit.datetime).getHours())
+    } else {
+      setDescription("")
+      setSelectedIssueId(null)
+      setCatalogNumber("")
+      setSelectedDay(null)
+      setSelectedHour(null)
     }
-  }, [appointmentToEdit])
+
+    if (administate && appointmentToEdit) {
+      api
+        .getMechanicsByTime(new Date(appointmentToEdit.datetime))
+        .then((res) => {
+          setFreeMechanics(res.data)
+        })
+        .catch((err) => {
+          toast(requestFailedToast)
+        })
+    }
+  }, [administate, appointmentToEdit, toast])
 
   const generateIssueOptions = () => {
     const optionsByTitle = Object.entries(issues)?.map(([title, details]) => {
@@ -116,6 +135,22 @@ function AppointmentDetailsPanel({
     return allOptions
   }
 
+  const generateMechanics = () => {
+    const options = []
+
+    if (freeMechanics) {
+      freeMechanics.forEach((item) => {
+        options.push(
+          <option value={item._id} key={item._id} style={{ color: "black" }}>
+            {item.fullName}
+          </option>,
+        )
+      })
+    }
+
+    return options
+  }
+
   const onIssueSelected = (event) => {
     setSelectedIssueId(event.target.value)
   }
@@ -130,12 +165,41 @@ function AppointmentDetailsPanel({
     }
   }
 
+  const onMechanicSelected = (event) => {
+    setSelectedMechanicId(event.target.value)
+  }
+
   const onDaySelected = (day: Date) => {
+    if (administate) {
+      const newTime = new Date(new Date(day).setHours(selectedHour))
+      api
+        .getMechanicsByTime(newTime)
+        .then((res) => {
+          setFreeMechanics(res.data as unknown as any[])
+        })
+        .catch((err) => {
+          toast(requestFailedToast)
+        })
+        .finally(() => {})
+    }
+
     setSelectedDay(day)
   }
 
   const onHourSelected = (event) => {
     setSelectedHour(event.target.value)
+    if (administate) {
+      const newTime = new Date(new Date(selectedDay).setHours(event.target.value))
+      api
+        .getMechanicsByTime(newTime)
+        .then((res) => {
+          setFreeMechanics(res.data as unknown as any[])
+        })
+        .catch((err) => {
+          toast(requestFailedToast)
+        })
+        .finally(() => {})
+    }
   }
 
   const generateOptionalTimes = (takenHours: Date[], selectedDay: null | Date) => {
@@ -179,7 +243,7 @@ function AppointmentDetailsPanel({
     api
       .cancelAppointment(appointmentToEdit._id)
       .then((data) => {
-        toast(requestSucceeded)
+        toast(requestSucceededToast)
         onDeletedCallback(appointmentToEdit)
       })
       .catch((error) => {
@@ -202,10 +266,11 @@ function AppointmentDetailsPanel({
       .then(() => {
         if (appointmentToEdit) {
           const origin = {
-            description: description,
-            issue: selectedIssueId,
+            description: appointmentToEdit.description,
+            issue: appointmentToEdit.issue._id,
             datetime: new Date(appointmentToEdit.datetime).toISOString(),
-            catalogNumber: catalogNumber,
+            catalogNumber: appointmentToEdit.product.catalogNumber,
+            mechanic: appointmentToEdit.mechanic,
           }
 
           const edited = {
@@ -213,18 +278,21 @@ function AppointmentDetailsPanel({
             issue: selectedIssueId,
             datetime: new Date(new Date(selectedDay).setHours(selectedHour)).toISOString(),
             catalogNumber: catalogNumber,
+            mechanic: selectedMechanicId ?? appointmentToEdit.mechanic,
           }
+
+          console.log(origin.mechanic, edited.mechanic)
 
           const operations = jsonpatch.compare(origin, edited)
           console.log(operations)
           if (operations.length === 0) {
-            toast(NoChangedHaveBeenMade)
+            toast(NoChangesHaveBeenMadeToast)
           } else {
             onClose()
             api
               .editAppointment(appointmentToEdit._id, operations)
               .then(() => {
-                toast(requestSucceeded)
+                toast(requestSucceededToast)
                 operationCallback(edited)
               })
               .catch((error) => {
@@ -244,12 +312,18 @@ function AppointmentDetailsPanel({
           api
             .createAppointment({ appointment })
             .then(() => {
-              toast(requestSucceeded)
+              toast(requestSucceededToast)
               operationCallback(appointment)
             })
             .catch((error) => {
               toast(requestFailedToast)
             })
+
+          setDescription("")
+          setSelectedIssueId(null)
+          setCatalogNumber("")
+          setSelectedDay(null)
+          setSelectedHour(null)
         }
       })
       .catch((validationErrors) => {
@@ -343,6 +417,23 @@ function AppointmentDetailsPanel({
                   <Text variant="error">{errors?.selectedHour}</Text>
                 </FormErrorMessage>
               </FormControl>
+
+              {administate ? ( // Means it is an admin
+                <FormControl mt={4}>
+                  <FormLabel>Mechanic</FormLabel>
+                  <Select
+                    value={selectedMechanicId}
+                    variant="normal"
+                    onChange={onMechanicSelected}
+                    placeholder="Select a mechanic (optional)"
+                  >
+                    {generateMechanics()}
+                  </Select>
+                  <FormErrorMessage>
+                    <Text variant="error">{errors?.sesl}</Text>
+                  </FormErrorMessage>
+                </FormControl>
+              ) : null}
             </Form>
           </ModalBody>
 
@@ -351,7 +442,7 @@ function AppointmentDetailsPanel({
               variant="alert"
               onClick={handleSubmit}
               color="white"
-              mr={3}
+              mr={1}
               disabled={!isFormValid} // Disable button if form is not valid
             >
               {appointmentToEdit ? <Text>Edit</Text> : <Text>Create</Text>}
@@ -359,7 +450,7 @@ function AppointmentDetailsPanel({
             <Button variant="alert" onClick={onCancel} color="white">
               Cancel
             </Button>
-            {deleteOption ? (
+            {administate ? (
               <Button variant="alert" onClick={onDeleted} color="white" bg="red">
                 Delete
               </Button>

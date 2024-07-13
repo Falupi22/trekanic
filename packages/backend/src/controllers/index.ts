@@ -8,7 +8,9 @@ import {
   deleteAppointment,
   getAppointmentsOfAllUsers,
   getMechanics,
+  getMechanicsByTime,
 } from "./appointmentController"
+import { getAlerts } from "./alertController"
 
 export {
   login,
@@ -22,4 +24,6 @@ export {
   deleteAppointment,
   getAppointmentsOfAllUsers,
   getMechanics,
+  getAlerts,
+  getMechanicsByTime,
 }
