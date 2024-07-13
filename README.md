@@ -76,7 +76,7 @@ Before you begin, ensure you meet the following requirements:
 
 ## License
 
-Trekanic is licensed under the [MIT License](LICENSE).
+Trekanic is licensed under the [Apache 2.0](LICENSE).
 
 ---
 
