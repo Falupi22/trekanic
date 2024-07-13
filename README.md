@@ -1,6 +1,6 @@
 # Trekanic README
 
-Welcome to Trekanic! This README provides all the necessary information about our online platform, which allows exclusive clients to schedule their appointments effortlessly using their phones.
+Welcome to Trekanic! This README provides all the necessary information about our online platform, which allows exclusive clients to schedule their appointments effortlessly using the internet.
 
 # Screenshots
 
@@ -18,14 +18,14 @@ Welcome to Trekanic! This README provides all the necessary information about ou
 
 ## Introduction
 
-Trekanic is a premium online scheduling platform designed for exclusive clients who seek convenience and efficiency in managing their appointments. Our mobile-friendly interface ensures that clients can book, modify, and cancel appointments directly from their phones, anytime and anywhere.
+Trekanic is a premium online scheduling platform designed for exclusive clients who seek convenience and efficiency in managing their appointments. Our mobile-friendly interface ensures that customers can book, modify, and cancel appointments directly from the internet, anytime and anywhere.
 
 ## Features
 
-- **Easy Scheduling:** Clients can book appointments with just a few taps on their phones.
+- **Easy Scheduling:** Clients can book appointments with just a few taps.
 - **Appointment Management:** Modify or cancel appointments easily.
 - **Notifications:** Receive reminders and notifications about changes in your appointments.
-- **Exclusive Access:** Only available to verified, exclusive clients.
+- **Exclusive Access:** Only available to verified, exclusive customers.
 - **User-Friendly Interface:** Intuitive and easy-to-navigate platform.
 
 ## Getting Started
