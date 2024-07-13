@@ -13,7 +13,7 @@ Welcome to Trekanic! This README provides all the necessary information about ou
 - [Introduction](#introduction)
 - [Features](#features)
 - [Getting Started](#getting-started)
-- [User Guide](#user-guide)
+- [User Guide (Customer)](#user-guide)
 - [License](#license)
 
 ## Introduction
@@ -51,7 +51,7 @@ Before you begin, ensure you meet the following requirements:
 4. Configure the DB with test.issues and test.issueCategories from ./assets/data
 5. Run with the designated scripts in the corresponding package.json file of each subrepo
 
-## User Guide (Customer)
+## User Guide
 
 ### Booking an Appointment
 
@@ -73,7 +73,7 @@ Before you begin, ensure you meet the following requirements:
 2. **Main page:** Any appointment has a hamburger-like button on the upper right. Hover on it and a bin button will appear. Click it!
 3. **Cancel:** Select the appointment you wish to cancel and confirm the cancellation.
 
-## User Guide (Admin)
+### Admin Tasks
 
 1. **Log In:** Enter your exclusive client credentials to log in (admin credentials).
 2. **Main page:** Use the scheduler to explore appointments. Click on one to edit or delete it.
@@ -91,3 +91,4 @@ Thank you for choosing Trekanic. We hope you enjoy the convenience of our platfo
 ---
 
 If you have any additional questions or need further assistance, please feel free to reach out to our support team.
+a
