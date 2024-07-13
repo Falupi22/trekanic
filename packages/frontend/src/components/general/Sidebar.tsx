@@ -77,7 +77,7 @@ const SidebarContent = ({ onClose, logOutCallback, username, isAdmin, ...rest }:
       h="full"
       {...rest}
     >
-      <HStack mb="5">
+      <HStack mb="5" ml={3}>
         <Avatar size={"sm"} />
         <VStack display={{ base: "none", md: "flex" }} alignItems="flex-start" spacing="1px" ml="2">
           <Text fontSize="sm">{username}</Text>
