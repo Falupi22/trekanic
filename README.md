@@ -91,4 +91,5 @@ Thank you for choosing Trekanic. We hope you enjoy the convenience of our platfo
 ---
 
 If you have any additional questions or need further assistance, please feel free to reach out to our support team.
-a
+trekanicmailbot@gmail.com
+
