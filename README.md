@@ -14,8 +14,6 @@ Welcome to Trekanic! This README provides all the necessary information about ou
 - [Features](#features)
 - [Getting Started](#getting-started)
 - [User Guide](#user-guide)
-- [Support](#support)
-- [Contributing](#contributing)
 - [License](#license)
 
 ## Introduction
