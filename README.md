@@ -41,7 +41,7 @@ Before you begin, ensure you meet the following requirements:
 ### Installation
 
 1. Clone the repo
-2. npm install (client and server)
+2. npm install (client and server repos)
 3. Create a .env for the server, then configure :
 
 - SESSION_SECRET (for the sessions)
@@ -51,8 +51,9 @@ Before you begin, ensure you meet the following requirements:
 - PASSWORD (password of the bot that sends notifications)
 
 4. Configure the DB with test.issues and test.issueCategories from ./assets/data
+5. Run with the designated scripts in the corresponding package.json file of each subrepo
 
-## User Guide
+## User Guide (Customer)
 
 ### Booking an Appointment
 
@@ -73,6 +74,13 @@ Before you begin, ensure you meet the following requirements:
 1. **Log In:** Enter your exclusive client credentials to log in.
 2. **Main page:** Any appointment has a hamburger-like button on the upper right. Hover on it and a bin button will appear. Click it!
 3. **Cancel:** Select the appointment you wish to cancel and confirm the cancellation.
+
+## User Guide (Admin)
+
+1. **Log In:** Enter your exclusive client credentials to log in (admin credentials).
+2. **Main page:** Use the scheduler to explore appointments. Click on one to edit or delete it.
+3. **Edit/Delete:** Set your values, the click edit, or delete the appointment permanently.
+4. **Auto Email:** An email will be sent to the email address of the customer regarding the change or cancellation of the appointment.
 
 ## License
 
