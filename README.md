@@ -41,7 +41,7 @@ Before you begin, ensure you meet the following requirements:
 ### Installation
 
 1. Clone the repo
-2. npm install (client and server repos)
+2. npm install (containing repo first, then client and server repos)
 3. Create a .env for the server, then configure :
 
 - SESSION_SECRET (for the sessions)
