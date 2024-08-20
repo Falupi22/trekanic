@@ -43,7 +43,7 @@ export const login = asyncHandler(async (req, res, next) => {
       statusCode = HttpStatus.NOT_FOUND
     }
   } else {
-    statusCode = HttpStatus.FORBIDDEN
+    statusCode = HttpStatus.UNAUTHORIZED
   }
 
   res.status(statusCode)
