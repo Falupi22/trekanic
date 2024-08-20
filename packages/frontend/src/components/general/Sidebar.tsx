@@ -52,7 +52,7 @@ export default function Sidebar({ username, isAdmin }) {
       />
       {/* mobilenav */}
 
-      <Box ml={{ base: 0, md: 60 }} p="4">
+      <Box ml={{ base: 0, md: 60 }} h="100%" display={{ base: "none", md: "block" }} p="4">
         {/* Content */}
       </Box>
     </Box>
@@ -90,17 +90,16 @@ const SidebarContent = ({ onClose, logOutCallback, username, isAdmin, ...rest }:
             {link.name}
           </NavItem>
         ))}
-        <Box onClick={logOutCallback} as="a" href="#" style={{ textDecoration: "none" }} _focus={{ boxShadow: "none" }}>
-          <Flex {...rest}>
+        <Box h="55%" _focus={{ boxShadow: "none" }}>
+          <Flex onClick={logOutCallback} h="100%" w="100%" flex="1" flexDirection="column" justifyContent="flex-end">
             <HStack
-              align="center"
+              w="100%"
+              mt="auto"
               p="4"
               mx="4"
               borderRadius="lg"
-              role="group"
               cursor="pointer"
               color="white"
-              mt="370"
               _hover={{
                 bg: "dark.400",
                 color: "white",
