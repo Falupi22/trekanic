@@ -67,7 +67,7 @@ export const logout = asyncHandler(async (req, res, _next) => {
 })
 
 export const authenticate = asyncHandler(async (req, res) => {
-  let statusCode: number = HttpStatus.FORBIDDEN
+  let statusCode: number = HttpStatus.UNAUTHORIZED
 
   if (req.isAuthenticated()) {
     statusCode = HttpStatus.OK

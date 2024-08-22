@@ -306,7 +306,7 @@ function AppointmentDetailsPanel({
             description: description,
             issue: selectedIssueId,
             datetime: new Date(new Date(selectedDay).setHours(selectedHour)).toISOString(),
-            product: "667e18ad75fde3dfe38ef27b",
+            product: "66c4c4ba1e78175ba1469426",
           }
 
           api
