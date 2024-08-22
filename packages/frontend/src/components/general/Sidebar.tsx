@@ -91,8 +91,9 @@ const SidebarContent = ({ onClose, logOutCallback, username, isAdmin, ...rest }:
           </NavItem>
         ))}
         <Box h="55%" _focus={{ boxShadow: "none" }}>
-          <Flex onClick={logOutCallback} h="100%" w="100%" flex="1" flexDirection="column" justifyContent="flex-end">
+          <Flex h="100%" w="100%" flex="1" flexDirection="column" justifyContent="flex-end">
             <HStack
+              onClick={logOutCallback}
               w="100%"
               mt="auto"
               p="4"
