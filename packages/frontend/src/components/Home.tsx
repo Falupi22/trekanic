@@ -42,6 +42,8 @@ const Home = () => {
   const navigate = useNavigate()
   const setEmail = useUserInfoStore((state) => state.setEmail)
   const setIsAdmin = useUserInfoStore((state) => state.setIsAdmin)
+  const setIsAuth = useUserInfoStore((state) => state.setIsAuth)
+
   const isAdmin = useUserInfoStore((state) => state.isAdmin)
 
   useEffect(() => {
@@ -77,6 +79,7 @@ const Home = () => {
         .then((response: AxiosResponse<UserResponse>) => {
           setEmail(response.data.email)
           setIsAdmin(response.data.isAdmin)
+          setIsAuth(true)
           console.log(response.data.isAdmin)
           if (response.data.isAdmin) {
             navigate(ROUTE_ADMIN)

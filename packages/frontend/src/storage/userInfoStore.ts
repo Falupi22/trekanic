@@ -4,6 +4,7 @@ import { createJSONStorage, persist } from "zustand/middleware"
 const initialState = {
   email: "",
   isAdmin: false,
+  isAuth: false,
 }
 
 interface UserInfo {
@@ -11,7 +12,9 @@ interface UserInfo {
   isAdmin: boolean
   setEmail: (email: string) => void
   setIsAdmin: (isAdmin: boolean) => void
+  setIsAuth: (isAuth: boolean) => void
   reset: () => void
+  isAuth: boolean
 }
 
 const useUserInfoStore = create<UserInfo, Array<any>>(
@@ -24,6 +27,8 @@ const useUserInfoStore = create<UserInfo, Array<any>>(
       reset: () => {
         set(initialState)
       },
+      isAuth: false,
+      setIsAuth: (isAuth) => set(() => ({ isAuth: isAuth })),
     }),
     {
       name: "user-storage", // name of the item in the storage (must be unique)

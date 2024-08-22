@@ -12,7 +12,7 @@ export const getAlerts = asyncHandler(async (req, res, next) => {
     result = await AlertModel.find().lean()
     res.status(statusCode).json(result)
   } else {
-    statusCode = HttpStatus.FORBIDDEN
+    statusCode = HttpStatus.UNAUTHORIZED
     res.status(statusCode).json()
   }
 })

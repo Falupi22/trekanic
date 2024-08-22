@@ -39,6 +39,7 @@ const Admin = () => {
       } catch (error) {
         console.log(error)
         toast(requestFailedToast)
+        throw error
       }
     }
     let interval

@@ -165,7 +165,7 @@ export const getAppointmentsOfAllUsers = asyncHandler(async (req, res) => {
       ])
       statusCode = HttpStatus.OK
     } else {
-      statusCode = HttpStatus.FORBIDDEN
+      statusCode = HttpStatus.UNAUTHORIZED
     }
 
     res.status(statusCode)
@@ -199,7 +199,7 @@ export const getAppointments = asyncHandler(async (req, res) => {
       ])
       statusCode = HttpStatus.OK
     } else {
-      statusCode = HttpStatus.FORBIDDEN
+      statusCode = HttpStatus.UNAUTHORIZED
     }
 
     res.status(statusCode).send(appointments)

@@ -48,6 +48,7 @@ const Account = () => {
         } catch (error) {
           console.log(error)
           toast(requestFailedToast)
+          throw error
         } finally {
           setLoading(false)
         }

@@ -5,7 +5,7 @@ import { Navigate, RouterProvider, createBrowserRouter } from "react-router-dom"
 import "../src/styles/style.css"
 import { Account, Admin, Home, Layout } from "./components"
 import { theme } from "./theme/theme"
-import { ROUTE_ACCOUNT, ROUTE_ADMIN, ROUTE_LOGIN, ROUTE_ROOT } from "./utils/routes"
+import { PrivateRoute, ROUTE_ACCOUNT, ROUTE_ADMIN, ROUTE_LOGIN, ROUTE_ROOT } from "./utils/routes"
 import ErrorBoundary from "./utils/routes/ErrorRoute"
 
 function App() {
@@ -25,12 +25,20 @@ function App() {
         },
         {
           path: ROUTE_ACCOUNT,
-          element: <Account />,
+          element: (
+            <PrivateRoute>
+              <Account />
+            </PrivateRoute>
+          ),
           errorElement: <Navigate to={ROUTE_ROOT} />,
         },
         {
           path: ROUTE_ADMIN,
-          element: <Admin />,
+          element: (
+            <PrivateRoute>
+              <Admin />
+            </PrivateRoute>
+          ),
           errorElement: <Navigate to={ROUTE_ROOT} />,
         },
       ],
