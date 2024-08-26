@@ -52,7 +52,6 @@ const Home = () => {
         .authenticate()
         .then((value) => {
           if (value.status === HttpStatusCode.Ok) {
-            console.log(isAdmin)
             if (isAdmin) {
               navigate(ROUTE_ADMIN)
             } else {
@@ -80,7 +79,6 @@ const Home = () => {
           setEmail(response.data.email)
           setIsAdmin(response.data.isAdmin)
           setIsAuth(true)
-          console.log(response.data.isAdmin)
           if (response.data.isAdmin) {
             navigate(ROUTE_ADMIN)
           } else {

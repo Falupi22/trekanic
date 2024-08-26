@@ -26,6 +26,7 @@ import getTakenDays, { getTakenHoursByDay } from "../../utils/appointmentDateUti
 import { REGEX_ONLY_NUMBERS } from "../../utils/regex"
 import { NoChangesHaveBeenMadeToast, requestFailedToast, requestSucceededToast } from "../alerts/toasts"
 import { ResponsiveDayPicker } from "../general"
+import { Appointment } from "devextreme/ui/scheduler"
 
 // Validation schema using yup
 const validationSchema = yup.object().shape({
@@ -281,10 +282,7 @@ function AppointmentDetailsPanel({
             mechanic: selectedMechanicId ?? appointmentToEdit.mechanic,
           }
 
-          console.log(origin.mechanic, edited.mechanic)
-
           const operations = jsonpatch.compare(origin, edited)
-          console.log(operations)
           if (operations.length === 0) {
             toast(NoChangesHaveBeenMadeToast)
           } else {
@@ -302,7 +300,7 @@ function AppointmentDetailsPanel({
         } else {
           onClose()
 
-          const appointment = {
+          const appointment: Appointment = {
             description: description,
             issue: selectedIssueId,
             datetime: new Date(new Date(selectedDay).setHours(selectedHour)).toISOString(),

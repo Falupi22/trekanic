@@ -4,11 +4,11 @@ import { EmailIcon, InfoIcon, TimeIcon } from "@chakra-ui/icons"
 import { Avatar, Box, BoxProps, Flex, FlexProps, HStack, Text, useDisclosure, useToast, VStack } from "@chakra-ui/react"
 import React, { ReactElement, ReactText } from "react"
 import { useNavigate } from "react-router-dom"
-import { api } from "../../api"
-import { LogOutIcon } from "../../assets/icons"
-import { requestFailedToast } from "../alerts"
-import { useUserInfoStore } from "../../storage"
-import { ROUTE_LOGIN } from "../../utils/routes"
+import { api } from "../api"
+import { LogOutIcon } from "../assets/icons"
+import { requestFailedToast } from "./alerts"
+import { useUserInfoStore } from "../storage"
+import { ROUTE_LOGIN } from "../utils/routes"
 
 interface LinkItemProps {
   name: string
@@ -31,7 +31,6 @@ export default function Sidebar({ username, isAdmin }) {
     api
       .logout()
       .then((res) => {
-        console.log("sidebar" + window.location.href)
         reset()
         navigate(ROUTE_LOGIN, { state: { prevURL: window.location.href } })
       })

@@ -4,7 +4,7 @@ import { api } from "../api"
 import { useAppointmentOptionsStore, useUserInfoStore } from "../storage"
 import { requestFailedToast } from "./alerts"
 import AppointmentScheduler from "./AppointmentScheduler"
-import { Sidebar } from "./general"
+import Sidebar from "./Sidebar"
 import { ROUTE_ACCOUNT } from "../utils/routes"
 import { useNavigate } from "react-router-dom"
 
@@ -37,7 +37,6 @@ const Admin = () => {
 
         setTakenDates(updatedTakenDates)
       } catch (error) {
-        console.log(error)
         toast(requestFailedToast)
         throw error
       }

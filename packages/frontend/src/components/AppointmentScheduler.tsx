@@ -66,7 +66,6 @@ const AppointmentScheduler = () => {
 
   const handleAppointmentClick = (e: AppointmentClickEvent) => {
     e.cancel = true
-    console.log(e.appointmentData)
 
     setSelectedAppointment(e.appointmentData)
     onOpen()
@@ -76,7 +75,6 @@ const AppointmentScheduler = () => {
     api
       .getMechanics()
       .then((response) => {
-        console.log("onOperationCompleted", generateData(response.data))
         setAppointments(generateData(response.data))
       })
       .catch((err) => {

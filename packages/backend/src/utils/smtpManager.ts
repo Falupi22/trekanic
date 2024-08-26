@@ -29,7 +29,7 @@ const sendEmail = async (recipient: string, appointment, informType: InformTypeV
   try {
     await transporter.sendMail(mailOptions)
   } catch (err) {
-    console.log(err)
+    /* empty */
   }
 }
 

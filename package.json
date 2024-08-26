@@ -7,14 +7,19 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "tsc --build --verbose",
+    "build:frontend": "cd packages/frontend && tsc --build --verbose",
+    "build:backend": "cd packages/backend && tsc --build --verbose",
+    "build:all": "concurrently \"npm run build:frontend\" \"npm run build:backend\"",
     "lint": "eslint \"packages/**/*.ts\" --fix",
-    "start": "ts-node --project tsconfig.json src/index.ts",
+    "start:frontend": "cd packages/frontend && npm start",
+    "start:backend": "cd packages/backend && npm run dev",
+    "start:all": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
     "prepare": "husky install"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.44.0",
     "@typescript-eslint/parser": "^5.44.0",
+    "concurrently": "^8.2.2",
     "eslint": "^8.28.0",
     "husky": "^8.0.0",
     "lint-staged": "^15.2.7",

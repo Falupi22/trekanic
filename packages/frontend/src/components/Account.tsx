@@ -6,10 +6,12 @@ import { useAppointmentOptionsStore, useUserInfoStore } from "../storage"
 import "../styles/style.css"
 import { ROUTE_ADMIN } from "../utils/routes"
 import { requestFailedToast } from "./alerts"
-import Appointment from "./Appointment"
+import AppointmentPanel from "./Appointment"
 import AppointmentsControlPanel from "./AppointmentsControlPanel"
-import { Sidebar, SkeletonLoader } from "./general/"
+import { SkeletonLoader } from "./general/"
+import Sidebar from "./Sidebar"
 import AlertPanel from "./AlertPanel"
+import { Appointment } from "devextreme/ui/scheduler"
 
 const Account = () => {
   const [appointments, setAppointments] = useState(null)
@@ -38,7 +40,6 @@ const Account = () => {
             setIssues((await api.getIssues()).data)
           }
           const storedDates = (await api.getTakenDates()).data
-          console.log(storedDates)
           const updatedTakenDates = takenDates ? takenDates : []
           updatedTakenDates.push(...storedDates)
           setTakenDates(updatedTakenDates)
@@ -46,7 +47,6 @@ const Account = () => {
           const alerts = (await api.getAlerts()).data
           setAlerts(alerts)
         } catch (error) {
-          console.log(error)
           toast(requestFailedToast)
           throw error
         } finally {
@@ -57,11 +57,10 @@ const Account = () => {
     fetch()
   }, [appointments, isAdmin, issues, navigate, setAppointments, setIssues, setTakenDates, takenDates, toast])
 
-  const onAppointmentCreated = (appointment) => {
+  const onAppointmentCreated = (appointment: Appointment) => {
     api
       .getAppointments()
       .then((res) => {
-        console.log(res.data)
         setAppointments(res.data)
       })
       .catch((err) => {
@@ -80,7 +79,7 @@ const Account = () => {
       return new Date(b.datetime).getTime() - new Date(a.datetime).getTime()
     })
     ?.map((appointment) => (
-      <Appointment key={appointment._id} appointment={appointment} deleteCallback={deleteCallback} />
+      <AppointmentPanel key={appointment._id} appointment={appointment} deleteCallback={deleteCallback} />
     ))
 
   const nextAppointment = appointments

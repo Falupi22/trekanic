@@ -18,12 +18,12 @@ export const login = asyncHandler(async (req, res, next) => {
         user["id"] = existingUser.id
         req.login(user, async function (error) {
           if (error) {
-            console.log(error)
+            error
           } else {
             await new Promise((resolve) => {
               passport.authenticate("local", function (error) {
                 if (error) {
-                  console.log(error)
+                  error
                   statusCode = HttpStatus.UNAUTHORIZED
                 } else {
                   statusCode = HttpStatus.OK

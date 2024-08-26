@@ -1,11 +1,12 @@
 import Account from "./Account"
-import Appointment from "./Appointment"
+import AppointmentPanel from "./Appointment"
 import AppointmentsControlPanel from "./AppointmentsControlPanel"
 import Home from "./Home"
 import Admin from "./Admin"
 import { AppointmentDetailsPanel } from "./modals"
 import Layout from "./Layout"
-import { SkeletonLoader, Sidebar } from "./general"
+import { SkeletonLoader } from "./general"
+import Sidebar from "./Sidebar"
 import AlertPanel from "./AlertPanel"
 
 export {
@@ -13,7 +14,7 @@ export {
   Sidebar,
   Account,
   AppointmentsControlPanel,
-  Appointment,
+  AppointmentPanel as Appointment,
   AppointmentDetailsPanel,
   Home,
   Admin,

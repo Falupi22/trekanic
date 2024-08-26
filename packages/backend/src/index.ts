@@ -57,8 +57,6 @@ setMiddlewares()
 setPassport()
 setRoutes()
 
-app.listen(Config.port, () => {
-  console.log(`Express is listening at http://localhost:${Config.port}!`)
-})
+app.listen(Config.port)
 
 export default app
