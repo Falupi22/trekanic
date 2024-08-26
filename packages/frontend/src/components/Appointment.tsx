@@ -13,7 +13,7 @@ import {
   VStack,
 } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
-import { api } from "../api"
+import { api, Appointment } from "../api"
 import { useAppointmentOptionsStore } from "../storage"
 import { getFormattedDate } from "../theme"
 import getTakenDays from "../utils/appointmentDateUtils"
@@ -21,7 +21,12 @@ import { EnsureDialog } from "./alerts"
 import { requestFailedToast, requestSucceededToast } from "./alerts/toasts"
 import AppointmentDetailsPanel from "./modals/AppointmentDetailsPanel"
 
-const Appointment = ({ appointment, deleteCallback }) => {
+interface AppointmentProps {
+  appointment: Appointment
+  deleteCallback: (appointmentId: string) => void
+}
+
+const AppointmentPanel = ({ appointment, deleteCallback }: AppointmentProps) => {
   const { _id, issue, datetime, description, mechanic, product } = appointment
   const [descriptionOfProblem, setDescriptionOfProblem] = useState(description)
   const [issueOfInterest, setIssueOfInterest] = useState(issue)
@@ -61,7 +66,7 @@ const Appointment = ({ appointment, deleteCallback }) => {
       })
   }
 
-  const onEditCompleted = (appointment) => {
+  const onEditCompleted = (appointment: Appointment) => {
     api
       .getAppointments()
       .then((res) => {
@@ -166,4 +171,4 @@ const Appointment = ({ appointment, deleteCallback }) => {
   )
 }
 
-export default Appointment
+export default AppointmentPanel

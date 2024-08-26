@@ -26,6 +26,7 @@ import getTakenDays, { getTakenHoursByDay } from "../../utils/appointmentDateUti
 import { REGEX_ONLY_NUMBERS } from "../../utils/regex"
 import { NoChangesHaveBeenMadeToast, requestFailedToast, requestSucceededToast } from "../alerts/toasts"
 import { ResponsiveDayPicker } from "../general"
+import { Appointment } from "devextreme/ui/scheduler"
 
 // Validation schema using yup
 const validationSchema = yup.object().shape({
@@ -299,11 +300,11 @@ function AppointmentDetailsPanel({
         } else {
           onClose()
 
-          const appointment = {
+          const appointment: Appointment = {
             description: description,
             issue: selectedIssueId,
             datetime: new Date(new Date(selectedDay).setHours(selectedHour)).toISOString(),
-            product: "667e18ad75fde3dfe38ef27b",
+            product: "66c4c4ba1e78175ba1469426",
           }
 
           api

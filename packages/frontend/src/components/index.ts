@@ -1,5 +1,5 @@
 import Account from "./Account"
-import Appointment from "./Appointment"
+import AppointmentPanel from "./Appointment"
 import AppointmentsControlPanel from "./AppointmentsControlPanel"
 import Home from "./Home"
 import Admin from "./Admin"
@@ -14,7 +14,7 @@ export {
   Sidebar,
   Account,
   AppointmentsControlPanel,
-  Appointment,
+  AppointmentPanel as Appointment,
   AppointmentDetailsPanel,
   Home,
   Admin,
