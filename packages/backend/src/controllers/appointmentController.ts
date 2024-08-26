@@ -77,7 +77,6 @@ export const getMechanics = asyncHandler(async (req, res) => {
 
 export const getMechanicsByTime = asyncHandler(async (req, res) => {
   const selectedTime = req.params.time
-  console.log(selectedTime)
   try {
     if (!req.isAuthenticated()) {
       res.status(HttpStatus.UNAUTHORIZED).send()
@@ -311,9 +310,6 @@ export const editAppointment = asyncHandler(async (req, res) => {
     const editedAppointmentDate = new Date(editedAppointment.datetime)
     const appointmentHour = editedAppointmentDate.getHours()
 
-    console.log("before" + originalAppointment.mechanic)
-    console.log(editedAppointment.mechanic)
-
     if (editedAppointment.description.length > 250) {
       res.status(HttpStatus.BAD_REQUEST).send()
       return
@@ -350,19 +346,12 @@ export const editAppointment = asyncHandler(async (req, res) => {
             !freeMechanics.find((mechanic) => (mechanic._id as Types.ObjectId).equals(originalAppointment.mechanic))
           ) {
             const randomMechanicIndex = Math.floor(Math.random() * freeMechanics.length)
-            console.log(freeMechanics)
             newMechanicId = freeMechanics[randomMechanicIndex]?._id as Types.ObjectId
           }
 
           editedAppointment.mechanic = newMechanicId
 
           await AppointmentModel.updateOne({ _id: editedAppointment.id }, editedAppointment)
-
-          // Exchanging mechanics.
-          console.log(originalAppointment.mechanic)
-          console.log(newMechanicId)
-          console.log(originalAppointment.mechanic.equals(newMechanicId))
-          console.log(originalAppointment._id)
 
           if (!originalAppointment.mechanic.equals(newMechanicId)) {
             await MechanicModel.findOneAndUpdate(
@@ -428,8 +417,6 @@ export const deleteAppointment = asyncHandler(async (req, res) => {
   const executor = await User.findById((req.user as UserDocument).id).lean()
   const adminDeleted = executor.isAdmin
 
-  console.log(executor)
-
   let session
 
   try {
@@ -447,8 +434,6 @@ export const deleteAppointment = asyncHandler(async (req, res) => {
       return
     }
 
-    console.log(originalAppointment.mechanic)
-    console.log(originalAppointment._id)
     await MechanicModel.findOneAndUpdate(
       { _id: originalAppointment.mechanic._id },
       {
@@ -471,7 +456,7 @@ export const deleteAppointment = asyncHandler(async (req, res) => {
 
     res.status(HttpStatus.OK).send()
   } catch (error) {
-    console.log(error)
+    error
     if (session) {
       await session.abortTransaction()
       session.endSession()

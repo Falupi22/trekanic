@@ -8,7 +8,8 @@ import { ROUTE_ADMIN } from "../utils/routes"
 import { requestFailedToast } from "./alerts"
 import Appointment from "./Appointment"
 import AppointmentsControlPanel from "./AppointmentsControlPanel"
-import { Sidebar, SkeletonLoader } from "./general/"
+import { SkeletonLoader } from "./general/"
+import Sidebar from "./Sidebar"
 import AlertPanel from "./AlertPanel"
 
 const Account = () => {
@@ -38,7 +39,6 @@ const Account = () => {
             setIssues((await api.getIssues()).data)
           }
           const storedDates = (await api.getTakenDates()).data
-          console.log(storedDates)
           const updatedTakenDates = takenDates ? takenDates : []
           updatedTakenDates.push(...storedDates)
           setTakenDates(updatedTakenDates)
@@ -46,7 +46,6 @@ const Account = () => {
           const alerts = (await api.getAlerts()).data
           setAlerts(alerts)
         } catch (error) {
-          console.log(error)
           toast(requestFailedToast)
         } finally {
           setLoading(false)
@@ -60,7 +59,6 @@ const Account = () => {
     api
       .getAppointments()
       .then((res) => {
-        console.log(res.data)
         setAppointments(res.data)
       })
       .catch((err) => {

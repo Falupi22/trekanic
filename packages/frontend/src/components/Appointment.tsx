@@ -50,7 +50,6 @@ const Appointment = ({ appointment, deleteCallback }) => {
     api
       .getTakenDates()
       .then((res) => {
-        console.log(res.data)
         const takenSavedDates: Array<any> = getTakenDays(res.data)
         const allTakenDates = []
         allTakenDates.push(...takenSavedDates, ...takenDates)
@@ -67,7 +66,6 @@ const Appointment = ({ appointment, deleteCallback }) => {
       .getAppointments()
       .then((res) => {
         const currentAppointment = res.data?.find((existingAppointment) => existingAppointment._id === _id)
-        console.log(currentAppointment)
         if (currentAppointment) {
           setDescriptionOfProblem(currentAppointment.description)
           setIssueOfInterest(currentAppointment.issue)

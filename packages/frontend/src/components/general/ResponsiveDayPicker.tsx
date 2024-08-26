@@ -11,12 +11,10 @@ interface ResponsiveDayPickerProps {
 
 const ResponsiveDayPicker = ({ disableDays, preSelectedDate, selectCallback }: ResponsiveDayPickerProps) => {
   const [selected, setSelected] = useState<Date>()
-  // [unSelecteableDays, setUnselectableDays] = useState(
+
   const date = new Date(Date.now())
-  console.log(disableDays)
   useEffect(() => {
     if (preSelectedDate) {
-      console.log(preSelectedDate)
       setSelected(preSelectedDate)
     }
   }, [preSelectedDate])

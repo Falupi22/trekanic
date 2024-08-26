@@ -281,10 +281,7 @@ function AppointmentDetailsPanel({
             mechanic: selectedMechanicId ?? appointmentToEdit.mechanic,
           }
 
-          console.log(origin.mechanic, edited.mechanic)
-
           const operations = jsonpatch.compare(origin, edited)
-          console.log(operations)
           if (operations.length === 0) {
             toast(NoChangesHaveBeenMadeToast)
           } else {

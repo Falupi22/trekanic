@@ -23,7 +23,6 @@ const AppointmentsControlPanel = ({
     api
       .getTakenDates()
       .then((res) => {
-        console.log(res.data)
         const takenSavedDates: Array<any> = getTakenDays(res.data)
         const allTakenDates = []
         allTakenDates.push(...takenSavedDates, ...takenDates)
@@ -31,7 +30,6 @@ const AppointmentsControlPanel = ({
         onOpen()
       })
       .catch((err) => {
-        console.log(err)
         toast(requestFailedToast)
       })
   }
