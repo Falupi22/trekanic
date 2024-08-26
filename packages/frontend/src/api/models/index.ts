@@ -1,8 +1,8 @@
-import { Appointment } from "./Appointment"
-import { Issue } from "./Issue"
-import { IssueCategory } from "./IssueCategory"
-import { Mechanic } from "./Mechanic"
-import { Product } from "./Product"
-import { User } from "./User"
+import { type Appointment } from "./Appointment.model"
+import { type Issue } from "./Issue.model"
+import { type IssueCategory } from "./IssueCategory.model"
+import { type Mechanic } from "./Mechanic.model"
+import { type Product } from "./Product.model"
+import { type User } from "./User.model"
 
 export { Appointment, Issue, IssueCategory, Mechanic, Product, User }

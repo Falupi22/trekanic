@@ -1,4 +1,4 @@
-export interface IssueCategory {
+export type IssueCategory = {
   _id: string
   name: string
   duration: number

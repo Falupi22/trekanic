@@ -1,6 +1,6 @@
-import { IssueCategory } from "./IssueCategory"
+import { IssueCategory } from "./IssueCategory.model"
 
-export interface Issue {
+export type Issue = {
   _id: string
   catalogNumber: string
   description: string
