@@ -196,6 +196,7 @@ export const getAppointments = asyncHandler(async (req, res) => {
           path: "product",
         },
       ])
+
       statusCode = HttpStatus.OK
     } else {
       statusCode = HttpStatus.UNAUTHORIZED
