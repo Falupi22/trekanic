@@ -89,7 +89,7 @@ Before you begin, ensure you meet the following requirements:
 
 Trekanic is licensed under the [Apache 2.0](LICENSE).
 
-
+---
 
 If you have any additional questions or need further assistance, please feel free to reach out to our support team.
 trekanicmailbot@gmail.com
