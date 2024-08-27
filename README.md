@@ -41,7 +41,7 @@ Before you begin, ensure you meet the following requirements:
 ### Installation
 
 1. Clone the repo
-2. npm install (containing repo first, then client and server repos)
+2. `` npm install `` (containing repo first, then client and server repos)
 3. Create a .env for the server, then configure :
 
 - SESSION_SECRET (for the sessions)
@@ -51,7 +51,10 @@ Before you begin, ensure you meet the following requirements:
 - PASSWORD (password of the bot that sends notifications)
 
 4. Configure the DB with test.issues and test.issueCategories from ./assets/data
-5. Run with the designated scripts in the corresponding package.json file of each subrepo
+5. Run with the designated scripts in the corresponding package.json file of each subrepo, or run for both subrepos
+   from the parent folder. For example:
+   `` npm run build:all ``
+   `` npm run start:all `` (Not for production)
 
 ## User Guide
 
@@ -86,11 +89,7 @@ Before you begin, ensure you meet the following requirements:
 
 Trekanic is licensed under the [Apache 2.0](LICENSE).
 
----
 
-Thank you for choosing Trekanic. We hope you enjoy the convenience of our platform!
-
----
 
 If you have any additional questions or need further assistance, please feel free to reach out to our support team.
 trekanicmailbot@gmail.com
