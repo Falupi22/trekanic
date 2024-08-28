@@ -18,8 +18,6 @@ Welcome to Trekanic! This README provides all the necessary information about ou
 
 ## Introduction
 
-**As for the 13/7/2024, it is still a prototype and not an MVP.**
-
 Trekanic is a premium online scheduling platform designed for exclusive clients who seek convenience and efficiency in managing their appointments. Our mobile-friendly interface ensures that customers can book, modify, and cancel appointments directly from the internet, anytime and anywhere. 
 
 ## Features
