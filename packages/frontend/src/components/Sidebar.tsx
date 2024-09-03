@@ -106,7 +106,7 @@ const SidebarContent = ({ onClose, logOutCallback, username, isAdmin, ...rest }:
               }}
             >
               <LogOutIcon />
-              <Text ml={2} color="while">
+              <Text ml={2} color="white">
                 Log out
               </Text>
             </HStack>

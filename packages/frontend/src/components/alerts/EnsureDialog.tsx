@@ -21,7 +21,7 @@ function EnsureDialog({ isOpen, onCommit, onCancel, cancelRef }: EnsureDialogPro
     <>
       <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onCancel}>
         <AlertDialogOverlay>
-          <AlertDialogContent>
+          <AlertDialogContent backgroundColor="dark.100">
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
               Delete Customer
             </AlertDialogHeader>

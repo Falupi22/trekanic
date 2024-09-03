@@ -1,5 +1,5 @@
 import Account from "./Account"
-import AppointmentPanel from "./Appointment"
+import AppointmentPanel from "./AppointmentPanel"
 import AppointmentsControlPanel from "./AppointmentsControlPanel"
 import Home from "./Home"
 import Admin from "./Admin"
