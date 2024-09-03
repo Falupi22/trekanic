@@ -24,9 +24,10 @@ import AppointmentDetailsPanel from "./modals/AppointmentDetailsPanel"
 interface AppointmentProps {
   appointment: Appointment
   deleteCallback: (appointmentId: string) => void
+  editCallback: (appointment: Appointment) => void
 }
 
-const AppointmentPanel = ({ appointment, deleteCallback }: AppointmentProps) => {
+const AppointmentPanel = ({ appointment, deleteCallback, editCallback }: AppointmentProps) => {
   const { _id, issue, datetime, description, mechanic, product } = appointment
   const [descriptionOfProblem, setDescriptionOfProblem] = useState(description)
   const [issueOfInterest, setIssueOfInterest] = useState(issue)
@@ -78,6 +79,8 @@ const AppointmentPanel = ({ appointment, deleteCallback }: AppointmentProps) => 
           setDateAndTime(currentAppointment.datetime)
           setMechanicInCharge(currentAppointment.mechanic)
         }
+
+        editCallback(appointment)
       })
       .catch((err) => {
         toast(requestFailedToast)

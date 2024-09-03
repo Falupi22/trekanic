@@ -209,6 +209,7 @@ export const getAppointments = asyncHandler(async (req, res) => {
 })
 
 export const createAppointment = asyncHandler(async (req, res) => {
+  let session
   try {
     if (!req.isAuthenticated()) {
       res.status(HttpStatus.UNAUTHORIZED).send()
@@ -245,31 +246,49 @@ export const createAppointment = asyncHandler(async (req, res) => {
     if (availableMechanics.length > 0) {
       const user = await User.findOne({ email: userDoc.email })
 
-      appointment = await AppointmentModel.create({
-        issue: currentAppointment.issue,
-        description: currentAppointment.description,
-        datetime: currentAppointment.datetime,
-        customer: user._id,
-        mechanic: availableMechanics[Math.floor(Math.random() * freeMechanics.length)]._id,
-        product: currentAppointment.product,
-      })
+      session = await startSession()
+      session.startTransaction()
+
+      const selectedMechanicId = availableMechanics[Math.floor(Math.random() * freeMechanics.length)]._id
+      appointment = await AppointmentModel.create(
+        [
+          {
+            issue: currentAppointment.issue,
+            description: currentAppointment.description,
+            datetime: currentAppointment.datetime,
+            customer: user._id,
+            mechanic: selectedMechanicId,
+            product: currentAppointment.product,
+          },
+        ],
+        { session },
+      )
 
       await MechanicModel.findOneAndUpdate(
-        { _id: appointment.mechanic._id },
+        { _id: selectedMechanicId },
         {
           $push: {
             appointments: {
-              _id: appointment._id,
+              _id: appointment[0]._id,
             },
           },
         },
+        { session },
       )
+
+      await session.commitTransaction()
+      session.endSession()
     }
 
     const statusCode = availableMechanics.length > 0 ? HttpStatus.OK : HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE
 
     res.status(statusCode).send(appointment)
   } catch (error) {
+    if (session) {
+      await session.abortTransaction()
+      session.endSession()
+    }
+
     console.error(error)
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).send("An error occurred")
   }
@@ -279,6 +298,7 @@ export const editAppointment = asyncHandler(async (req, res) => {
   const appointmentId = req.body.appointmentId
   const appointmentPatch = req.body.appointmentPatch
 
+  let session
   try {
     if (!req.isAuthenticated()) {
       res.status(HttpStatus.UNAUTHORIZED).send()
@@ -351,7 +371,10 @@ export const editAppointment = asyncHandler(async (req, res) => {
 
           editedAppointment.mechanic = newMechanicId
 
-          await AppointmentModel.updateOne({ _id: editedAppointment.id }, editedAppointment)
+          session = await startSession()
+          session.startTransaction()
+
+          await AppointmentModel.updateOne({ _id: editedAppointment.id }, editedAppointment, { session })
 
           if (!originalAppointment.mechanic.equals(newMechanicId)) {
             await MechanicModel.findOneAndUpdate(
@@ -361,6 +384,7 @@ export const editAppointment = asyncHandler(async (req, res) => {
                   appointments: new Types.ObjectId(originalAppointment._id.toString()),
                 },
               },
+              { session },
             ).exec()
 
             await MechanicModel.findOneAndUpdate(
@@ -372,6 +396,7 @@ export const editAppointment = asyncHandler(async (req, res) => {
                   },
                 },
               },
+              { session },
             ).exec()
           }
 
@@ -382,12 +407,15 @@ export const editAppointment = asyncHandler(async (req, res) => {
             sendEmail(email, updated, "edit")
           }
 
+          await session.commitTransaction()
+          session.endSession()
+
           res.status(HttpStatus.OK).send()
         } else {
           res.status(HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE).send("No available mechanics")
         }
       } else {
-        await AppointmentModel.updateOne({ _id: editedAppointment.id }, editedAppointment)
+        await AppointmentModel.updateOne({ _id: editedAppointment.id }, editedAppointment, { session })
 
         if (adminEdited) {
           const updated = await AppointmentModel.findById(appointmentId).populate("product mechanic issue").lean()
@@ -402,6 +430,11 @@ export const editAppointment = asyncHandler(async (req, res) => {
       res.status(HttpStatus.BAD_REQUEST).send("Invalid appointment time")
     }
   } catch (error) {
+    if (session) {
+      await session.abortTransaction()
+      session.endSession()
+    }
+
     console.error("An error occurred:", error)
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).send("An error occurred")
   }
@@ -420,12 +453,7 @@ export const deleteAppointment = asyncHandler(async (req, res) => {
   let session
 
   try {
-    session = await startSession()
-    session.startTransaction()
-    const originalAppointment = await AppointmentModel.findById(appointmentId)
-      .populate("customer mechanic")
-      .session(session)
-      .lean()
+    const originalAppointment = await AppointmentModel.findById(appointmentId).populate("customer mechanic").lean()
     const customer = originalAppointment.customer as unknown as UserDocument
     const email = customer.email
 
@@ -433,6 +461,9 @@ export const deleteAppointment = asyncHandler(async (req, res) => {
       res.status(HttpStatus.NOT_FOUND).send("Appointment not found")
       return
     }
+
+    session = await startSession()
+    session.startTransaction()
 
     await MechanicModel.findOneAndUpdate(
       { _id: originalAppointment.mechanic._id },
@@ -467,17 +498,32 @@ export const deleteAppointment = asyncHandler(async (req, res) => {
 })
 
 const getFreeMechanicsByTime = async (currentAppointmentTime: AppointmentTime) => {
-  const mechanics: Mechanic[] = await MechanicModel.find().lean()
+  const mechanics: Mechanic[] = await MechanicModel.find()
+    .populate({
+      path: "appointments",
+      model: AppointmentModel,
+      populate: [
+        {
+          path: "issue",
+          model: IssueModel,
+          populate: {
+            path: "category",
+            model: IssueCategoryModel,
+          },
+        },
+      ],
+    })
+    .lean()
+
   const freeMechanics = await Promise.all(
     mechanics.map(async (mechanic) => {
-      const appointmentTimes: AppointmentTime[] = await Promise.all(
-        mechanic.appointments.map(async (appointmentId) => {
-          const appointment: Appointment = await AppointmentModel.findById(appointmentId).lean()
-          const issue: Issue = await IssueModel.findById(appointment.issue).populate("category").lean()
+      const appointmentTimes: AppointmentTime[] = (mechanic.appointments as unknown as Appointment[]).map(
+        (appointment) => {
+          const issue: Issue = appointment.issue as unknown as Issue
           const issueCategory = issue.category as unknown as IssueCategory
           const duration = issueCategory.duration
           return new AppointmentTime(appointment.datetime, duration)
-        }),
+        },
       )
 
       let free = true

@@ -6,7 +6,7 @@ import { useAppointmentOptionsStore, useUserInfoStore } from "../storage"
 import "../styles/style.css"
 import { ROUTE_ADMIN } from "../utils/routes"
 import { requestFailedToast } from "./alerts"
-import AppointmentPanel from "./Appointment"
+import AppointmentPanel from "./AppointmentPanel"
 import AppointmentsControlPanel from "./AppointmentsControlPanel"
 import { SkeletonLoader } from "./general/"
 import Sidebar from "./Sidebar"
@@ -35,13 +35,21 @@ const Account = () => {
           if (isAdmin) {
             navigate(ROUTE_ADMIN)
           }
-          setAppointments((await api.getAppointments()).data)
+
+          setAppointments(
+            (await api.getAppointments()).data?.sort((a, b) => {
+              return new Date(b.datetime).getTime() - new Date(a.datetime).getTime()
+            }),
+          )
+
           if (!issues || issues.length === 0) {
             setIssues((await api.getIssues()).data)
           }
+
           const storedDates = (await api.getTakenDates()).data
           const updatedTakenDates = takenDates ? takenDates : []
           updatedTakenDates.push(...storedDates)
+
           setTakenDates(updatedTakenDates)
 
           const alerts = (await api.getAlerts()).data
@@ -56,11 +64,16 @@ const Account = () => {
     fetch()
   }, [appointments, isAdmin, issues, navigate, setAppointments, setIssues, setTakenDates, takenDates, toast])
 
-  const onAppointmentCreated = (appointment: Appointment) => {
+  const onAppointmentCreatedOrEdited = (appointment: Appointment) => {
+    console.log("refresh")
     api
       .getAppointments()
       .then((res) => {
-        setAppointments(res.data)
+        setAppointments(
+          res.data?.sort((a, b) => {
+            return new Date(b.datetime).getTime() - new Date(a.datetime).getTime()
+          }),
+        )
       })
       .catch((err) => {
         toast(requestFailedToast)
@@ -73,19 +86,23 @@ const Account = () => {
     setAppointments(uodatedAppointments)
   }
 
-  const appointmentsCards = appointments
-    ?.sort((a, b) => {
-      return new Date(b.datetime).getTime() - new Date(a.datetime).getTime()
-    })
-    ?.map((appointment) => (
-      <AppointmentPanel key={appointment._id} appointment={appointment} deleteCallback={deleteCallback} />
-    ))
+  const appointmentsCards = appointments?.map((appointment) => (
+    <AppointmentPanel
+      editCallback={onAppointmentCreatedOrEdited}
+      key={appointment._id}
+      appointment={appointment}
+      deleteCallback={deleteCallback}
+    />
+  ))
 
+  console.log(appointmentsCards + " cards")
   const nextAppointment = appointments
     ?.sort((a, b) => {
       return new Date(b.datetime).getTime() - new Date(a.datetime).getTime()
     })
     ?.find((appointment) => new Date(appointment.datetime).getTime() > Date.now())
+  console.log(nextAppointment + " next")
+
   const nextAppointmentDatetime = nextAppointment?.datetime
   return (
     <Flex flexFlow="row" w="100%" h="100%" justifyContent="center">
@@ -93,7 +110,7 @@ const Account = () => {
       <Flex flexFlow="column" alignItems="center" pr={25} pt={5} pl={25} w={{ base: "90%", md: "60%" }}>
         <VStack maxH="80vh" gap={0.25} minW="30wh" w="100%" boxShadow="0 4px 8px rgba(0,0,0,0.7)" zIndex={1}>
           <AppointmentsControlPanel
-            creationCallback={onAppointmentCreated}
+            creationCallback={onAppointmentCreatedOrEdited}
             nextAppointmentDatetime={nextAppointmentDatetime}
             isLoading={loading}
           />
