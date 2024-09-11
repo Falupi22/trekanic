@@ -17,7 +17,7 @@ import {
   useToast,
 } from "@chakra-ui/react"
 import * as jsonpatch from "fast-json-patch"
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { Form } from "react-router-dom"
 import * as yup from "yup" // Import yup for validation
 import { api } from "../../api"
@@ -70,6 +70,54 @@ function AppointmentDetailsPanel({
   const [isFormValid, setIsFormValid] = useState(false) // State to track overall form validity
   const [errors, setErrors] = useState(null) // State to store validation errors
   const toast = useToast(requestSucceededToast)
+
+  // Create refs for form fields
+  const issueRef = useRef<HTMLSelectElement>(null)
+  const descriptionRef = useRef<HTMLTextAreaElement>(null)
+  const catalogNumberRef = useRef<HTMLInputElement>(null)
+  const dayRef = useRef<HTMLDivElement>(null) // Assuming ResponsiveDayPicker is a div
+  const hourRef = useRef<HTMLSelectElement>(null)
+  const mechanicRef = useRef<HTMLSelectElement>(null)
+
+  useEffect(() => {
+    if (errors && Object.keys(errors).length > 0) {
+      const firstErrorField = Object.keys(errors).at(0)
+      switch (firstErrorField) {
+        case "selectedIssueId":
+          issueRef?.current?.scrollIntoView({ behavior: "smooth", block: "center" })
+          issueRef?.current?.focus()
+          break
+        case "description":
+          descriptionRef?.current?.scrollIntoView({ behavior: "smooth", block: "center" })
+          descriptionRef?.current?.focus()
+          break
+        case "catalogNumber":
+          catalogNumberRef?.current?.scrollIntoView({ behavior: "smooth", block: "center" })
+          catalogNumberRef?.current?.focus()
+          break
+        case "selectedDay":
+          dayRef?.current?.scrollIntoView({ behavior: "smooth", block: "center" })
+          // dayRef.current?.focus(); // Adjust if `ResponsiveDayPicker` needs focusing
+          break
+        case "selectedHour":
+          hourRef?.current?.scrollIntoView({ behavior: "smooth", block: "center" })
+          hourRef?.current?.focus()
+          break
+        case "selectedMechanicId":
+          mechanicRef?.current?.scrollIntoView({ behavior: "smooth", block: "center" })
+          mechanicRef?.current?.focus()
+          break
+        default:
+          break
+      }
+    }
+  }, [errors])
+
+  useEffect(() => {
+    if (isOpen) {
+      setErrors([])
+    }
+  }, [isOpen])
 
   // Effect to update form validity whenever any required field changes
   useEffect(() => {
@@ -353,7 +401,7 @@ function AppointmentDetailsPanel({
               <FormControl isInvalid={!!errors?.selectedIssueId}>
                 <FormLabel>Issue</FormLabel>
                 <Select
-                  ref={initialRef}
+                  ref={issueRef}
                   value={selectedIssueId}
                   variant="normal"
                   onChange={onIssueSelected}
@@ -369,6 +417,7 @@ function AppointmentDetailsPanel({
               <FormControl mt={4} isInvalid={!!errors?.description}>
                 <FormLabel>Description</FormLabel>
                 <Textarea
+                  ref={descriptionRef}
                   variant="normal"
                   maxLength={250}
                   value={description}
@@ -383,6 +432,7 @@ function AppointmentDetailsPanel({
               <FormControl mt={4} isInvalid={!!errors?.catalogNumber}>
                 <FormLabel>Product Catalog Number</FormLabel>
                 <Input
+                  ref={catalogNumberRef}
                   maxLength={6}
                   variant="normal"
                   value={catalogNumber}
@@ -394,7 +444,7 @@ function AppointmentDetailsPanel({
                 </FormErrorMessage>
               </FormControl>
 
-              <FormControl mt={4} isInvalid={!!errors?.selectedDay}>
+              <FormControl ref={dayRef} mt={4} isInvalid={!!errors?.selectedDay}>
                 <FormLabel>Date</FormLabel>
                 <ResponsiveDayPicker
                   disableDays={getTakenDays(takenDates)}
@@ -408,7 +458,13 @@ function AppointmentDetailsPanel({
 
               <FormControl mt={4} isInvalid={!!errors?.selectedHour}>
                 <FormLabel>Hour</FormLabel>
-                <Select value={selectedHour} variant="normal" onChange={onHourSelected} placeholder="Select an hour">
+                <Select
+                  ref={hourRef}
+                  value={selectedHour}
+                  variant="normal"
+                  onChange={onHourSelected}
+                  placeholder="Select an hour"
+                >
                   {generateOptionalTimes(getTakenHoursByDay(takenDates, selectedDay), selectedDay)}
                 </Select>
                 <FormErrorMessage>
@@ -422,6 +478,7 @@ function AppointmentDetailsPanel({
                   <Select
                     value={selectedMechanicId}
                     variant="normal"
+                    ref={mechanicRef}
                     onChange={onMechanicSelected}
                     placeholder="Select a mechanic (optional)"
                   >
