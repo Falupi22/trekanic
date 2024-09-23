@@ -1,56 +1,23 @@
 [{
   "_id": {
-    "$oid": "667de00575fde3dfe38ef208"
+    "$oid": "667de00575fde3dfe38ef210"
   },
-  "price": 70,
-  "description": "החלפת מעביר קדמי",
-  "catalogNumber": 10133,
-  "category": {
-    "$oid": "667de6aa75fde3dfe38ef242"
-  }
-},
-{
-  "_id": {
-    "$oid": "667de00575fde3dfe38ef211"
-  },
-  "price": 100,
-  "description": "התקנת כידון",
-  "catalogNumber": 10150,
+  "price": 90,
+  "description": "טיפול מוט אוכף טלסקופי",
+  "catalogNumber": 10141,
   "category": {
     "$oid": "667de7c475fde3dfe38ef244"
   }
 },
 {
   "_id": {
-    "$oid": "667de00575fde3dfe38ef20d"
+    "$oid": "667de00575fde3dfe38ef205"
   },
   "price": 70,
-  "description": "טיפול קלאץ' מעביר אחורי",
-  "catalogNumber": 10166,
+  "description": "החלפת כבל בלם / הילוכים כולל כבל",
+  "catalogNumber": 10130,
   "category": {
     "$oid": "667de6aa75fde3dfe38ef242"
-  }
-},
-{
-  "_id": {
-    "$oid": "667de00575fde3dfe38ef204"
-  },
-  "price": 80,
-  "description": "החלפת כבל הילוכים - MADONE",
-  "catalogNumber": 10129,
-  "category": {
-    "$oid": "667de6aa75fde3dfe38ef242"
-  }
-},
-{
-  "_id": {
-    "$oid": "667de00575fde3dfe38ef235"
-  },
-  "price": 30,
-  "description": "טיפול ISO SPEED",
-  "catalogNumber": 10169,
-  "category": {
-    "$oid": "667de84575fde3dfe38ef24a"
   }
 },
 {
@@ -66,24 +33,79 @@
 },
 {
   "_id": {
-    "$oid": "667de00575fde3dfe38ef21c"
+    "$oid": "667de00575fde3dfe38ef219"
+  },
+  "price": 50,
+  "description": "החלפת רוטור",
+  "catalogNumber": 10154,
+  "category": {
+    "$oid": "667de7d975fde3dfe38ef245"
+  }
+},
+{
+  "_id": {
+    "$oid": "667de00575fde3dfe38ef22f"
+  },
+  "price": 425,
+  "description": "אופני כביש AERO- הרכבה / החלפת שלדה / הצלבת חלקים",
+  "catalogNumber": 10103,
+  "category": {
+    "$oid": "667de84575fde3dfe38ef24a"
+  }
+},
+{
+  "_id": {
+    "$oid": "667de00575fde3dfe38ef20c"
+  },
+  "price": 60,
+  "description": "החלפת גלגל שיניים קראנק",
+  "catalogNumber": 10164,
+  "category": {
+    "$oid": "667de6aa75fde3dfe38ef242"
+  }
+},
+{
+  "_id": {
+    "$oid": "667de00575fde3dfe38ef239"
   },
   "price": 65,
-  "description": "החלפת שפיץ+איזון גלגל ללא שפיץ",
-  "catalogNumber": 10112,
+  "description": "בדיקת אופנים יד 2 לפני קניה",
+  "catalogNumber": 10106,
+  "category": {
+    "$oid": "667de86375fde3dfe38ef24b"
+  }
+},
+{
+  "_id": {
+    "$oid": "667de00575fde3dfe38ef207"
+  },
+  "price": 65,
+  "description": "החלפת מעביר אחורי",
+  "catalogNumber": 10132,
+  "category": {
+    "$oid": "667de6aa75fde3dfe38ef242"
+  }
+},
+{
+  "_id": {
+    "$oid": "667de00575fde3dfe38ef221"
+  },
+  "price": 40,
+  "description": "החלפת מיסבים בנבה קדמית",
+  "catalogNumber": 10161,
   "category": {
     "$oid": "667de7f875fde3dfe38ef246"
   }
 },
 {
   "_id": {
-    "$oid": "667de00575fde3dfe38ef21d"
+    "$oid": "667de00575fde3dfe38ef23c"
   },
-  "price": 150,
-  "description": "החלפת פנימית לאופנים חשמליים",
-  "catalogNumber": 10116,
+  "price": 50,
+  "description": "תיקון פנס EXPOSURE- כולל משלוח לאנגליה\t",
+  "catalogNumber": 10159,
   "category": {
-    "$oid": "667de7f875fde3dfe38ef246"
+    "$oid": "667de86375fde3dfe38ef24b"
   }
 },
 {
@@ -99,68 +121,13 @@
 },
 {
   "_id": {
-    "$oid": "667de00575fde3dfe38ef224"
-  },
-  "price": 30,
-  "description": "החלפת לב נבה בגלגל",
-  "catalogNumber": 10165,
-  "category": {
-    "$oid": "667de7f875fde3dfe38ef246"
-  }
-},
-{
-  "_id": {
-    "$oid": "667de00575fde3dfe38ef21a"
+    "$oid": "667de00575fde3dfe38ef21b"
   },
   "price": 50,
-  "description": "יישור רוטור",
-  "catalogNumber": 10155,
-  "category": {
-    "$oid": "667de7d975fde3dfe38ef245"
-  }
-},
-{
-  "_id": {
-    "$oid": "667de00575fde3dfe38ef222"
-  },
-  "price": 70,
-  "description": "החלפת מיסבים בנבה אחורית",
-  "catalogNumber": 10162,
+  "description": "איזון גלגל",
+  "catalogNumber": 10111,
   "category": {
     "$oid": "667de7f875fde3dfe38ef246"
-  }
-},
-{
-  "_id": {
-    "$oid": "667de00575fde3dfe38ef228"
-  },
-  "price": 90,
-  "description": "החלפת ציר מרכזי",
-  "catalogNumber": 10134,
-  "category": {
-    "$oid": "667de82375fde3dfe38ef248"
-  }
-},
-{
-  "_id": {
-    "$oid": "667de00575fde3dfe38ef233"
-  },
-  "price": 80,
-  "description": "משלוח בולם קדמי / אחורי אצל היבואן",
-  "catalogNumber": 10142,
-  "category": {
-    "$oid": "667de84575fde3dfe38ef24a"
-  }
-},
-{
-  "_id": {
-    "$oid": "667de00575fde3dfe38ef238"
-  },
-  "price": 70,
-  "description": "בדיקת אופניים כללית + חיזוקים",
-  "catalogNumber": 10105,
-  "category": {
-    "$oid": "667de86375fde3dfe38ef24b"
   }
 },
 {
@@ -176,13 +143,24 @@
 },
 {
   "_id": {
-    "$oid": "667de00575fde3dfe38ef227"
+    "$oid": "667de00575fde3dfe38ef204"
   },
-  "price": 50,
-  "description": "ניקוי מערכת הניע",
-  "catalogNumber": 10156,
+  "price": 80,
+  "description": "החלפת כבל הילוכים - MADONE",
+  "catalogNumber": 10129,
   "category": {
-    "$oid": "667de80b75fde3dfe38ef247"
+    "$oid": "667de6aa75fde3dfe38ef242"
+  }
+},
+{
+  "_id": {
+    "$oid": "667de00575fde3dfe38ef21c"
+  },
+  "price": 65,
+  "description": "החלפת שפיץ+איזון גלגל ללא שפיץ",
+  "catalogNumber": 10112,
+  "category": {
+    "$oid": "667de7f875fde3dfe38ef246"
   }
 },
 {
@@ -192,6 +170,17 @@
   "price": 60,
   "description": "החלפת / תיקון שרשרת",
   "catalogNumber": 10147,
+  "category": {
+    "$oid": "667de6aa75fde3dfe38ef242"
+  }
+},
+{
+  "_id": {
+    "$oid": "667de00575fde3dfe38ef208"
+  },
+  "price": 70,
+  "description": "החלפת מעביר קדמי",
+  "catalogNumber": 10133,
   "category": {
     "$oid": "667de6aa75fde3dfe38ef242"
   }
@@ -209,46 +198,134 @@
 },
 {
   "_id": {
-    "$oid": "667de00575fde3dfe38ef21b"
+    "$oid": "667de00575fde3dfe38ef217"
   },
-  "price": 50,
-  "description": "איזון גלגל",
-  "catalogNumber": 10111,
+  "price": 150,
+  "description": "החלפת קליפר+בלידינג",
+  "catalogNumber": 10145,
   "category": {
-    "$oid": "667de7f875fde3dfe38ef246"
+    "$oid": "667de7d975fde3dfe38ef245"
   }
 },
 {
   "_id": {
-    "$oid": "667de00575fde3dfe38ef220"
+    "$oid": "667de00575fde3dfe38ef22d"
+  },
+  "price": 40,
+  "description": "הוספת חומר טיובלס בונטרגר",
+  "catalogNumber": 10144,
+  "category": {
+    "$oid": "667de83375fde3dfe38ef249"
+  }
+},
+{
+  "_id": {
+    "$oid": "667de00575fde3dfe38ef232"
+  },
+  "price": 105,
+  "description": "הדבקת ציר מרכזי כולל אפוקסי",
+  "catalogNumber": 10110,
+  "category": {
+    "$oid": "667de84575fde3dfe38ef24a"
+  }
+},
+{
+  "_id": {
+    "$oid": "667de00575fde3dfe38ef235"
   },
   "price": 30,
-  "description": "החלפת צמיג כביש\\שטח",
-  "catalogNumber": 10119,
+  "description": "טיפול ISO SPEED",
+  "catalogNumber": 10169,
+  "category": {
+    "$oid": "667de84575fde3dfe38ef24a"
+  }
+},
+{
+  "_id": {
+    "$oid": "667de00575fde3dfe38ef228"
+  },
+  "price": 90,
+  "description": "החלפת ציר מרכזי",
+  "catalogNumber": 10134,
+  "category": {
+    "$oid": "667de82375fde3dfe38ef248"
+  }
+},
+{
+  "_id": {
+    "$oid": "667de00575fde3dfe38ef20e"
+  },
+  "price": 80,
+  "description": "טיפול הד-סט",
+  "catalogNumber": 10139,
+  "category": {
+    "$oid": "667de7c475fde3dfe38ef244"
+  }
+},
+{
+  "_id": {
+    "$oid": "667de00575fde3dfe38ef21e"
+  },
+  "price": 25,
+  "description": "החלפת פנימית",
+  "catalogNumber": 10117,
   "category": {
     "$oid": "667de7f875fde3dfe38ef246"
   }
 },
 {
   "_id": {
-    "$oid": "667de00575fde3dfe38ef203"
+    "$oid": "667de00575fde3dfe38ef20f"
   },
-  "price": 50,
-  "description": "יישור אוזן",
-  "catalogNumber": 10128,
+  "price": 85,
+  "description": "טיפול פדלים",
+  "catalogNumber": 10140,
   "category": {
-    "$oid": "667de6aa75fde3dfe38ef242"
+    "$oid": "667de7c475fde3dfe38ef244"
   }
 },
 {
   "_id": {
-    "$oid": "667de00575fde3dfe38ef202"
+    "$oid": "667de00575fde3dfe38ef223"
   },
-  "price": 35,
-  "description": "כיוון הילוכים",
-  "catalogNumber": 10127,
+  "price": 50,
+  "description": "התקנת סרט חישוק בגלגל",
+  "catalogNumber": 10163,
   "category": {
-    "$oid": "667de6aa75fde3dfe38ef242"
+    "$oid": "667de7f875fde3dfe38ef246"
+  }
+},
+{
+  "_id": {
+    "$oid": "667de00575fde3dfe38ef23a"
+  },
+  "price": 45,
+  "description": "הרכבת מחשבון (שלא נקנה בחנות)",
+  "catalogNumber": 10137,
+  "category": {
+    "$oid": "667de86375fde3dfe38ef24b"
+  }
+},
+{
+  "_id": {
+    "$oid": "667de00575fde3dfe38ef233"
+  },
+  "price": 80,
+  "description": "משלוח בולם קדמי / אחורי אצל היבואן",
+  "catalogNumber": 10142,
+  "category": {
+    "$oid": "667de84575fde3dfe38ef24a"
+  }
+},
+{
+  "_id": {
+    "$oid": "667de00575fde3dfe38ef227"
+  },
+  "price": 50,
+  "description": "ניקוי מערכת הניע",
+  "catalogNumber": 10156,
+  "category": {
+    "$oid": "667de80b75fde3dfe38ef247"
   }
 },
 {
@@ -275,90 +352,24 @@
 },
 {
   "_id": {
-    "$oid": "667de00575fde3dfe38ef216"
+    "$oid": "667de00575fde3dfe38ef212"
   },
-  "price": 40,
-  "description": "החלפת רפידות צד אחד",
-  "catalogNumber": 10126,
-  "category": {
-    "$oid": "667de7d975fde3dfe38ef245"
-  }
-},
-{
-  "_id": {
-    "$oid": "667de00575fde3dfe38ef22e"
-  },
-  "price": 300,
-  "description": "אופניים כללי  - הרכבה / החלפת שלדה / הצלבת חלקים",
-  "catalogNumber": 10102,
-  "category": {
-    "$oid": "667de84575fde3dfe38ef24a"
-  }
-},
-{
-  "_id": {
-    "$oid": "667de00575fde3dfe38ef23b"
-  },
-  "price": 100,
-  "description": "אריזת אופנים בקרטון +קרטון",
-  "catalogNumber": 10158,
-  "category": {
-    "$oid": "667de86375fde3dfe38ef24b"
-  }
-},
-{
-  "_id": {
-    "$oid": "667de00575fde3dfe38ef22a"
-  },
-  "price": 60,
-  "description": "טיובולס ביתי עבודה בלבד ללא חומרים",
-  "catalogNumber": 10120,
-  "category": {
-    "$oid": "667de83375fde3dfe38ef249"
-  }
-},
-{
-  "_id": {
-    "$oid": "667de00575fde3dfe38ef234"
-  },
-  "price": 300,
-  "description": "החלפת מיסבי שלדה",
-  "catalogNumber": 10157,
-  "category": {
-    "$oid": "667de84575fde3dfe38ef24a"
-  }
-},
-{
-  "_id": {
-    "$oid": "667de00575fde3dfe38ef210"
-  },
-  "price": 90,
-  "description": "טיפול מוט אוכף טלסקופי",
-  "catalogNumber": 10141,
+  "price": 50,
+  "description": "התקנת עמוד כידון (סטם)",
+  "catalogNumber": 10151,
   "category": {
     "$oid": "667de7c475fde3dfe38ef244"
   }
 },
 {
   "_id": {
-    "$oid": "667de00575fde3dfe38ef218"
+    "$oid": "667de00575fde3dfe38ef21a"
   },
-  "price": 130,
-  "description": "הרכבת סט מעצור דיסק הידראולי כולל בלידינג",
-  "catalogNumber": 10153,
+  "price": 50,
+  "description": "יישור רוטור",
+  "catalogNumber": 10155,
   "category": {
     "$oid": "667de7d975fde3dfe38ef245"
-  }
-},
-{
-  "_id": {
-    "$oid": "667de00575fde3dfe38ef205"
-  },
-  "price": 70,
-  "description": "החלפת כבל בלם / הילוכים כולל כבל",
-  "catalogNumber": 10130,
-  "category": {
-    "$oid": "667de6aa75fde3dfe38ef242"
   }
 },
 {
@@ -374,79 +385,24 @@
 },
 {
   "_id": {
-    "$oid": "667de00575fde3dfe38ef20c"
+    "$oid": "667de00575fde3dfe38ef22c"
   },
-  "price": 60,
-  "description": "החלפת גלגל שיניים קראנק",
-  "catalogNumber": 10164,
-  "category": {
-    "$oid": "667de6aa75fde3dfe38ef242"
-  }
-},
-{
-  "_id": {
-    "$oid": "667de00575fde3dfe38ef223"
-  },
-  "price": 50,
-  "description": "התקנת סרט חישוק בגלגל",
-  "catalogNumber": 10163,
-  "category": {
-    "$oid": "667de7f875fde3dfe38ef246"
-  }
-},
-{
-  "_id": {
-    "$oid": "667de00575fde3dfe38ef212"
-  },
-  "price": 50,
-  "description": "התקנת עמוד כידון (סטם)",
-  "catalogNumber": 10151,
-  "category": {
-    "$oid": "667de7c475fde3dfe38ef244"
-  }
-},
-{
-  "_id": {
-    "$oid": "667de00575fde3dfe38ef225"
-  },
-  "price": 80,
-  "description": "שטיפה וניקוי דרג א' ללא פירוק חלקים",
-  "catalogNumber": 10107,
-  "category": {
-    "$oid": "667de80b75fde3dfe38ef247"
-  }
-},
-{
-  "_id": {
-    "$oid": "667de00575fde3dfe38ef22b"
-  },
-  "price": 100,
-  "description": "הדבקת טובולר כולל דבק",
-  "catalogNumber": 10115,
+  "price": 40,
+  "description": "הוספת חומר ג'יפה בגלגל SLIME",
+  "catalogNumber": 10143,
   "category": {
     "$oid": "667de83375fde3dfe38ef249"
   }
 },
 {
   "_id": {
-    "$oid": "667de00575fde3dfe38ef239"
+    "$oid": "667de00575fde3dfe38ef23b"
   },
-  "price": 65,
-  "description": "בדיקת אופנים יד 2 לפני קניה",
-  "catalogNumber": 10106,
+  "price": 100,
+  "description": "אריזת אופנים בקרטון +קרטון",
+  "catalogNumber": 10158,
   "category": {
     "$oid": "667de86375fde3dfe38ef24b"
-  }
-},
-{
-  "_id": {
-    "$oid": "667de00575fde3dfe38ef230"
-  },
-  "price": 500,
-  "description": "אופני נג\"ש - הרכבה / החלפת שלדה / הצלבת חלקים",
-  "catalogNumber": 10104,
-  "category": {
-    "$oid": "667de84575fde3dfe38ef24a"
   }
 },
 {
@@ -484,134 +440,79 @@
 },
 {
   "_id": {
-    "$oid": "667de00575fde3dfe38ef209"
+    "$oid": "667de00575fde3dfe38ef234"
   },
-  "price": 60,
-  "description": "הרכבת קראנק",
-  "catalogNumber": 10146,
-  "category": {
-    "$oid": "667de6aa75fde3dfe38ef242"
-  }
-},
-{
-  "_id": {
-    "$oid": "667de00575fde3dfe38ef217"
-  },
-  "price": 150,
-  "description": "החלפת קליפר+בלידינג",
-  "catalogNumber": 10145,
-  "category": {
-    "$oid": "667de7d975fde3dfe38ef245"
-  }
-},
-{
-  "_id": {
-    "$oid": "667de00575fde3dfe38ef207"
-  },
-  "price": 65,
-  "description": "החלפת מעביר אחורי",
-  "catalogNumber": 10132,
-  "category": {
-    "$oid": "667de6aa75fde3dfe38ef242"
-  }
-},
-{
-  "_id": {
-    "$oid": "667de00575fde3dfe38ef219"
-  },
-  "price": 50,
-  "description": "החלפת רוטור",
-  "catalogNumber": 10154,
-  "category": {
-    "$oid": "667de7d975fde3dfe38ef245"
-  }
-},
-{
-  "_id": {
-    "$oid": "667de00575fde3dfe38ef22c"
-  },
-  "price": 40,
-  "description": "הוספת חומר ג'יפה בגלגל SLIME",
-  "catalogNumber": 10143,
-  "category": {
-    "$oid": "667de83375fde3dfe38ef249"
-  }
-},
-{
-  "_id": {
-    "$oid": "667de00575fde3dfe38ef22f"
-  },
-  "price": 425,
-  "description": "אופני כביש AERO- הרכבה / החלפת שלדה / הצלבת חלקים",
-  "catalogNumber": 10103,
+  "price": 300,
+  "description": "החלפת מיסבי שלדה",
+  "catalogNumber": 10157,
   "category": {
     "$oid": "667de84575fde3dfe38ef24a"
   }
 },
 {
   "_id": {
-    "$oid": "667de00575fde3dfe38ef23a"
+    "$oid": "667de00575fde3dfe38ef220"
   },
-  "price": 45,
-  "description": "הרכבת מחשבון (שלא נקנה בחנות)",
-  "catalogNumber": 10137,
+  "price": 30,
+  "description": "החלפת צמיג כביש\\שטח",
+  "catalogNumber": 10119,
   "category": {
-    "$oid": "667de86375fde3dfe38ef24b"
+    "$oid": "667de7f875fde3dfe38ef246"
   }
 },
 {
   "_id": {
-    "$oid": "667de00575fde3dfe38ef20e"
+    "$oid": "667de00575fde3dfe38ef21d"
   },
-  "price": 80,
-  "description": "טיפול הד-סט",
-  "catalogNumber": 10139,
+  "price": 150,
+  "description": "החלפת פנימית לאופנים חשמליים",
+  "catalogNumber": 10116,
+  "category": {
+    "$oid": "667de7f875fde3dfe38ef246"
+  }
+},
+{
+  "_id": {
+    "$oid": "667de00575fde3dfe38ef224"
+  },
+  "price": 30,
+  "description": "החלפת לב נבה בגלגל",
+  "catalogNumber": 10165,
+  "category": {
+    "$oid": "667de7f875fde3dfe38ef246"
+  }
+},
+{
+  "_id": {
+    "$oid": "667de00575fde3dfe38ef211"
+  },
+  "price": 100,
+  "description": "התקנת כידון",
+  "catalogNumber": 10150,
   "category": {
     "$oid": "667de7c475fde3dfe38ef244"
   }
 },
 {
   "_id": {
-    "$oid": "667de00575fde3dfe38ef221"
+    "$oid": "667de00575fde3dfe38ef216"
   },
   "price": 40,
-  "description": "החלפת מיסבים בנבה קדמית",
-  "catalogNumber": 10161,
+  "description": "החלפת רפידות צד אחד",
+  "catalogNumber": 10126,
   "category": {
-    "$oid": "667de7f875fde3dfe38ef246"
+    "$oid": "667de7d975fde3dfe38ef245"
   }
 },
 {
   "_id": {
-    "$oid": "667de00575fde3dfe38ef23c"
+    "$oid": "667de00575fde3dfe38ef22a"
   },
-  "price": 50,
-  "description": "תיקון פנס EXPOSURE- כולל משלוח לאנגליה\t",
-  "catalogNumber": 10159,
+  "price": 60,
+  "description": "טיובולס ביתי עבודה בלבד ללא חומרים",
+  "catalogNumber": 10120,
   "category": {
-    "$oid": "667de86375fde3dfe38ef24b"
-  }
-},
-{
-  "_id": {
-    "$oid": "667de00575fde3dfe38ef21e"
-  },
-  "price": 25,
-  "description": "החלפת פנימית",
-  "catalogNumber": 10117,
-  "category": {
-    "$oid": "667de7f875fde3dfe38ef246"
-  }
-},
-{
-  "_id": {
-    "$oid": "667de00575fde3dfe38ef21f"
-  },
-  "price": 35,
-  "description": "החלפת צמיג כביש טיובלס",
-  "catalogNumber": 10118,
-  "category": {
-    "$oid": "667de7f875fde3dfe38ef246"
+    "$oid": "667de83375fde3dfe38ef249"
   }
 },
 {
@@ -627,34 +528,133 @@
 },
 {
   "_id": {
-    "$oid": "667de00575fde3dfe38ef20f"
+    "$oid": "667de00575fde3dfe38ef202"
   },
-  "price": 85,
-  "description": "טיפול פדלים",
-  "catalogNumber": 10140,
+  "price": 35,
+  "description": "כיוון הילוכים",
+  "catalogNumber": 10127,
   "category": {
-    "$oid": "667de7c475fde3dfe38ef244"
+    "$oid": "667de6aa75fde3dfe38ef242"
   }
 },
 {
   "_id": {
-    "$oid": "667de00575fde3dfe38ef22d"
+    "$oid": "667de00575fde3dfe38ef218"
   },
-  "price": 40,
-  "description": "הוספת חומר טיובלס בונטרגר",
-  "catalogNumber": 10144,
+  "price": 130,
+  "description": "הרכבת סט מעצור דיסק הידראולי כולל בלידינג",
+  "catalogNumber": 10153,
+  "category": {
+    "$oid": "667de7d975fde3dfe38ef245"
+  }
+},
+{
+  "_id": {
+    "$oid": "667de00575fde3dfe38ef22b"
+  },
+  "price": 100,
+  "description": "הדבקת טובולר כולל דבק",
+  "catalogNumber": 10115,
   "category": {
     "$oid": "667de83375fde3dfe38ef249"
   }
 },
 {
   "_id": {
-    "$oid": "667de00575fde3dfe38ef232"
+    "$oid": "667de00575fde3dfe38ef20d"
   },
-  "price": 105,
-  "description": "הדבקת ציר מרכזי כולל אפוקסי",
-  "catalogNumber": 10110,
+  "price": 70,
+  "description": "טיפול קלאץ' מעביר אחורי",
+  "catalogNumber": 10166,
+  "category": {
+    "$oid": "667de6aa75fde3dfe38ef242"
+  }
+},
+{
+  "_id": {
+    "$oid": "667de00575fde3dfe38ef222"
+  },
+  "price": 70,
+  "description": "החלפת מיסבים בנבה אחורית",
+  "catalogNumber": 10162,
+  "category": {
+    "$oid": "667de7f875fde3dfe38ef246"
+  }
+},
+{
+  "_id": {
+    "$oid": "667de00575fde3dfe38ef238"
+  },
+  "price": 70,
+  "description": "בדיקת אופניים כללית + חיזוקים",
+  "catalogNumber": 10105,
+  "category": {
+    "$oid": "667de86375fde3dfe38ef24b"
+  }
+},
+{
+  "_id": {
+    "$oid": "667de00575fde3dfe38ef203"
+  },
+  "price": 50,
+  "description": "יישור אוזן",
+  "catalogNumber": 10128,
+  "category": {
+    "$oid": "667de6aa75fde3dfe38ef242"
+  }
+},
+{
+  "_id": {
+    "$oid": "667de00575fde3dfe38ef22e"
+  },
+  "price": 300,
+  "description": "אופניים כללי  - הרכבה / החלפת שלדה / הצלבת חלקים",
+  "catalogNumber": 10102,
   "category": {
     "$oid": "667de84575fde3dfe38ef24a"
+  }
+},
+{
+  "_id": {
+    "$oid": "667de00575fde3dfe38ef230"
+  },
+  "price": 500,
+  "description": "אופני נג\"ש - הרכבה / החלפת שלדה / הצלבת חלקים",
+  "catalogNumber": 10104,
+  "category": {
+    "$oid": "667de84575fde3dfe38ef24a"
+  }
+},
+{
+  "_id": {
+    "$oid": "667de00575fde3dfe38ef209"
+  },
+  "price": 60,
+  "description": "הרכבת קראנק",
+  "catalogNumber": 10146,
+  "category": {
+    "$oid": "667de6aa75fde3dfe38ef242"
+  }
+},
+{
+  "_id": {
+    "$oid": "667de00575fde3dfe38ef225"
+  },
+  "price": 80,
+  "description": "שטיפה וניקוי דרג א' ללא פירוק חלקים",
+  "catalogNumber": 10107,
+  "category": {
+    "$oid": "667de80b75fde3dfe38ef247"
+  }
+},
+{
+  "_id": {
+    "$oid": "667de00575fde3dfe38ef21f"
+  },
+  "price": 35,
+  "description": "החלפת צמיג כביש טיובלס",
+  "catalogNumber": 10118,
+  "category": {
+    "$oid": "667de7f875fde3dfe38ef246"
   }
 }]

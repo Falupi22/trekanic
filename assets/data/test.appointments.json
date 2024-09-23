@@ -1,0 +1,154 @@
+[{
+  "_id": {
+    "$oid": "66d766b3a784b26b4e563bff"
+  },
+  "issue": {
+    "$oid": "667de00575fde3dfe38ef20e"
+  },
+  "datetime": {
+    "$date": "2024-09-04T00:00:00.000Z"
+  },
+  "description": "test",
+  "customer": {
+    "$oid": "667daed575fde3dfe38ef1dc"
+  },
+  "mechanic": {
+    "$oid": "66c4c47e1e78175ba1469424"
+  },
+  "product": {
+    "$oid": "66c4c4ba1e78175ba1469426"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66d76d48a784b26b4e563dad"
+  },
+  "issue": {
+    "$oid": "667de00575fde3dfe38ef211"
+  },
+  "datetime": {
+    "$date": "2024-09-04T19:00:00.000Z"
+  },
+  "description": "test",
+  "customer": {
+    "$oid": "667daed575fde3dfe38ef1dc"
+  },
+  "mechanic": {
+    "$oid": "66c4c43f1e78175ba1469422"
+  },
+  "product": {
+    "$oid": "66c4c4ba1e78175ba1469426"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66d76eb8a784b26b4e563e04"
+  },
+  "issue": {
+    "$oid": "667de00575fde3dfe38ef211"
+  },
+  "datetime": {
+    "$date": "2024-09-03T21:00:00.000Z"
+  },
+  "description": "df",
+  "customer": {
+    "$oid": "667daed575fde3dfe38ef1dc"
+  },
+  "mechanic": {
+    "$oid": "66c4c43f1e78175ba1469422"
+  },
+  "product": {
+    "$oid": "66c4c4ba1e78175ba1469426"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66d76f83a784b26b4e563e8a"
+  },
+  "issue": {
+    "$oid": "667de00575fde3dfe38ef20e"
+  },
+  "datetime": {
+    "$date": "2024-09-04T13:00:00.000Z"
+  },
+  "description": "teswt",
+  "customer": {
+    "$oid": "667daed575fde3dfe38ef1dc"
+  },
+  "mechanic": {
+    "$oid": "66c4c43f1e78175ba1469422"
+  },
+  "product": {
+    "$oid": "66c4c4ba1e78175ba1469426"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66d76f96a784b26b4e563e9d"
+  },
+  "issue": {
+    "$oid": "667de00575fde3dfe38ef20e"
+  },
+  "datetime": {
+    "$date": "2024-09-06T00:00:00.000Z"
+  },
+  "description": "tak",
+  "customer": {
+    "$oid": "667daed575fde3dfe38ef1dc"
+  },
+  "mechanic": {
+    "$oid": "66c4c47e1e78175ba1469424"
+  },
+  "product": {
+    "$oid": "66c4c4ba1e78175ba1469426"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66e0e264201c97f956ac8a28"
+  },
+  "issue": {
+    "$oid": "667de00575fde3dfe38ef210"
+  },
+  "datetime": {
+    "$date": "2024-09-11T21:00:00.000Z"
+  },
+  "description": "pizy\n",
+  "customer": {
+    "$oid": "667daed575fde3dfe38ef1dc"
+  },
+  "mechanic": {
+    "$oid": "66c4c43f1e78175ba1469422"
+  },
+  "product": {
+    "$oid": "66c4c4ba1e78175ba1469426"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66e0e405201c97f956ac8a7f"
+  },
+  "issue": {
+    "$oid": "667de00575fde3dfe38ef20f"
+  },
+  "datetime": {
+    "$date": "2024-09-11T23:00:00.000Z"
+  },
+  "description": "hgi",
+  "customer": {
+    "$oid": "667daed575fde3dfe38ef1dc"
+  },
+  "mechanic": {
+    "$oid": "66c4c47e1e78175ba1469424"
+  },
+  "product": {
+    "$oid": "66c4c4ba1e78175ba1469426"
+  },
+  "__v": 0
+}]

@@ -1,0 +1,40 @@
+[{
+  "_id": {
+    "$oid": "66c4c43f1e78175ba1469422"
+  },
+  "appointments": [
+    {
+      "$oid": "66d76d48a784b26b4e563dad"
+    },
+    {
+      "$oid": "66d76eb8a784b26b4e563e04"
+    },
+    {
+      "$oid": "66d76f83a784b26b4e563e8a"
+    },
+    {
+      "$oid": "66e0e264201c97f956ac8a28"
+    }
+  ],
+  "fullName": "tal dan"
+},
+{
+  "_id": {
+    "$oid": "66c4c47e1e78175ba1469424"
+  },
+  "appointments": [
+    {
+      "$oid": "66d766b3a784b26b4e563bff"
+    },
+    {
+      "$oid": "66d76f96a784b26b4e563e9d"
+    },
+    {
+      "$oid": "66e0e29c201c97f956ac8a52"
+    },
+    {
+      "$oid": "66e0e405201c97f956ac8a7f"
+    }
+  ],
+  "fullName": "ziv cohen"
+}]

@@ -18,7 +18,7 @@ Welcome to Trekanic! This README provides all the necessary information about ou
 
 ## Introduction
 
-Trekanic is a premium online scheduling platform designed for exclusive clients who seek convenience and efficiency in managing their appointments. Our mobile-friendly interface ensures that customers can book, modify, and cancel appointments directly from the internet, anytime and anywhere. 
+Trekanic is a premium online scheduling platform designed for exclusive clients who seek convenience and efficiency in managing their appointments. Our mobile-friendly interface ensures that customers can book, modify, and cancel appointments directly from the internet, anytime and anywhere.
 
 ## Features
 
@@ -39,7 +39,7 @@ Before you begin, ensure you meet the following requirements:
 ### Installation
 
 1. Clone the repo
-2. `` npm install `` (containing repo first, then client and server repos)
+2. `npm install` (containing repo first, then client and server repos)
 3. Create a .env for the server, then configure :
 
 - SESSION_SECRET (for the sessions)
@@ -48,11 +48,11 @@ Before you begin, ensure you meet the following requirements:
 - EMAIL (email of the bot that sends notifications)
 - PASSWORD (password of the bot that sends notifications)
 
-4. Configure the DB with test.issues and test.issueCategories from ./assets/data
+4. Configure your DB with all the data (appointments are optional) from ./assets/data. There is no data creation besides appointments in this app, hence the app assumes that this data exists.
 5. Run with the designated scripts in the corresponding package.json file of each subrepo, or run for both subrepos
    from the parent folder. For example:
-   `` npm run build:all ``
-   `` npm run start:all `` (Not for production)
+   `npm run build:all`
+   `npm run start:all` (Not for production)
 
 ## User Guide
 
@@ -91,4 +91,3 @@ Trekanic is licensed under the [Apache 2.0](LICENSE).
 
 If you have any additional questions or need further assistance, please feel free to reach out to our support team.
 trekanicmailbot@gmail.com
-

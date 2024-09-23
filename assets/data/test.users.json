@@ -1,0 +1,16 @@
+[{
+  "_id": {
+    "$oid": "667daed575fde3dfe38ef1dc"
+  },
+  "email": "tal.frumkin@gmail.com",
+  "password": "12345678",
+  "isAdmin": false
+},
+{
+  "_id": {
+    "$oid": "66c4c37a1e78175ba1469419"
+  },
+  "email": "frum@gmail.com",
+  "password": "12345678",
+  "isAdmin": true
+}]
