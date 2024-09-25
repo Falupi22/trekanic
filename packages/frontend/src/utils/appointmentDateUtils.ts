@@ -78,6 +78,7 @@ export const getTakenHoursByDay = (appointmentsByMechanic, day: Date): Date[] =>
   if (appointmentsByMechanic && day) {
     const takenHoursByMechanics: Map<string, any[]> = new Map<string, any[]>()
 
+    console.log(appointmentsByMechanic)
     appointmentsByMechanic.forEach((mechanicData) => {
       const takenHoursOfMechanic = []
       const sortedAppointments = mechanicData.appointments.sort(
@@ -124,6 +125,7 @@ export const getTakenHoursByDay = (appointmentsByMechanic, day: Date): Date[] =>
               )
 
             if (isCurrentHourFree) {
+              console.log(`free day and hour ${dayAndHour}`)
               takenHoursOfMechanic.push(dayAndHour)
             }
 

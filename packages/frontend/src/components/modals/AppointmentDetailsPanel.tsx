@@ -253,15 +253,23 @@ function AppointmentDetailsPanel({
 
   const generateOptionalTimes = (takenHours: Date[], selectedDay: null | Date) => {
     const options = []
+    console.log(selectedDay)
     if (selectedDay) {
       const hours = takenHours.map((hour) => {
         return hour.getHours()
       })
+      console.log(hours)
       const startHour = 8
       const endHour = 22
       for (let hour = startHour; hour < endHour; hour++) {
         // Checks if the hour is already taken or not pre-selected by the user (stored in the db)
-        if (!hours.find((takenHour) => takenHour === hour || takenHour === new Date(appointmentToEdit).getHours())) {
+        if (
+          !hours.find(
+            (takenHour) =>
+              takenHour === hour ||
+              (appointmentToEdit?.datetime && takenHour === new Date(appointmentToEdit.datetime).getHours()),
+          )
+        ) {
           // Generate hours in format "HH:00" and "HH:30"
           const day = new Date(Date.now()).getDate()
           const month = new Date(Date.now()).getMonth()
@@ -271,6 +279,7 @@ function AppointmentDetailsPanel({
             const hourNow = new Date(Date.now()).getHours()
             if (hourNow > hour - 2) continue
           }
+          console.log(`hour: ${hour}`)
           options.push(
             <option value={hour} key={hour} style={{ color: "black" }}>
               <span style={{ color: "black" }}>{`${hour}:00`}</span>

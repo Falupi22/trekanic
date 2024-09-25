@@ -299,7 +299,7 @@ export const createAppointment = asyncHandler(async (req, res) => {
 
     const statusCode = availableMechanics.length > 0 ? HttpStatus.OK : HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE
 
-    res.status(statusCode).send(appointment[0])
+    res.status(statusCode).send(appointment?.at(0))
   } catch (error) {
     if (session) {
       await session.abortTransaction()

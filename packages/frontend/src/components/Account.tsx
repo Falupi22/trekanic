@@ -36,11 +36,7 @@ const Account = () => {
             navigate(ROUTE_ADMIN)
           }
 
-          setAppointments(
-            (await api.getAppointments()).data?.sort((a, b) => {
-              return new Date(b.datetime).getTime() - new Date(a.datetime).getTime()
-            }),
-          )
+          setAppointments((await api.getAppointments()).data)
 
           if (!issues || issues.length === 0) {
             setIssues((await api.getIssues()).data)
@@ -65,7 +61,7 @@ const Account = () => {
     fetch()
   }, [appointments, isAdmin, issues, navigate, setAppointments, setIssues, setTakenDates, takenDates, toast])
 
-  const onAppointmentCreatedOrEdited = (appointment: Appointment) => {
+  const onAppointmentCreatedOrEdited = (appointment: Appointment | null) => {
     api
       .getAppointments()
       .then((res) => {
@@ -75,6 +71,11 @@ const Account = () => {
           }),
         )
       })
+      .then(async (res) => {
+        const storedDates = (await api.getTakenDates()).data
+        const updatedTakenDates = takenDates ? takenDates : []
+        updatedTakenDates.push(...storedDates)
+      })
       .catch((err) => {
         toast(requestFailedToast)
         setLoading(false)
@@ -82,18 +83,21 @@ const Account = () => {
   }
 
   const deleteCallback = (id: string) => {
-    const uodatedAppointments = appointments.filter((appointment) => appointment._id !== id)
-    setAppointments(uodatedAppointments)
+    onAppointmentCreatedOrEdited(null)
   }
 
-  const appointmentsCards = appointments?.map((appointment) => (
-    <AppointmentPanel
-      editCallback={onAppointmentCreatedOrEdited}
-      key={appointment._id}
-      appointment={appointment}
-      deleteCallback={deleteCallback}
-    />
-  ))
+  const appointmentsCards = appointments
+    ?.sort((a, b) => {
+      return new Date(b.datetime).getTime() - new Date(a.datetime).getTime()
+    })
+    .map((appointment) => (
+      <AppointmentPanel
+        editCallback={onAppointmentCreatedOrEdited}
+        key={appointment._id}
+        appointment={appointment}
+        deleteCallback={deleteCallback}
+      />
+    ))
 
   const nextAppointment = appointments
     ?.sort((a, b) => {
