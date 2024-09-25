@@ -136,7 +136,7 @@ function AppointmentDetailsPanel({
     if (appointmentToEdit) {
       setDescription(appointmentToEdit.description)
       setSelectedIssueId(appointmentToEdit.issue._id)
-      setCatalogNumber(appointmentToEdit.product.catalogNumber)
+      setCatalogNumber(appointmentToEdit.product?.catalogNumber)
       setSelectedDay(new Date(appointmentToEdit.datetime))
       setSelectedHour(new Date(appointmentToEdit.datetime).getHours())
     } else {
@@ -326,7 +326,7 @@ function AppointmentDetailsPanel({
             description: description,
             issue: selectedIssueId,
             datetime: new Date(new Date(selectedDay).setHours(selectedHour)).toISOString(),
-            catalogNumber: catalogNumber,
+            catalogNumber,
             mechanic: selectedMechanicId ?? appointmentToEdit.mechanic,
           }
 
@@ -351,8 +351,12 @@ function AppointmentDetailsPanel({
           const appointment: Appointment = {
             description: description,
             issue: selectedIssueId,
+            // Actually creates a new product or uses the existing with the given catalog number
+            product: {
+              catalogNumber,
+              name: "",
+            },
             datetime: new Date(new Date(selectedDay).setHours(selectedHour)).toISOString(),
-            product: "66c4c4ba1e78175ba1469426",
           }
 
           api

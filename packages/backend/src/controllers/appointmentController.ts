@@ -8,7 +8,8 @@ import IssueCategory, { IssueCategoryModel } from "../models/IssueCategory.model
 import { ObjectId, Types } from "mongoose"
 import jsonpatch from "fast-json-patch"
 import { startSession } from "mongoose"
-import ProductModel from "../models/Product.model"
+import ProductModel, { ProductDocument } from "../models/Product.model"
+import { listenerCount } from "events"
 
 const openingTime = 8
 const closingTime = 22
@@ -251,6 +252,21 @@ export const createAppointment = asyncHandler(async (req, res) => {
       session.startTransaction()
 
       const selectedMechanicId = availableMechanics[Math.floor(Math.random() * freeMechanics.length)]._id
+      const product = currentAppointment.product as unknown as ProductDocument
+      let productDoc = await ProductModel.findOne({ catalogNumber: product.catalogNumber }).session(session).lean()
+      if (!productDoc) {
+        const products = await ProductModel.create(
+          [
+            {
+              catalogNumber: product.catalogNumber,
+              name: "auto-gen-prod-" + product.catalogNumber,
+            },
+          ],
+          { session },
+        )
+        productDoc = products[0]
+      }
+
       appointment = await AppointmentModel.create(
         [
           {
@@ -259,7 +275,7 @@ export const createAppointment = asyncHandler(async (req, res) => {
             datetime: currentAppointment.datetime,
             customer: user._id,
             mechanic: selectedMechanicId,
-            product: currentAppointment.product,
+            product: productDoc._id,
           },
         ],
         { session },
@@ -283,7 +299,7 @@ export const createAppointment = asyncHandler(async (req, res) => {
 
     const statusCode = availableMechanics.length > 0 ? HttpStatus.OK : HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE
 
-    res.status(statusCode).send(appointment)
+    res.status(statusCode).send(appointment[0])
   } catch (error) {
     if (session) {
       await session.abortTransaction()
@@ -308,7 +324,9 @@ export const editAppointment = asyncHandler(async (req, res) => {
 
     const executor = await User.findById((req.user as UserDocument).id).lean()
     const adminEdited = executor.isAdmin
-    const originalAppointment: Appointment = await AppointmentModel.findById(appointmentId).populate("customer").lean()
+    const originalAppointment: Appointment = await AppointmentModel.findById(appointmentId)
+      .populate("customer product")
+      .lean()
     const customer = originalAppointment.customer as unknown as UserDocument
     const email = customer.email
 
@@ -319,7 +337,7 @@ export const editAppointment = asyncHandler(async (req, res) => {
       description: originalAppointment.description,
       customer: originalAppointment.customer,
       mechanic: originalAppointment.mechanic,
-      product: originalAppointment.product,
+      catalogNumber: (originalAppointment.product as unknown as ProductDocument).catalogNumber,
     }
 
     if (!originalAppointment) {
@@ -375,7 +393,30 @@ export const editAppointment = asyncHandler(async (req, res) => {
           session = await startSession()
           session.startTransaction()
 
-          await AppointmentModel.updateOne({ _id: editedAppointment.id }, editedAppointment, { session })
+          const productCatalogNumber = editedAppointment.catalogNumber
+          let productDoc = await ProductModel.findOne({ catalogNumber: productCatalogNumber }).session(session).lean()
+          if (!productDoc) {
+            const products = await ProductModel.create(
+              [
+                {
+                  catalogNumber: productCatalogNumber,
+                  name: "auto-gen-prod-" + productCatalogNumber,
+                },
+              ],
+              { session },
+            )
+
+            productDoc = products[0]
+          }
+
+          const readyAppointment = {
+            ...editedAppointment,
+            product: productDoc._id,
+          }
+
+          delete readyAppointment.catalogNumber
+
+          await AppointmentModel.updateOne({ _id: editedAppointment.id }, readyAppointment, { session })
 
           if (!originalAppointment.mechanic.equals(newMechanicId)) {
             await MechanicModel.findOneAndUpdate(
@@ -416,7 +457,29 @@ export const editAppointment = asyncHandler(async (req, res) => {
           res.status(HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE).send("No available mechanics")
         }
       } else {
-        await AppointmentModel.updateOne({ _id: editedAppointment.id }, editedAppointment, { session })
+        const productCatalogNumber = editedAppointment.catalogNumber
+        let productDoc = await ProductModel.findOne({ catalogNumber: productCatalogNumber }).session(session).lean()
+        if (!productDoc) {
+          const products = await ProductModel.create(
+            [
+              {
+                catalogNumber: productCatalogNumber,
+                name: "auto-gen-prod-" + productCatalogNumber,
+              },
+            ],
+            { session },
+          )
+
+          productDoc = products[0]
+        }
+        const readyAppointment = {
+          ...editedAppointment,
+          product: productDoc._id,
+        }
+
+        delete readyAppointment.catalogNumber
+
+        await AppointmentModel.updateOne({ _id: editedAppointment.id }, readyAppointment, { session })
 
         if (adminEdited) {
           const updated = await AppointmentModel.findById(appointmentId).populate("product mechanic issue").lean()

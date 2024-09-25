@@ -66,7 +66,6 @@ const Account = () => {
   }, [appointments, isAdmin, issues, navigate, setAppointments, setIssues, setTakenDates, takenDates, toast])
 
   const onAppointmentCreatedOrEdited = (appointment: Appointment) => {
-    console.log("refresh")
     api
       .getAppointments()
       .then((res) => {
@@ -96,13 +95,11 @@ const Account = () => {
     />
   ))
 
-  console.log(appointmentsCards + " cards")
   const nextAppointment = appointments
     ?.sort((a, b) => {
-      return new Date(b.datetime).getTime() - new Date(a.datetime).getTime()
+      return new Date(a.datetime).getTime() - new Date(b.datetime).getTime()
     })
     ?.find((appointment) => new Date(appointment.datetime).getTime() > Date.now())
-  console.log(nextAppointment + " next")
 
   const nextAppointmentDatetime = nextAppointment?.datetime
   return (
