@@ -14,7 +14,7 @@ const generateTitle = (machanicName: string, issue: string): string => {
 }
 
 const AppointmentScheduler = () => {
-  const takenDates = useAppointmentOptionsStore((state) => state.takenDates)
+  const setTakenDates = useAppointmentOptionsStore((state) => state.setTakenDates)
   const [appointments, setAppointments] = useState(null)
   const [selectedAppointment, setSelectedAppointment] = useState(null)
   const toast = useToast()
@@ -81,9 +81,9 @@ const AppointmentScheduler = () => {
       })
       .then(async (response) => {
         const storedDates = (await api.getTakenDates()).data
-        const updatedTakenDates = takenDates ? takenDates : []
-        updatedTakenDates.length = 0
+        const updatedTakenDates = []
         updatedTakenDates.push(...storedDates)
+        setTakenDates(updatedTakenDates)
       })
       .catch((err) => {
         toast(requestFailedToast)

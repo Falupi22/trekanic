@@ -14,7 +14,6 @@ const Admin = () => {
   const setTakenDates = useAppointmentOptionsStore((state) => state.setTakenDates)
   const setIssues = useAppointmentOptionsStore((state) => state.setIssues)
   const issues = useAppointmentOptionsStore((state) => state.issues)
-  const takenDates = useAppointmentOptionsStore((state) => state.takenDates)
 
   const navigate = useNavigate()
   const [appointments, setAppointments] = useState(null)
@@ -32,7 +31,7 @@ const Admin = () => {
           setIssues((await api.getIssues()).data)
         }
         const storedDates = (await api.getTakenDates()).data
-        const updatedTakenDates = takenDates ? takenDates : []
+        const updatedTakenDates = []
         updatedTakenDates.push(...storedDates)
 
         setTakenDates(updatedTakenDates)
@@ -52,7 +51,7 @@ const Admin = () => {
     }
 
     return () => clearInterval(interval)
-  }, [appointments, isAdmin, issues, navigate, setAppointments, setIssues, setTakenDates, takenDates, toast])
+  }, [appointments, isAdmin, issues, navigate, setAppointments, setIssues, setTakenDates, toast])
 
   return (
     <HStack h="100%">

@@ -25,7 +25,7 @@ const AppointmentsControlPanel = ({
       .then((res) => {
         const takenSavedDates: Array<any> = getTakenDays(res.data)
         const allTakenDates = []
-        allTakenDates.push(...takenSavedDates, ...takenDates)
+        allTakenDates.push(...takenSavedDates)
         setTakenDates([...allTakenDates])
         onOpen()
       })
@@ -36,7 +36,6 @@ const AppointmentsControlPanel = ({
 
   const toast = useToast()
   const setTakenDates = useAppointmentOptionsStore((state) => state.setTakenDates)
-  const takenDates = useAppointmentOptionsStore((state) => state.takenDates)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const initialRef = React.useRef(null)
   const finalRef = React.useRef(null)

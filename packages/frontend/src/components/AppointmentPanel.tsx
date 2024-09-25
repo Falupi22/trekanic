@@ -36,7 +36,6 @@ const AppointmentPanel = ({ appointment, deleteCallback, editCallback }: Appoint
   const [mechanicInCharge, setMechanicInCharge] = useState(mechanic)
   const [displayEllipsis, setDisplayEllipsis] = useState(false)
   const setTakenDates = useAppointmentOptionsStore((state) => state.setTakenDates)
-  const takenDates = useAppointmentOptionsStore((state) => state.takenDates)
   const cancelRef = React.useRef()
   const toast = useToast()
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -58,7 +57,7 @@ const AppointmentPanel = ({ appointment, deleteCallback, editCallback }: Appoint
       .then((res) => {
         const takenSavedDates: Array<any> = getTakenDays(res.data)
         const allTakenDates = []
-        allTakenDates.push(...takenSavedDates, ...takenDates)
+        allTakenDates.push(...takenSavedDates)
         setTakenDates([...allTakenDates])
         onOpenEdit()
       })

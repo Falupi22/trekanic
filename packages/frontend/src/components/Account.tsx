@@ -43,8 +43,7 @@ const Account = () => {
           }
 
           const storedDates = (await api.getTakenDates()).data
-          const updatedTakenDates = takenDates ? takenDates : []
-          updatedTakenDates.length = 0
+          const updatedTakenDates = []
           updatedTakenDates.push(...storedDates)
 
           setTakenDates(updatedTakenDates)
@@ -74,9 +73,10 @@ const Account = () => {
       })
       .then(async (res) => {
         const storedDates = (await api.getTakenDates()).data
-        const updatedTakenDates = takenDates ? takenDates : []
-        updatedTakenDates.length = 0
+        const updatedTakenDates = []
         updatedTakenDates.push(...storedDates)
+
+        setTakenDates(updatedTakenDates)
       })
       .catch((err) => {
         toast(requestFailedToast)
