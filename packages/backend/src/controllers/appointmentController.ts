@@ -605,5 +605,6 @@ const getFreeMechanicsByTime = async (currentAppointmentTime: AppointmentTime) =
     }),
   )
 
+  console.log(freeMechanics)
   return freeMechanics.filter((mechanic) => mechanic !== null)
 }

@@ -7,12 +7,14 @@ import React, { useEffect, useRef, useState } from "react"
 import { api } from "../api"
 import { requestFailedToast } from "./alerts"
 import { AppointmentDetailsPanel } from "./modals"
+import { useAppointmentOptionsStore } from "../storage"
 
 const generateTitle = (machanicName: string, issue: string): string => {
   return `${machanicName} - ${issue}`
 }
 
 const AppointmentScheduler = () => {
+  const takenDates = useAppointmentOptionsStore((state) => state.takenDates)
   const [appointments, setAppointments] = useState(null)
   const [selectedAppointment, setSelectedAppointment] = useState(null)
   const toast = useToast()
@@ -76,6 +78,12 @@ const AppointmentScheduler = () => {
       .getMechanics()
       .then((response) => {
         setAppointments(generateData(response.data))
+      })
+      .then(async (response) => {
+        const storedDates = (await api.getTakenDates()).data
+        const updatedTakenDates = takenDates ? takenDates : []
+        updatedTakenDates.length = 0
+        updatedTakenDates.push(...storedDates)
       })
       .catch((err) => {
         toast(requestFailedToast)

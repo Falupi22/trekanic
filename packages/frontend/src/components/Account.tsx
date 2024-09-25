@@ -44,6 +44,7 @@ const Account = () => {
 
           const storedDates = (await api.getTakenDates()).data
           const updatedTakenDates = takenDates ? takenDates : []
+          updatedTakenDates.length = 0
           updatedTakenDates.push(...storedDates)
 
           setTakenDates(updatedTakenDates)
@@ -74,6 +75,7 @@ const Account = () => {
       .then(async (res) => {
         const storedDates = (await api.getTakenDates()).data
         const updatedTakenDates = takenDates ? takenDates : []
+        updatedTakenDates.length = 0
         updatedTakenDates.push(...storedDates)
       })
       .catch((err) => {
