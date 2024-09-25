@@ -30,35 +30,45 @@ const Account = () => {
 
   useEffect(() => {
     const fetch = async () => {
-      if (!appointments) {
-        try {
-          if (isAdmin) {
-            navigate(ROUTE_ADMIN)
-          }
-
-          setAppointments((await api.getAppointments()).data)
-
-          if (!issues || issues.length === 0) {
-            setIssues((await api.getIssues()).data)
-          }
-
-          const storedDates = (await api.getTakenDates()).data
-          const updatedTakenDates = []
-          updatedTakenDates.push(...storedDates)
-
-          setTakenDates(updatedTakenDates)
-
-          const alerts = (await api.getAlerts()).data
-          setAlerts(alerts)
-        } catch (error) {
-          toast(requestFailedToast)
-          throw error
-        } finally {
-          setLoading(false)
+      try {
+        if (isAdmin) {
+          navigate(ROUTE_ADMIN)
         }
+
+        setAppointments((await api.getAppointments()).data)
+
+        if (!issues || issues.length === 0) {
+          setIssues((await api.getIssues()).data)
+        }
+
+        const storedDates = (await api.getTakenDates()).data
+        const updatedTakenDates = []
+        updatedTakenDates.push(...storedDates)
+        console.log(updatedTakenDates)
+        setTakenDates(updatedTakenDates)
+
+        const alerts = (await api.getAlerts()).data
+        setAlerts(alerts)
+      } catch (error) {
+        toast(requestFailedToast)
+        throw error
+      } finally {
+        setLoading(false)
       }
+
+      clearInterval(interval)
+      interval = setInterval(fetch, 10000)
     }
-    fetch()
+    let interval
+    try {
+      if (!appointments) {
+        fetch()
+        interval = setInterval(fetch, 10000)
+      }
+    } catch (err) {
+      if (interval) clearInterval(interval)
+    }
+    return () => clearInterval(interval)
   }, [appointments, isAdmin, issues, navigate, setAppointments, setIssues, setTakenDates, takenDates, toast])
 
   const onAppointmentCreatedOrEdited = (appointment: Appointment | null) => {

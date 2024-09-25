@@ -39,17 +39,19 @@ const Admin = () => {
         toast(requestFailedToast)
         throw error
       }
+      clearInterval(interval)
+      interval = setInterval(fetch, 10000)
     }
+
     let interval
     try {
       if (!appointments) {
         fetch()
-        interval = setInterval(fetch, 120000)
+        interval = setInterval(fetch, 10000)
       }
     } catch (err) {
       if (interval) clearInterval(interval)
     }
-
     return () => clearInterval(interval)
   }, [appointments, isAdmin, issues, navigate, setAppointments, setIssues, setTakenDates, toast])
 

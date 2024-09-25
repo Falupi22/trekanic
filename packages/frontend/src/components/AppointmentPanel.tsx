@@ -16,7 +16,6 @@ import React, { useEffect, useState } from "react"
 import { api, Appointment } from "../api"
 import { useAppointmentOptionsStore } from "../storage"
 import { getFormattedDate } from "../theme"
-import getTakenDays from "../utils/appointmentDateUtils"
 import { EnsureDialog } from "./alerts"
 import { requestFailedToast, requestSucceededToast } from "./alerts/toasts"
 import AppointmentDetailsPanel from "./modals/AppointmentDetailsPanel"
@@ -55,10 +54,7 @@ const AppointmentPanel = ({ appointment, deleteCallback, editCallback }: Appoint
     api
       .getTakenDates()
       .then((res) => {
-        const takenSavedDates: Array<any> = getTakenDays(res.data)
-        const allTakenDates = []
-        allTakenDates.push(...takenSavedDates)
-        setTakenDates([...allTakenDates])
+        setTakenDates(res.data)
         onOpenEdit()
       })
       .catch((err) => {

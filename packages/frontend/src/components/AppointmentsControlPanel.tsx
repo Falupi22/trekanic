@@ -4,7 +4,6 @@ import React from "react"
 import { api } from "../api"
 import { useAppointmentOptionsStore } from "../storage"
 import { getFormattedDate } from "../theme"
-import getTakenDays from "../utils/appointmentDateUtils"
 import { requestFailedToast } from "./alerts"
 import AppointmentDetailsPanel from "./modals/AppointmentDetailsPanel"
 
@@ -23,10 +22,7 @@ const AppointmentsControlPanel = ({
     api
       .getTakenDates()
       .then((res) => {
-        const takenSavedDates: Array<any> = getTakenDays(res.data)
-        const allTakenDates = []
-        allTakenDates.push(...takenSavedDates)
-        setTakenDates([...allTakenDates])
+        setTakenDates(res.data)
         onOpen()
       })
       .catch((err) => {
