@@ -48,7 +48,7 @@ Before you begin, ensure you meet the following requirements:
 - EMAIL (email of the bot that sends notifications)
 - PASSWORD (password of the bot that sends notifications)
 
-4. Configure your DB with all the data (appointments are optional) from ./assets/data. There is no data creation besides appointments in this app, hence the app assumes that this data exists.
+4. Configure your DB with all the data (appointments are optional) from ./assets/data. There is no data creation besides products and appointments in this app, hence the app assumes that this data exists. Products are auto created when entering a new catalog number when creating a new appointment!
 5. Run with the designated scripts in the corresponding package.json file of each subrepo, or run for both subrepos
    from the parent folder. For example:
    `npm run build:all`
