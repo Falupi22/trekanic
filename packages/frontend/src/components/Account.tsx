@@ -37,7 +37,6 @@ const Account = () => {
           }
 
           setAppointments((await api.getAppointments()).data)
-
           if (!issues || issues.length === 0) {
             setIssues((await api.getIssues()).data)
           }
