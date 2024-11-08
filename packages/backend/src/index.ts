@@ -56,6 +56,7 @@ function setRoutes() {
   checkRouter.get(
     "/health",
     asyncHandler(async (req, res, next) => {
+      // For cronjob
       res.status(200).json()
     }),
   )
