@@ -46,7 +46,7 @@ export const login = asyncHandler(async (req, res, next) => {
     statusCode = HttpStatus.UNAUTHORIZED
   }
 
-  res.status(statusCode)
+  res.status(statusCode).json()
 })
 
 export const logout = asyncHandler(async (req, res, _next) => {
