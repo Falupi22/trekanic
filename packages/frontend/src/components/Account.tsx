@@ -118,7 +118,7 @@ const Account = () => {
             isLoading={loading}
           />
 
-          {loading || appointmentsCards.length > 0 ? (
+          {loading || (appointmentsCards && appointmentsCards.length > 0) ? (
             <VStack w="100%" overflowY="auto" overflowX="hidden">
               {loading ? (
                 // Display skeletons while loading
