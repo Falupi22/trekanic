@@ -32,7 +32,7 @@ function setMiddlewares() {
   app.use(
     cors({
       credentials: true,
-      origin: Config.web_server_url,
+      origin: true,
     }),
   )
 }
