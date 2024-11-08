@@ -9,6 +9,7 @@ import { PrivateRoute, ROUTE_ACCOUNT, ROUTE_ADMIN, ROUTE_LOGIN, ROUTE_ROOT } fro
 import ErrorBoundary from "./utils/routes/ErrorRoute"
 
 function App() {
+  console.log(process.env.REACT_APP_URL)
   const router = createBrowserRouter([
     {
       element: <Layout />,

@@ -1,4 +1,4 @@
-import express from "express"
+import express, { Router } from "express"
 import cors from "cors"
 import bodyParser from "body-parser"
 import passport from "passport"
@@ -6,6 +6,7 @@ import mongoose from "mongoose"
 import session from "express-session"
 import { User } from "./models"
 import { Config } from "./config"
+import asyncHandler from "express-async-handler"
 import { appointmentRouter, sessionRouter, alertRouter } from "./routers"
 
 const app = express()
@@ -50,6 +51,15 @@ function setRoutes() {
   app.use(sessionRouter)
   app.use(appointmentRouter)
   app.use(alertRouter)
+
+  const checkRouter = Router()
+  checkRouter.get(
+    "/health",
+    asyncHandler(async (req, res, next) => {
+      res.status(200).json()
+    }),
+  )
+  app.use(checkRouter)
 }
 
 connectToDB()
