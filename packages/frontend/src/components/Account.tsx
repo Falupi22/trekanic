@@ -100,6 +100,7 @@ const Account = () => {
       />
     ))
 
+  // sort by date
   const nextAppointment = appointments
     ?.sort((a, b) => {
       return new Date(a.datetime).getTime() - new Date(b.datetime).getTime()
