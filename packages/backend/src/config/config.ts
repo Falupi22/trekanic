@@ -7,4 +7,5 @@ export const Config = {
   db_connection_string: process.env.DB_CONNECTION_STRING ?? "mongodb://localhost:27017/trekanic",
   session_secret: process.env.SESSION_SECRET ?? "default",
   web_server_url: process.env.WEB_SERVER_URL ?? "http://localhost:3000",
+  node_env: process.env.NODE_ENV ?? "develop",
 }

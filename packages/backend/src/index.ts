@@ -24,6 +24,11 @@ function setMiddlewares() {
       secret: Config.session_secret,
       resave: false,
       saveUninitialized: false,
+      cookie: {
+        secure: process.env.NODE_ENV === "production", // Ensure cookies are sent only over HTTPS
+        httpOnly: true, // Prevent JavaScript from accessing the cookie
+        sameSite: "none", // Required for cross-origin requests
+      },
     }),
   )
   app.use(passport.initialize())
@@ -32,7 +37,7 @@ function setMiddlewares() {
   app.use(
     cors({
       credentials: true,
-      origin: true,
+      origin: Config.web_server_url,
     }),
   )
 }
