@@ -29,12 +29,7 @@ function setMiddlewares() {
   app.use(passport.initialize())
   app.use(passport.session())
   // Allows access to the trekanic site only!
-  app.use(
-    cors({
-      credentials: true,
-      origin: Config.web_server_url,
-    }),
-  )
+  app.use(cors())
 }
 
 function setPassport() {
