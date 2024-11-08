@@ -44,25 +44,14 @@ const Home = () => {
   const setIsAdmin = useUserInfoStore((state) => state.setIsAdmin)
   const setIsAuth = useUserInfoStore((state) => state.setIsAuth)
 
-  const isAdmin = useUserInfoStore((state) => state.isAdmin)
+  // const isAdmin = useUserInfoStore((state) => state.isAdmin)
 
   useEffect(() => {
     async function fetch() {
-      await api
-        .authenticate()
-        .then((value) => {
-          if (value.status === HttpStatusCode.Ok) {
-            if (isAdmin) {
-              navigate(ROUTE_ADMIN)
-            } else {
-              navigate(ROUTE_ACCOUNT)
-            }
-          }
-        })
-        .catch((error) => {})
+      await api.authenticate().then((value) => {})
     }
     fetch()
-  }, [isAdmin, navigate])
+  }, [])
   const {
     control,
     handleSubmit,
