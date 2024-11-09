@@ -25,7 +25,7 @@ function setMiddlewares() {
       resave: false,
       saveUninitialized: false,
       cookie:
-        process.env.NODE_ENV === "production"
+        Config.node_env === "production"
           ? {
               secure: true, // Ensure cookies are sent only over HTTPS
               httpOnly: true, // Prevent JavaScript from accessing the cookie
