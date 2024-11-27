@@ -18,6 +18,7 @@ const api = {
         headers: {
           "Content-type": "application/json",
         },
+        withCredentials: true,
       },
     )
   },
