@@ -30,34 +30,33 @@ const Account = () => {
 
   useEffect(() => {
     const fetch = async () => {
-      try {
-        if (isAdmin) {
-          navigate(ROUTE_ADMIN)
+      if (!appointments) {
+        try {
+          if (isAdmin) {
+            navigate(ROUTE_ADMIN)
+          }
+
+          setAppointments((await api.getAppointments()).data)
+          if (!issues || issues.length === 0) {
+            setIssues((await api.getIssues()).data)
+          }
+
+          const storedDates = (await api.getTakenDates()).data
+          const updatedTakenDates = takenDates ? takenDates : []
+          updatedTakenDates.length = 0
+          updatedTakenDates.push(...storedDates)
+
+          setTakenDates(updatedTakenDates)
+
+          const alerts = (await api.getAlerts()).data
+          setAlerts(alerts)
+        } catch (error) {
+          toast(requestFailedToast)
+          throw error
+        } finally {
+          setLoading(false)
         }
-
-        setAppointments((await api.getAppointments()).data)
-
-        if (!issues || issues.length === 0) {
-          setIssues((await api.getIssues()).data)
-        }
-
-        const storedDates = (await api.getTakenDates()).data
-        const updatedTakenDates = []
-        updatedTakenDates.push(...storedDates)
-        console.log(updatedTakenDates)
-        setTakenDates(updatedTakenDates)
-
-        const alerts = (await api.getAlerts()).data
-        setAlerts(alerts)
-      } catch (error) {
-        toast(requestFailedToast)
-        throw error
-      } finally {
-        setLoading(false)
       }
-
-      clearInterval(interval)
-      interval = setInterval(fetch, 10000)
     }
     let interval
     try {

@@ -31,7 +31,7 @@ function setMiddlewares() {
   app.use(
     cors({
       credentials: true,
-      origin: "http://localhost:3000",
+      origin: Config.web_server_url,
     }),
   )
 }
