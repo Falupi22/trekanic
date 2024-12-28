@@ -4,7 +4,7 @@ declare global {
   namespace Express {
     interface Request {
       user?: Express.User
-      isAuthenticated?: boolean
+      isAuthenticated?: () => boolean
       login?: (user: Express.User, done: (err: any) => void) => void
     }
   }
