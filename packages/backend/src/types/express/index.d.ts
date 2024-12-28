@@ -6,6 +6,7 @@ declare global {
       user?: Express.User
       isAuthenticated?: () => boolean
       login?: (user: Express.User, done: (err: any) => void) => void
+      logout: (options: passport.LogOutOptions, done: (err: any) => void) => void
     }
   }
 }
