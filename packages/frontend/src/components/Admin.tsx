@@ -39,8 +39,6 @@ const Admin = () => {
         toast(requestFailedToast)
         throw error
       }
-      clearInterval(interval)
-      interval = setInterval(fetch, 10000)
     }
 
     let interval
