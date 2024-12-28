@@ -24,14 +24,6 @@ function setMiddlewares() {
       secret: Config.session_secret,
       resave: false,
       saveUninitialized: false,
-      cookie:
-        Config.node_env === "production"
-          ? {
-              secure: true, // Ensure cookies are sent only over HTTPS
-              httpOnly: true, // Prevent JavaScript from accessing the cookie
-              sameSite: "none", // Required for cross-origin requests
-            }
-          : null,
     }),
   )
   app.use(passport.initialize())
