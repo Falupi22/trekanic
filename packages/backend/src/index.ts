@@ -40,7 +40,7 @@ function setMiddlewares() {
   app.use(
     cors({
       credentials: true,
-      origin: [Config.web_server_url, "https://trekanic-fork-frontend.vercel.app"],
+      origin: [Config.web_server_url, "https://trekanic-frontend.vercel.app"],
     }),
   )
 }
