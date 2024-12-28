@@ -1,4 +1,4 @@
-import express from "express"
+import express, { Router } from "express"
 import cors from "cors"
 import bodyParser from "body-parser"
 import passport from "passport"
@@ -6,6 +6,7 @@ import mongoose from "mongoose"
 import session from "express-session"
 import { User } from "./models"
 import { Config } from "./config"
+import asyncHandler from "express-async-handler"
 import { appointmentRouter, sessionRouter, alertRouter } from "./routers"
 
 const app = express()
@@ -23,6 +24,14 @@ function setMiddlewares() {
       secret: Config.session_secret,
       resave: false,
       saveUninitialized: false,
+      cookie:
+        Config.node_env === "production"
+          ? {
+              secure: true, // Ensure cookies are sent only over HTTPS
+              httpOnly: true, // Prevent JavaScript from accessing the cookie
+              sameSite: "none", // Required for cross-origin requests
+            }
+          : null,
     }),
   )
   app.use(passport.initialize())
@@ -31,7 +40,7 @@ function setMiddlewares() {
   app.use(
     cors({
       credentials: true,
-      origin: Config.web_server_url,
+      origin: [Config.web_server_url, "https://trekanic-fork-frontend.vercel.app"],
     }),
   )
 }
@@ -50,6 +59,16 @@ function setRoutes() {
   app.use(sessionRouter)
   app.use(appointmentRouter)
   app.use(alertRouter)
+
+  const checkRouter = Router()
+  checkRouter.get(
+    "/health",
+    asyncHandler(async (req, res, next) => {
+      // For cronjob
+      res.status(200).json()
+    }),
+  )
+  app.use(checkRouter)
 }
 
 connectToDB()

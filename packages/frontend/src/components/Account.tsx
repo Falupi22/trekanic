@@ -110,6 +110,7 @@ const Account = () => {
       />
     ))
 
+  // sort by date
   const nextAppointment = appointments
     ?.sort((a, b) => {
       return new Date(a.datetime).getTime() - new Date(b.datetime).getTime()
@@ -128,7 +129,7 @@ const Account = () => {
             isLoading={loading}
           />
 
-          {loading || appointmentsCards.length > 0 ? (
+          {loading || (appointmentsCards && appointmentsCards.length && appointmentsCards.length > 0) ? (
             <VStack w="100%" overflowY="auto" overflowX="hidden">
               {loading ? (
                 // Display skeletons while loading

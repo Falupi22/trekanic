@@ -178,32 +178,30 @@ export const getAppointmentsOfAllUsers = asyncHandler(async (req, res) => {
 
 export const getAppointments = asyncHandler(async (req, res) => {
   try {
-    let statusCode: number = HttpStatus.BAD_REQUEST
     let appointments: Appointment[] = []
 
-    if (req.isAuthenticated()) {
-      const userDoc = req.user as UserDocument
-      appointments = await AppointmentModel.find({ customer: userDoc.id }).populate([
-        {
-          path: "issue",
-          populate: {
-            path: "category",
-          },
-        },
-        {
-          path: "mechanic",
-        },
-        {
-          path: "product",
-        },
-      ])
-
-      statusCode = HttpStatus.OK
-    } else {
-      statusCode = HttpStatus.UNAUTHORIZED
+    if (!req.isAuthenticated()) {
+      res.status(HttpStatus.UNAUTHORIZED).json()
+      return
     }
 
-    res.status(statusCode).send(appointments)
+    const userDoc = req.user as UserDocument
+    appointments = await AppointmentModel.find({ customer: userDoc.id }).populate([
+      {
+        path: "issue",
+        populate: {
+          path: "category",
+        },
+      },
+      {
+        path: "mechanic",
+      },
+      {
+        path: "product",
+      },
+    ])
+
+    res.status(HttpStatus.OK).send(appointments)
   } catch (error) {
     console.error("An error occurred: ", error)
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).send("An error occurred")

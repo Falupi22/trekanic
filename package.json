@@ -13,8 +13,7 @@
     "lint": "eslint \"packages/**/*.ts\" --fix",
     "start:frontend": "cd packages/frontend && npm start",
     "start:backend": "cd packages/backend && npm run dev",
-    "start:all": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
-    "prepare": "husky install"
+    "start:all": "concurrently \"npm run start:frontend\" \"npm run start:backend\""
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.44.0",
