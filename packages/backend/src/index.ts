@@ -41,6 +41,8 @@ function setMiddlewares() {
     cors({
       credentials: true,
       origin: [Config.web_server_url, "https://trekanic-frontend.vercel.app"],
+      methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
+      allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
     }),
   )
 }
