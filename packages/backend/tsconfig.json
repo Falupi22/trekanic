@@ -13,6 +13,7 @@
     "outDir": "./build",
     "composite": true,
     "noImplicitAny": false, // Allows implicit any types (optional)
-    "strictNullChecks": false // Allows strict null checks (optional)
+    "strictNullChecks": false, // Allows strict null checks (optional)
+    "typeRoots" : ["./src/types", "./node_modules/@types"]
   }
 }
