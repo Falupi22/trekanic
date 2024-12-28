@@ -19,6 +19,7 @@ function setMiddlewares() {
   // Using all the files from the public folder
   app.use(express.static("public"))
   app.use(bodyParser.json())
+  app.set("trust proxy", 1)
   app.use(
     session({
       secret: Config.session_secret,
