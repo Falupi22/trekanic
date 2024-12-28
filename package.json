@@ -16,6 +16,7 @@
     "start:all": "concurrently \"npm run start:frontend\" \"npm run start:backend\""
   },
   "devDependencies": {
+    "@types/passport": "^1.0.17",
     "@typescript-eslint/eslint-plugin": "^5.44.0",
     "@typescript-eslint/parser": "^5.44.0",
     "concurrently": "^8.2.2",
