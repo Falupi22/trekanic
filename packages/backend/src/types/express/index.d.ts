@@ -3,9 +3,9 @@ import express from "express"
 declare global {
   namespace Express {
     interface Request {
-      user?: Record<string, any>
+      user?: Express.User
       isAuthenticated?: boolean
-      login?: any
+      login?: (user: Express.User, done: (err: any) => void) => void
     }
   }
 }
